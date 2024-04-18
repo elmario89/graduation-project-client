@@ -30,12 +30,11 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     let navigate = useNavigate();
     const [authenticated, setAuthenticated] =
         useState<boolean>(!!storageService.getItem('token'));
-    const { auth } = useApi();
+    const { authApi } = useApi();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const signIn = async (data: Auth) => {
         try {
-            const token = await auth.signIn(data);
+            const token = await authApi.signIn(data);
             if (token) {
                 const decodedUser = jwtDecode<User>(token);
                 setUser(decodedUser);
@@ -45,7 +44,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
                 if (role) {
                     switch (role) {
                         case UserRole.Admin: {
-                            return navigate('/admin');
+                            return navigate('/admin/groups');
                         }
                         case UserRole.Student: {
                             return navigate('/student');

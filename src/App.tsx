@@ -3,20 +3,33 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import 'dayjs/locale/ru'
 import AuthProvider from "./providers/AuthProvider";
 import ApiProvider from "./providers/ApiProvider";
 import Router from "./containers/Router";
 import {BrowserRouter} from "react-router-dom";
+import GroupsProvider from "./providers/GroupsProvider";
+import {Global} from '@emotion/react'
+import dayjs from "dayjs";
+import GlobalStyles from "./global-styles";
+dayjs.locale('ru')
 
 function App() {
   return (
-      <BrowserRouter>
-          <ApiProvider>
-              <AuthProvider>
-                  <Router />
-              </AuthProvider>
-          </ApiProvider>
-      </BrowserRouter>
+      <>
+          <Global
+              styles={GlobalStyles}
+          />
+          <BrowserRouter>
+              <ApiProvider>
+                  <AuthProvider>
+                      <GroupsProvider>
+                          <Router />
+                      </GroupsProvider>
+                  </AuthProvider>
+              </ApiProvider>
+          </BrowserRouter>
+      </>
   );
 }
 

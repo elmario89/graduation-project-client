@@ -17,13 +17,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import {FC, PropsWithChildren, useState} from "react";
-import {Outlet} from "react-router-dom";
+import {FC, useState} from "react";
+import {NavLink, Outlet} from "react-router-dom";
 import {StorageService} from "../services/storage.service";
 import {useAuth} from "../providers/AuthProvider";
 import useRoleMessageHook from "../hook/use-role-message.hook";
+import {BaseLayoutMenu} from "../types/base-layout-menu";
 
 const drawerWidth = 240;
 
@@ -76,7 +75,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-const BaseLayout: FC<PropsWithChildren> = ({ children }) => {
+type BaseLayoutProps = {
+    menuItems: BaseLayoutMenu[];
+}
+
+const BaseLayout: FC<BaseLayoutProps> = ({ menuItems }) => {
     const storageService = new StorageService();
     const { signOut, user } = useAuth();
     const theme = useTheme();
@@ -134,13 +137,19 @@ const BaseLayout: FC<PropsWithChildren> = ({ children }) => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
+                    {menuItems.map((item) => (
+                        <ListItem
+                            selected={item.path === window.location.pathname}
+                            key={item.label}
+                            disablePadding
+                            component={NavLink}
+                            to={item.path}
+                        >
                             <ListItemButton>
                                 <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {item.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText primary={item.label} />
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -159,7 +168,7 @@ const BaseLayout: FC<PropsWithChildren> = ({ children }) => {
                     ))}
                 </List>
             </Drawer>
-            <Main open={open}>
+            <Main open={open} style={{ paddingTop: 84 }}>
                 <Outlet />
             </Main>
         </Box>

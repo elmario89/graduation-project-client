@@ -16,6 +16,7 @@
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -36,7 +37,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": 0
+    }
   },
   "browserslist": {
     "production": [
