@@ -156,7 +156,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ menuItems }) => {
                 </List>
                 <Divider />
                 <List style={{ marginTop: 'auto' }}>
-                    {['Logout'].map((text, index) => (
+                    {['Logout'].map((text) => (
                         <ListItem key={text} disablePadding onClick={signOut}>
                             <ListItemButton>
                                 <ListItemIcon>

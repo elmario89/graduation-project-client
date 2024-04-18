@@ -57,7 +57,7 @@ const Groups: FC = () => {
                 <CircularProgress />
             </div>
         )
-    };
+    }
 
     return (
         <>
