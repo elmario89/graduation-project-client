@@ -14,13 +14,15 @@ import dayjs from "dayjs";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import {useNavigate} from "react-router-dom";
 
 function createData(
+    id: string,
     name: string,
     start: Date,
     finish: Date,
 ) {
-    return { name, start, finish };
+    return { id, name, start, finish };
 }
 
 const Groups: FC = () => {
@@ -28,9 +30,11 @@ const Groups: FC = () => {
     const { groups , getAllGroups } = useGroups();
     const [loading, setLoading] = useState<boolean>(true);
 
+    const navigate = useNavigate();
+
     const getRows = (data: Group[]) => data?.map((group) => {
-        const { finish, start, name } = group;
-        return createData(name, start, finish);
+        const { finish, start, name, id } = group;
+        return createData(id, name, start, finish);
     })
 
     useEffect( () => {
@@ -56,7 +60,7 @@ const Groups: FC = () => {
             >
                 <CircularProgress />
             </div>
-        )
+        );
     }
 
     return (
@@ -65,7 +69,13 @@ const Groups: FC = () => {
                 Groups
             </Typography>
             <Box sx={{py: 2}}>
-                <Button variant={'contained'} color={'success'}>Add group</Button>
+                <Button
+                    variant={'contained'}
+                    color={'success'}
+                    onClick={() => navigate('/admin/group')}
+                >
+                    Add group
+                </Button>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -77,8 +87,11 @@ const Groups: FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row: { name: string; start: string; finish: string }) => (
+                        {rows.map((row: { id: string, name: string; start: string; finish: string }) => (
                             <TableRow
+                                style={{ cursor: 'pointer' }}
+                                hover={true}
+                                onClick={() => navigate(`/admin/group/${row.id}`)}
                                 key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >

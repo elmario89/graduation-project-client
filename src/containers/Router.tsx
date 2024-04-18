@@ -8,6 +8,7 @@ const ProtectedRoutes = lazy(() => import('./ProtectedRoutes'));
 const SignIn = lazy(() => import('./SignIn'));
 const BaseLayout = lazy(() => import('./BaseLayout'));
 const Groups = lazy(() => import('./Groups'));
+const Group = lazy(() => import('./Group'));
 
 const Router: FC = () => {
     const { authenticated } = useAuth();
@@ -35,6 +36,7 @@ const Router: FC = () => {
                             >
                                 <Route path="/admin/add-student" element={<span>Student creation here</span>} />
                                 <Route path="/admin/groups" element={<Groups />} />
+                                <Route path="/admin/group/:id?" element={<Group />} />
                             </Route>
                         </Route>
                         <Route path={"/student"} element={<ProtectedRoutes roles={[UserRole.Student]} />}>
