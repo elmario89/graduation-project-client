@@ -20,6 +20,7 @@ export default function SignIn() {
     const {
         register,
         handleSubmit,
+        formState: { errors },
     } = useForm<Auth>()
 
     const onSubmit: SubmitHandler<Auth> = (data) => signIn(data)
@@ -46,6 +47,7 @@ export default function SignIn() {
                         <TextField
                             {...register("login", { required: true })}
                             margin="normal"
+                            error={!!errors.login}
                             required
                             fullWidth
                             id="login"
@@ -57,6 +59,7 @@ export default function SignIn() {
                         <TextField
                             {...register("password", { required: true })}
                             margin="normal"
+                            error={!!errors.password}
                             required
                             fullWidth
                             name="password"
