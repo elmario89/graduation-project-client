@@ -96,8 +96,8 @@ const Groups: FC = () => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">{row.name}</TableCell>
-                                <TableCell align="right">{dayjs(row.start).format('DD/MM/YYYY').toString()}</TableCell>
-                                <TableCell align="right">{dayjs(row.finish).format('DD/MM/YYYY').toString()}</TableCell>
+                                <TableCell align="right">{dayjs(row.start).format('DD MMMM YYYY')}</TableCell>
+                                <TableCell align="right">{dayjs(row.finish).format('DD MMMM YYYY')}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
