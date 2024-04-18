@@ -23,7 +23,7 @@ export default function SignIn() {
         formState: { errors },
     } = useForm<Auth>()
 
-    const onSubmit: SubmitHandler<Auth> = (data) => signIn(data)
+    const onSubmit: SubmitHandler<Auth> = async (data) => signIn(data);
 
     return (
         <ThemeProvider theme={defaultTheme}>

@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {Alert, Snackbar} from "@mui/material";
 import {AxiosError} from "axios";
 import {User} from "../types/user";
+import {UserRole} from "../enums/user-role";
 
 type AuthContextType = {
     user: User | null;
@@ -25,13 +26,28 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         useState<boolean>(!!storageService.getItem('userInfo'));
     const { auth } = useApi();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const signIn = async (data: Auth) => {
         try {
             const response = await auth.signIn(data);
             if (response) {
                 setUser(response.user);
                 setAuthenticated(true);
-                navigate('/');
+                const { role} = response.user
+
+                if (role) {
+                    switch (role) {
+                        case UserRole.Admin: {
+                            return navigate('/admin');
+                        }
+                        case UserRole.Student: {
+                            return navigate('/student');
+                        }
+                        case UserRole.Teacher: {
+                            return navigate('/teacher');
+                        }
+                    }
+                }
             }
         } catch (e) {
             console.log(e);

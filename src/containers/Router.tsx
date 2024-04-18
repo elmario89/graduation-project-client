@@ -3,20 +3,24 @@ import {useAuth} from "../providers/AuthProvider";
 import {CircularProgress} from "@mui/material";
 import {Navigate, Route, Routes} from "react-router-dom";
 import SignIn from "./SignIn";
+import ProtectedRoutes from "./ProtectedRoutes";
+import {UserRole} from "../enums/user-role";
 
 const Router: FC = () => {
-    const { authenticated, user } = useAuth();
-    console.log(user?.role);
+    const { authenticated } = useAuth();
 
     return (
         <Suspense fallback={<CircularProgress />}>
             <Routes>
                 {authenticated ? (
                     <>
-                        <Route
-                            path={'/'}
-                            element={<span>You are logged in</span>}
-                        />
+                        <Route path={"/admin"} element={<ProtectedRoutes roles={[UserRole.Admin]} />}>
+                            <Route
+                                path={'/admin/'}
+                                element={<Navigate to={'/admin/add-student'} replace />}
+                            />
+                            <Route path="/admin/add-student" element={<span>Student creation here</span>} />
+                        </Route>
                     </>
                     ) : (
                     <>
@@ -30,6 +34,8 @@ const Router: FC = () => {
                         />
                     </>
                 )}
+                <Route path={"/403"} element={<span>Not found</span>} />
+                <Route path={"*"} element={<span>Not found</span>} />
             </Routes>
         </Suspense>
     )
