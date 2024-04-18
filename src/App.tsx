@@ -6,11 +6,14 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import SignIn from "./containers/SignIn";
+import AuthProvider from "./providers/AuthProvider";
 
 function App() {
   return (
     <div className="App">
-      <SignIn />
+        <AuthProvider>
+            <SignIn />
+        </AuthProvider>
     </div>
   );
 }

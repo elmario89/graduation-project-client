@@ -9,21 +9,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {SubmitHandler, useForm} from "react-hook-form";
+import {Auth} from "../types/auth";
+import {useAuth} from "../providers/AuthProvider";
 
 const defaultTheme = createTheme();
 
-type Auth = {
-    login: string;
-    password: string;
-}
-
 export default function SignIn() {
+    const { signIn } = useAuth();
+
     const {
         register,
         handleSubmit,
     } = useForm<Auth>()
 
-    const onSubmit: SubmitHandler<Auth> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<Auth> = (data) => signIn(data)
 
     return (
         <ThemeProvider theme={defaultTheme}>
