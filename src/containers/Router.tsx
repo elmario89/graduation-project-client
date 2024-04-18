@@ -5,7 +5,8 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import SignIn from "./SignIn";
 
 const Router: FC = () => {
-    const { authenticated } = useAuth();
+    const { authenticated, user } = useAuth();
+    console.log(user?.role);
 
     return (
         <Suspense fallback={<CircularProgress />}>

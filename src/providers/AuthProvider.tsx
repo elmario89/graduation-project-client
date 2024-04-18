@@ -5,8 +5,10 @@ import {StorageService} from "../services/storage.service";
 import {useNavigate} from "react-router-dom";
 import {Alert, Snackbar} from "@mui/material";
 import {AxiosError} from "axios";
+import {User} from "../types/user";
 
 type AuthContextType = {
+    user: User | null;
     signIn: (data: Auth) => Promise<void>;
     authenticated: boolean;
 }
@@ -14,16 +16,20 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-    const [error, setError] = useState<AxiosError | null>(null);
     const storageService = new StorageService();
+    const [error, setError] = useState<AxiosError | null>(null);
+    const [user, setUser] =
+        useState<User | null>(storageService.getItem<{ token: string; user: User }>('userInfo')?.user || null);
     let navigate = useNavigate();
-    const [authenticated, setAuthenticated] = useState<boolean>(!!storageService.getItem('token'));
+    const [authenticated, setAuthenticated] =
+        useState<boolean>(!!storageService.getItem('userInfo'));
     const { auth } = useApi();
 
     const signIn = async (data: Auth) => {
         try {
-            const token = await auth.signIn(data);
-            if (token) {
+            const response = await auth.signIn(data);
+            if (response) {
+                setUser(response.user);
                 setAuthenticated(true);
                 navigate('/');
             }
@@ -36,7 +42,8 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const memoValue = useMemo(() => ({
         signIn,
         authenticated,
-    }), [signIn, authenticated]);
+        user,
+    }), [signIn, authenticated, user]);
 
     return <AuthContext.Provider value={memoValue}>
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
