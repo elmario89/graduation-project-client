@@ -5,6 +5,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import SignIn from "./SignIn";
 import ProtectedRoutes from "./ProtectedRoutes";
 import {UserRole} from "../enums/user-role";
+import BaseLayout from "./BaseLayout";
 
 const Router: FC = () => {
     const { authenticated } = useAuth();
@@ -16,9 +17,10 @@ const Router: FC = () => {
                     <Route path={"/admin"} element={<ProtectedRoutes roles={[UserRole.Admin]} />}>
                         <Route
                             path={'/admin/'}
-                            element={<Navigate to={'/admin/add-student'} replace />}
-                        />
-                        <Route path="/admin/add-student" element={<span>Student creation here</span>} />
+                            element={<BaseLayout />}
+                        >
+                            <Route path="/admin/add-student" element={<span>Student creation here</span>} />
+                        </Route>
                     </Route>
                     ) : (
                     <>
@@ -26,12 +28,12 @@ const Router: FC = () => {
                             path={'*'}
                             element={<Navigate to={'/sign-in'} replace />}
                         />
-                        <Route
-                            path={'/sign-in'}
-                            element={<SignIn />}
-                        />
                     </>
                 )}
+                <Route
+                    path={'/sign-in'}
+                    element={<SignIn />}
+                />
                 <Route path={"/403"} element={<span>Not found</span>} />
                 <Route path={"*"} element={<span>Not found</span>} />
             </Routes>

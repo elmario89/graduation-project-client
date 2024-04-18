@@ -12,6 +12,7 @@ import {jwtDecode} from "jwt-decode";
 type AuthContextType = {
     user: User | null;
     signIn: (data: Auth) => Promise<void>;
+    signOut: () => void;
     authenticated: boolean;
 }
 
@@ -61,11 +62,17 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
+    const signOut = () => {
+        storageService.clearItem('token');
+        navigate('/sign-in');
+    }
+
     const memoValue = useMemo(() => ({
         signIn,
         authenticated,
         user,
-    }), [signIn, authenticated, user]);
+        signOut,
+    }), [signIn, signOut, authenticated, user]);
 
     return <AuthContext.Provider value={memoValue}>
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
