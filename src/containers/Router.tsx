@@ -13,15 +13,13 @@ const Router: FC = () => {
         <Suspense fallback={<CircularProgress />}>
             <Routes>
                 {authenticated ? (
-                    <>
-                        <Route path={"/admin"} element={<ProtectedRoutes roles={[UserRole.Admin]} />}>
-                            <Route
-                                path={'/admin/'}
-                                element={<Navigate to={'/admin/add-student'} replace />}
-                            />
-                            <Route path="/admin/add-student" element={<span>Student creation here</span>} />
-                        </Route>
-                    </>
+                    <Route path={"/admin"} element={<ProtectedRoutes roles={[UserRole.Admin]} />}>
+                        <Route
+                            path={'/admin/'}
+                            element={<Navigate to={'/admin/add-student'} replace />}
+                        />
+                        <Route path="/admin/add-student" element={<span>Student creation here</span>} />
+                    </Route>
                     ) : (
                     <>
                         <Route
