@@ -1,21 +1,16 @@
 import React, {FC, PropsWithChildren} from "react";
 import {UserRole} from "../enums/user-role";
-import {StorageService} from "../services/storage.service";
 import {Navigate, Outlet} from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
-import {User} from "../types/user";
+import {useAuth} from "../providers/AuthProvider";
 
 type ProtectedRoutesProps = {
     roles: UserRole[];
 };
 
 const ProtectedRoutes: FC<PropsWithChildren<ProtectedRoutesProps>> = ({ roles }) => {
-    const storageService = new StorageService();
-    const token = storageService.getItem<{ token: string; user: User }>('userInfo').token;
+    const { user } = useAuth();
 
-    const { role } = jwtDecode<User>(token);
-
-    if (!token || !roles.some((r) => r === role)) return <Navigate to="/403" />;
+    if (!user || !roles.some((r) => r === user.role)) return <Navigate to="/403" />;
 
     return <Outlet />;
 }

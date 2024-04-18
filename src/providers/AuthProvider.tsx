@@ -7,6 +7,7 @@ import {Alert, Snackbar} from "@mui/material";
 import {AxiosError} from "axios";
 import {User} from "../types/user";
 import {UserRole} from "../enums/user-role";
+import {jwtDecode} from "jwt-decode";
 
 type AuthContextType = {
     user: User | null;
@@ -20,20 +21,25 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const storageService = new StorageService();
     const [error, setError] = useState<AxiosError | null>(null);
     const [user, setUser] =
-        useState<User | null>(storageService.getItem<{ token: string; user: User }>('userInfo')?.user || null);
+        useState<User | null>(
+            storageService.getItem<string>('token')
+                ? jwtDecode<User>(storageService.getItem<string>('token'))
+                : null
+        );
     let navigate = useNavigate();
     const [authenticated, setAuthenticated] =
-        useState<boolean>(!!storageService.getItem('userInfo'));
+        useState<boolean>(!!storageService.getItem('token'));
     const { auth } = useApi();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const signIn = async (data: Auth) => {
         try {
-            const response = await auth.signIn(data);
-            if (response) {
-                setUser(response.user);
+            const token = await auth.signIn(data);
+            if (token) {
+                const decodedUser = jwtDecode<User>(token);
+                setUser(decodedUser);
+                const { role } = decodedUser;
                 setAuthenticated(true);
-                const { role} = response.user
 
                 if (role) {
                     switch (role) {

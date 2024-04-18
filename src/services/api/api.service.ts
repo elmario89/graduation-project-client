@@ -11,12 +11,12 @@ class ApiService {
 
         this.axios = axios.create({
             baseURL: process.env.REACT_APP_API_ADDRESS,
-        })
+        });
 
         // intercept request and add token
         // @ts-ignore
         this.axios.interceptors.request.use((config: AxiosRequestConfig) => {
-            const token = this.storageService.getItem('token');
+            const token = this.storageService.getItem<string>('token');
 
             if (token) {
                 config.headers!.Authorization = `Bearer ${token}`;
