@@ -1,4 +1,5 @@
 import {Faculty} from "./faculty";
+import {Student} from "./student";
 
 export type Group = {
     id: string;
@@ -6,4 +7,5 @@ export type Group = {
     start: Date;
     finish: Date;
     faculty: Faculty;
+    students?: Student[];
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import {FC, useEffect, useState} from "react";
 import {useGroups} from "../providers/GroupsProvider";
-import {Autocomplete, CircularProgress} from "@mui/material";
+import {Autocomplete, CircularProgress, Link} from "@mui/material";
 import {Group as GroupModel} from "../types/group";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -13,10 +13,11 @@ import {SubmitHandler, useForm, Controller} from "react-hook-form";
 import {LocalizationProvider} from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import FormHelperText from '@mui/material/FormHelperText';
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, Link as RouterLink} from "react-router-dom";
 import dayjs from "dayjs";
 import {useFaculties} from "../providers/FacultiesProvider";
 import {Faculty} from "../types/faculty";
+import {Student} from "../types/student";
 
 type GroupData = Omit<GroupModel & { dates: [Date, Date], facultyId: string } , 'finish' | 'start' | 'id'>;
 
@@ -25,6 +26,7 @@ type FormValues = {
     start: Date | null;
     finish: Date | null;
     faculty: Faculty;
+    students?: Student[];
 }
 
 const Group: FC = () => {
@@ -91,7 +93,6 @@ const Group: FC = () => {
         )
     }
 
-    console.log(errors);
     return (
         <>
             <Typography variant="h4" gutterBottom>
@@ -100,14 +101,13 @@ const Group: FC = () => {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                 }}
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Box justifyContent="flex-start" component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+                    <Box justifyContent="flex-start" component="form" width={600} onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                         <TextField
                             {...register("name", { required: true })}
                             margin="normal"
@@ -180,6 +180,22 @@ const Group: FC = () => {
                             )}
                         />
 
+                        {group?.students && group.students.length > 0 && (
+                            <>
+                                <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+                                    Students:
+                                </Typography>
+                                <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
+                                    {
+                                        group.students.map((student) =>
+                                            <Link component={RouterLink} to={`/admin/student/${student.id}`}>
+                                                {student.name} {student.surname}
+                                            </Link>)
+                                    }
+                                </Box>
+                            </>
+                        )}
+
                         <Box display="flex" gap={1}>
                             <Button
                                 type={'submit'}
@@ -189,7 +205,7 @@ const Group: FC = () => {
                                 {id ? 'Update group' : 'Create group'}
                             </Button>
                             <Button
-                                onClick={() => navigate('/admin/groups')}
+                                onClick={() => navigate(`/admin/groups`)}
                                 variant="contained"
                                 color="warning"
                                 sx={{ mt: 3, mb: 2 }}

@@ -34,6 +34,13 @@ class GroupsApi {
             data,
         });
     }
+
+    public async deleteGroup(id: string): Promise<void> {
+        return await this.apiService.request<void>({
+            method: 'DELETE',
+            url: `/groups/${id}`,
+        });
+    }
 }
 
 export default GroupsApi;

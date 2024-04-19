@@ -11,7 +11,8 @@ const Groups = lazy(() => import('./Groups'));
 const Group = lazy(() => import('./Group'));
 const Faculties = lazy(() => import('./Faculties'));
 const Faculty = lazy(() => import('./Faculty'));
-
+const Students = lazy(() => import('./Students'));
+const Student = lazy(() => import('./Student'));
 
 const Router: FC = () => {
     const { authenticated } = useAuth();
@@ -37,7 +38,8 @@ const Router: FC = () => {
                                 path={'/admin/'}
                                 element={<BaseLayout menuItems={ADMIN_MENU} />}
                             >
-                                <Route path="/admin/add-student" element={<span>Student creation here</span>} />
+                                <Route path="/admin/students" element={<Students />} />
+                                <Route path="/admin/student/:id?" element={<Student />} />
                                 <Route path="/admin/groups" element={<Groups />} />
                                 <Route path="/admin/group/:id?" element={<Group />} />
                                 <Route path="/admin/faculties" element={<Faculties />} />

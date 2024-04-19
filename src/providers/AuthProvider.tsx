@@ -56,7 +56,6 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
                 }
             }
         } catch (e) {
-            console.log(e);
             setError(e as AxiosError);
         }
     }

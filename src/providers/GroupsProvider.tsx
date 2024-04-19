@@ -11,6 +11,7 @@ type GroupsContextType = {
     updateGroup: (data: AddOrUpdateGroup) => Promise<Group | undefined>;
     getGroupById: (id: string) => Promise<Group | undefined>;
     groups: Group[] | null;
+    deleteGroup: (id: string) => Promise<void>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -68,13 +69,25 @@ const GroupsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
+    const deleteGroup = async (id: string) => {
+        try {
+            await groupsApi.deleteGroup(id);
+            setAlert({ message: 'Group has been deleted!', type: 'success' });
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                setAlert({ message: e.message, type: 'error' });
+            }
+        }
+    }
+
     const memoValue = useMemo(() => ({
         getAllGroups,
         groups,
         createGroup,
         getGroupById,
         updateGroup,
-    }), [getAllGroups, groups, createGroup, getGroupById]);
+        deleteGroup,
+    }), [getAllGroups, groups, createGroup, getGroupById, deleteGroup]);
 
     return <GroupsContext.Provider value={memoValue}>
         <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>

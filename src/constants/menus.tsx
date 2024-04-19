@@ -15,7 +15,7 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
         icon: <AccountBalanceIcon />,
     },
     {
-        path: '/admin/add-student',
+        path: '/admin/students',
         label: 'Student',
         icon: <SchoolIcon />,
     },

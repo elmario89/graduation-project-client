@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {FC, useEffect, useState} from "react";
-import {useFaculties} from "../providers/FacultiesProvider";
+import {useStudents} from "../providers/StudentsProvider";
 import {
     Alert,
     CircularProgress,
@@ -18,7 +18,7 @@ import {
     DialogTitle,
     Stack
 } from "@mui/material";
-import {Faculty} from "../types/faculty";
+import {Student} from "../types/student";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -26,14 +26,17 @@ import {useNavigate} from "react-router-dom";
 
 function createData(
     id: string,
+    groupName: string,
     name: string,
+    surname: string,
+    login: string,
 ) {
-    return { id, name };
+    return { id, name, surname, groupName, login };
 }
 
-const Faculties: FC = () => {
+const Students: FC = () => {
     const [rows, setRow] = useState<any | null>(null);
-    const { faculties , getAllFaculties, deleteFaculty } = useFaculties();
+    const { students , getAllStudents, deleteStudent } = useStudents();
     const [loading, setLoading] = useState<boolean>(true);
     const [deleteDialogOpened, setDeleteDialogOpened] =
         React.useState<boolean>(false);
@@ -42,23 +45,23 @@ const Faculties: FC = () => {
 
     const navigate = useNavigate();
 
-    const getRows = (data: Faculty[]) => data?.map((faculty) => {
-        const { name, id } = faculty;
-        return createData(id, name);
+    const getRows = (data: Student[]) => data?.map((student) => {
+        const { id, name, surname, login, group } = student;
+        return createData(id, group.name, name, surname, login);
     })
 
     useEffect( () => {
-        getAllFaculties()
+        getAllStudents()
             .then(() => setLoading(false));
     }, []);
 
     useEffect( () => {
-        if (faculties) {
-            setRow(getRows(faculties));
+        if (students) {
+            setRow(getRows(students));
         }
-    }, [faculties]);
+    }, [students]);
 
-    if (loading || !faculties || !rows) {
+    if (loading || !students || !rows) {
         return (
             <div
                 style={{
@@ -76,15 +79,15 @@ const Faculties: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Faculties
+                Students
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
                     variant={'contained'}
                     color={'success'}
-                    onClick={() => navigate('/admin/faculty')}
+                    onClick={() => navigate('/admin/student')}
                 >
-                    Add faculty
+                    Add student
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -93,7 +96,7 @@ const Faculties: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No faculties, try to create one</Alert>
+                                    <Alert severity="warning">No students, try to create one</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -102,12 +105,15 @@ const Faculties: FC = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Name</TableCell>
+                                    <TableCell align="right">Surname</TableCell>
+                                    <TableCell>Group name</TableCell>
+                                    <TableCell align="right">Login</TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: { id: string, name: string; start: string; finish: string }) => (
+                                {rows.map((row: { id: string; groupName: string; name: string; surname: string; login: string }) => (
                                     <TableRow
                                         style={{ cursor: 'pointer' }}
                                         hover={true}
@@ -115,14 +121,17 @@ const Faculties: FC = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">{row.name}</TableCell>
+                                        <TableCell component="th" scope="row">{row.surname}</TableCell>
+                                        <TableCell component="th" scope="row">{row.groupName}</TableCell>
+                                        <TableCell component="th" scope="row">{row.login}</TableCell>
                                         <TableCell align="right">
                                             <Button
                                                 type={'submit'}
                                                 variant="contained"
                                                 color="warning"
-                                                onClick={() => navigate(`/admin/faculty/${row.id}`)}
+                                                onClick={() => navigate(`/admin/student/${row.id}`)}
                                             >
-                                                Update faculty
+                                                Update student
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -135,7 +144,7 @@ const Faculties: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete faculty
+                                                Delete student
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -152,11 +161,11 @@ const Faculties: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete faculty
+                    Delete student
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete faculty?
+                        Are you sure you want to delete student?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -167,8 +176,8 @@ const Faculties: FC = () => {
                             if (deleteCandidate) {
                                 setLoading(true);
                                 setDeleteDialogOpened(false);
-                                await deleteFaculty(deleteCandidate);
-                                await getAllFaculties();
+                                await deleteStudent(deleteCandidate);
+                                await getAllStudents();
                                 setLoading(false);
                             }
                         }}
@@ -184,4 +193,4 @@ const Faculties: FC = () => {
     );
 }
 
-export default Faculties;
+export default Students;

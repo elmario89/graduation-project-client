@@ -10,6 +10,7 @@ type FacultiesContextType = {
     updateFaculty: (data: Faculty) => Promise<Faculty | undefined>;
     getFacultyById: (id: string) => Promise<Faculty | undefined>;
     faculties: Faculty[] | null;
+    deleteFaculty: (id: string) => Promise<void>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -67,13 +68,25 @@ const FacultiesProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
+    const deleteFaculty = async (id: string) => {
+        try {
+            await facultiesApi.deleteFaculty(id);
+            setAlert({ message: 'Faculty has been deleted!', type: 'success' });
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                setAlert({ message: e.message, type: 'error' });
+            }
+        }
+    }
+
     const memoValue = useMemo(() => ({
         getAllFaculties,
         faculties,
         createFaculty,
         getFacultyById,
         updateFaculty,
-    }), [getAllFaculties, faculties, createFaculty, getFacultyById]);
+        deleteFaculty,
+    }), [getAllFaculties, faculties, createFaculty, getFacultyById, deleteFaculty]);
 
     return <FacultiesContext.Provider value={memoValue}>
         <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>

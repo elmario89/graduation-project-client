@@ -33,6 +33,13 @@ class FacultiesApi {
             data,
         });
     }
+
+    public async deleteFaculty(id: string): Promise<void> {
+        return await this.apiService.request<void>({
+            method: 'DELETE',
+            url: `/faculties/${id}`,
+        });
+    }
 }
 
 export default FacultiesApi;

@@ -84,14 +84,13 @@ const Faculty: FC = () => {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                 }}
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Box justifyContent="flex-start" component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+                    <Box justifyContent="flex-start" component="form" width={600} onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                         <TextField
                             {...register("name", { required: true })}
                             margin="normal"
@@ -114,7 +113,7 @@ const Faculty: FC = () => {
                                 {id ? 'Update faculty' : 'Create faculty'}
                             </Button>
                             <Button
-                                onClick={() => navigate('/admin/faculties')}
+                                onClick={() => navigate(`/admin/faculties`)}
                                 variant="contained"
                                 color="warning"
                                 sx={{ mt: 3, mb: 2 }}
