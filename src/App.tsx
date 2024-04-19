@@ -12,6 +12,7 @@ import GroupsProvider from "./providers/GroupsProvider";
 import {Global} from '@emotion/react'
 import dayjs from "dayjs";
 import GlobalStyles from "./global-styles";
+import FacultiesProvider from "./providers/FacultiesProvider";
 dayjs.locale('ru')
 
 function App() {
@@ -24,7 +25,9 @@ function App() {
               <ApiProvider>
                   <AuthProvider>
                       <GroupsProvider>
-                          <Router />
+                          <FacultiesProvider>
+                              <Router />
+                          </FacultiesProvider>
                       </GroupsProvider>
                   </AuthProvider>
               </ApiProvider>

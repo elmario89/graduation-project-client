@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import {FC, useEffect, useState} from "react";
 import {useGroups} from "../providers/GroupsProvider";
-import {CircularProgress} from "@mui/material";
+import {Autocomplete, CircularProgress} from "@mui/material";
 import {Group as GroupModel} from "../types/group";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -15,19 +15,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import FormHelperText from '@mui/material/FormHelperText';
 import {useNavigate, useParams} from "react-router-dom";
 import dayjs from "dayjs";
+import {useFaculties} from "../providers/FacultiesProvider";
+import {Faculty} from "../types/faculty";
 
-type GroupData = Omit<GroupModel & { dates: [Date, Date] } , 'finish' | 'start' | 'id'>;
+type GroupData = Omit<GroupModel & { dates: [Date, Date], facultyId: string } , 'finish' | 'start' | 'id'>;
 
 type FormValues = {
     name: string;
     start: Date | null;
     finish: Date | null;
+    faculty: Faculty;
 }
 
 const Group: FC = () => {
     const [group, setGroup] =
         useState<FormValues | null>(null);
     const { getGroupById, createGroup, updateGroup } = useGroups();
+    const { getAllFaculties, faculties } = useFaculties();
     const [loading, setLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -46,6 +50,10 @@ const Group: FC = () => {
         }
     }, [id]);
 
+    useEffect( () => {
+        getAllFaculties();
+    }, []);
+
     const {
         register,
         handleSubmit,
@@ -54,13 +62,13 @@ const Group: FC = () => {
     } = useForm<GroupData>()
 
     const onSubmit: SubmitHandler<GroupData> = async (data) => {
-        const { name, dates } = data;
+        const { name, dates, facultyId } = data;
         const [start, finish] = dates;
 
         if (id) {
-            await updateGroup({ id, name, finish, start });
+            await updateGroup({ id, name, finish, start, facultyId });
         } else {
-            const group = await createGroup({ name, finish, start });
+            const group = await createGroup({ name, finish, start, facultyId });
 
             if (group) {
                 navigate(`/admin/group/${group.id}`)
@@ -68,7 +76,7 @@ const Group: FC = () => {
         }
     };
 
-    if ((id && !group) || loading)  {
+    if ((id && !group) || loading || !faculties)  {
         return (
             <div
                 style={{
@@ -83,6 +91,7 @@ const Group: FC = () => {
         )
     }
 
+    console.log(errors);
     return (
         <>
             <Typography variant="h4" gutterBottom>
@@ -111,11 +120,17 @@ const Group: FC = () => {
                             autoComplete="name"
                             autoFocus
                             defaultValue={group?.name || ''}
+                            sx={{ mb: 2 }}
                         />
+
                         <Controller
                             control={control}
                             rules={ { required: true }}
                             name="dates"
+                            defaultValue={[
+                                group?.start ? group?.start : new Date(),
+                                group?.finish ? group?.finish : new Date(),
+                            ]}
                             render={({ field: { onChange } }) => (
                                 <DateRangePicker
                                     format={'DD/MM/YYYY'}
@@ -130,8 +145,44 @@ const Group: FC = () => {
                             )}
                         />
                         {errors.dates && <FormHelperText error={!!errors.dates}>Please choose range</FormHelperText>}
+
+                        <Controller
+                            control={control}
+                            rules={ { required: true }}
+                            name="facultyId"
+                            defaultValue={group?.faculty
+                                ? group?.faculty.id
+                                : undefined
+                            }
+                            render={({ field: { onChange } }) => (
+                                <Autocomplete
+                                    disablePortal
+                                    defaultValue={group?.faculty
+                                        ? { label: group?.faculty.name, value: group?.faculty.id }
+                                        : null
+                                    }
+                                    onChange={(_, chosen) =>
+                                        onChange(chosen?.value)
+                                    }
+                                    options={faculties
+                                        .map((faculty) =>
+                                            ({ label: faculty.name, value: faculty.id }))
+                                    }
+                                    renderInput={(params) =>
+                                        <TextField
+                                            {...params}
+                                            label="Faculty"
+                                            error={!!errors.facultyId}
+                                        />
+                                    }
+                                    sx={{ mt: 2 }}
+                                />
+                            )}
+                        />
+
                         <Box display="flex" gap={1}>
                             <Button
+                                type={'submit'}
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >

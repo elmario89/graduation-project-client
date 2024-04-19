@@ -1,5 +1,6 @@
 import ApiService from "./api.service";
 import {Group} from "../../types/group";
+import {AddOrUpdateGroup} from "../../types/add-or-update-group";
 
 class GroupsApi {
     constructor(private apiService: ApiService) { }
@@ -18,7 +19,7 @@ class GroupsApi {
         });
     }
 
-    public async createGroup(data: Omit<Group, 'id'>): Promise<Group> {
+    public async createGroup(data: Omit<AddOrUpdateGroup, 'id'>): Promise<Group> {
         return await this.apiService.request<Group>({
             method: 'POST',
             url: '/groups',
@@ -26,7 +27,7 @@ class GroupsApi {
         });
     }
 
-    public async updateGroup(data: Group): Promise<Group> {
+    public async updateGroup(data: AddOrUpdateGroup): Promise<Group> {
         return await this.apiService.request<Group>({
             method: 'PUT',
             url: `/groups/${data.id}`,

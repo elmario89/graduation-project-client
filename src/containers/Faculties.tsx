@@ -7,10 +7,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {FC, useEffect, useState} from "react";
-import {useGroups} from "../providers/GroupsProvider";
+import {useFaculties} from "../providers/FacultiesProvider";
 import {CircularProgress} from "@mui/material";
-import {Group} from "../types/group";
-import dayjs from "dayjs";
+import {Faculty} from "../types/faculty";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -18,38 +17,35 @@ import {useNavigate} from "react-router-dom";
 
 function createData(
     id: string,
-    facultyName: string,
     name: string,
-    start: Date,
-    finish: Date,
 ) {
-    return { id, name, start, finish, facultyName };
+    return { id, name };
 }
 
-const Groups: FC = () => {
+const Faculties: FC = () => {
     const [rows, setRow] = useState<any | null>(null);
-    const { groups , getAllGroups } = useGroups();
+    const { faculties , getAllFaculties } = useFaculties();
     const [loading, setLoading] = useState<boolean>(true);
 
     const navigate = useNavigate();
 
-    const getRows = (data: Group[]) => data?.map((group) => {
-        const { id, finish, start, name, faculty } = group;
-        return createData(id, faculty.name, name, start, finish);
+    const getRows = (data: Faculty[]) => data?.map((faculty) => {
+        const { name, id } = faculty;
+        return createData(id, name);
     })
 
     useEffect( () => {
-        getAllGroups()
+        getAllFaculties()
             .then(() => setLoading(false));
     }, []);
 
     useEffect( () => {
-        if (groups) {
-            setRow(getRows(groups));
+        if (faculties) {
+            setRow(getRows(faculties));
         }
-    }, [groups]);
+    }, [faculties]);
 
-    if (loading || !groups || !rows) {
+    if (loading || !faculties || !rows) {
         return (
             <div
                 style={{
@@ -67,15 +63,15 @@ const Groups: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Groups
+                Faculties
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
                     variant={'contained'}
                     color={'success'}
-                    onClick={() => navigate('/admin/group')}
+                    onClick={() => navigate('/admin/faculty')}
                 >
-                    Add group
+                    Add faculty
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -83,24 +79,18 @@ const Groups: FC = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Faculty name</TableCell>
-                            <TableCell align="right">Education start</TableCell>
-                            <TableCell align="right">Education finish</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row: { id: string; facultyName: string; name: string; start: string; finish: string }) => (
+                        {rows.map((row: { id: string, name: string; start: string; finish: string }) => (
                             <TableRow
                                 style={{ cursor: 'pointer' }}
                                 hover={true}
-                                onClick={() => navigate(`/admin/group/${row.id}`)}
+                                onClick={() => navigate(`/admin/faculty/${row.id}`)}
                                 key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">{row.name}</TableCell>
-                                <TableCell component="th" scope="row">{row.facultyName}</TableCell>
-                                <TableCell align="right">{dayjs(row.start).format('DD MMMM YYYY')}</TableCell>
-                                <TableCell align="right">{dayjs(row.finish).format('DD MMMM YYYY')}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -110,4 +100,4 @@ const Groups: FC = () => {
     );
 }
 
-export default Groups;
+export default Faculties;

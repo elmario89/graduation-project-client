@@ -1,14 +1,14 @@
 import {createContext, FC, PropsWithChildren, useContext, useMemo, useState} from "react";
 import {useApi} from "./ApiProvider";
 import {AxiosError} from "axios";
-
 import {Group} from "../types/group";
 import {Alert, Snackbar} from "@mui/material";
+import {AddOrUpdateGroup} from "../types/add-or-update-group";
 
 type GroupsContextType = {
     getAllGroups: () => Promise<void>;
-    createGroup: (data: Omit<Group, 'id'>) => Promise<Group | undefined>;
-    updateGroup: (data: Group) => Promise<Group | undefined>;
+    createGroup: (data: Omit<AddOrUpdateGroup, 'id'>) => Promise<Group | undefined>;
+    updateGroup: (data: AddOrUpdateGroup) => Promise<Group | undefined>;
     getGroupById: (id: string) => Promise<Group | undefined>;
     groups: Group[] | null;
 }
@@ -34,7 +34,7 @@ const GroupsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
-    const createGroup = async (data: Omit<Group, 'id'>) => {
+    const createGroup = async (data: Omit<AddOrUpdateGroup, 'id'>) => {
         try {
             const group = await groupsApi.createGroup(data);
             setAlert({ message: 'Group has been created!', type: 'success' });
@@ -46,7 +46,7 @@ const GroupsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
-    const updateGroup = async (data: Group) => {
+    const updateGroup = async (data: AddOrUpdateGroup) => {
         try {
             const group = await groupsApi.updateGroup(data);
             setAlert({ message: 'Group has been updated!', type: 'success' });
