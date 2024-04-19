@@ -14,6 +14,8 @@ import dayjs from "dayjs";
 import GlobalStyles from "./global-styles";
 import FacultiesProvider from "./providers/FacultiesProvider";
 import StudentsProvider from "./providers/StudentsProvider";
+import TeachersProvider from "./providers/TeachersProvider";
+import DisciplinesProvider from "./providers/DisciplinesProvider";
 dayjs.locale('ru')
 
 function App() {
@@ -28,7 +30,11 @@ function App() {
                       <GroupsProvider>
                           <FacultiesProvider>
                               <StudentsProvider>
-                                  <Router />
+                                  <TeachersProvider>
+                                      <DisciplinesProvider>
+                                          <Router />
+                                      </DisciplinesProvider>
+                                  </TeachersProvider>
                               </StudentsProvider>
                           </FacultiesProvider>
                       </GroupsProvider>

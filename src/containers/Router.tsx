@@ -13,6 +13,10 @@ const Faculties = lazy(() => import('./Faculties'));
 const Faculty = lazy(() => import('./Faculty'));
 const Students = lazy(() => import('./Students'));
 const Student = lazy(() => import('./Student'));
+const Teachers = lazy(() => import('./Teachers'));
+const Teacher = lazy(() => import('./Teacher'));
+const Disciplines = lazy(() => import('./Disciplines'));
+const Discipline = lazy(() => import('./Discipline'));
 
 const Router: FC = () => {
     const { authenticated } = useAuth();
@@ -40,10 +44,14 @@ const Router: FC = () => {
                             >
                                 <Route path="/admin/students" element={<Students />} />
                                 <Route path="/admin/student/:id?" element={<Student />} />
+                                <Route path="/admin/teachers" element={<Teachers />} />
+                                <Route path="/admin/teacher/:id?" element={<Teacher />} />
                                 <Route path="/admin/groups" element={<Groups />} />
                                 <Route path="/admin/group/:id?" element={<Group />} />
                                 <Route path="/admin/faculties" element={<Faculties />} />
                                 <Route path="/admin/faculty/:id?" element={<Faculty />} />
+                                <Route path="/admin/disciplines" element={<Disciplines />} />
+                                <Route path="/admin/discipline/:id?" element={<Discipline />} />
                             </Route>
                         </Route>
                         <Route path={"/student"} element={<ProtectedRoutes roles={[UserRole.Student]} />}>

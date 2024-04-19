@@ -118,6 +118,7 @@ const Groups: FC = () => {
                                     <TableRow
                                         style={{ cursor: 'pointer' }}
                                         hover={true}
+                                        onClick={() => navigate(`/admin/group/${row.id}`)}
                                         key={row.name}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
@@ -140,7 +141,8 @@ const Groups: FC = () => {
                                                 type={'submit'}
                                                 variant="contained"
                                                 color="error"
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     setDeleteDialogOpened(true);
                                                     setDeleteCandidate(row.id);
                                                 }}
