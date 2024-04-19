@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {FC, useEffect, useState} from "react";
 import {useFaculties} from "../providers/FacultiesProvider";
-import {CircularProgress} from "@mui/material";
+import {CircularProgress, Link} from "@mui/material";
 import {Faculty as FacultyModel} from "../types/faculty";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -11,12 +11,14 @@ import TextField from "@mui/material/TextField";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {LocalizationProvider} from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import {useNavigate, useParams} from "react-router-dom";
+import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
+import {Group} from "../types/group";
 
 type FacultyData = Omit<FacultyModel, 'id'>;
 
 type FormValues = {
     name: string;
+    groups?: Group[];
 }
 
 const Faculty: FC = () => {
@@ -104,6 +106,23 @@ const Faculty: FC = () => {
                             autoFocus
                             defaultValue={faculty?.name || ''}
                         />
+
+                        {faculty?.groups && faculty.groups.length > 0 && (
+                            <>
+                                <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+                                    Groups:
+                                </Typography>
+                                <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
+                                    {
+                                        faculty.groups.map((group) =>
+                                            <Link component={RouterLink} to={`/admin/group/${group.id}`}>
+                                                {group.name}
+                                            </Link>)
+                                    }
+                                </Box>
+                            </>
+                        )}
+
                         <Box display="flex" gap={1}>
                             <Button
                                 type={'submit'}
