@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {FC, useEffect, useState} from "react";
 import {useTeachers} from "../providers/TeachersProvider";
-import {Autocomplete, Checkbox, CircularProgress, Link} from "@mui/material";
+import {Autocomplete, CircularProgress, Link} from "@mui/material";
 import {Teacher as TeacherModel} from "../types/teacher";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -14,8 +14,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import {Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import {Discipline} from "../types/discipline";
 import {useDisciplines} from "../providers/DisciplinesProvider";
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 type TeacherData = Omit<TeacherModel & { disciplineIds: string[] }, 'id'>;
 
@@ -27,14 +25,13 @@ type FormValues = {
     disciplines?: Discipline[];
 }
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
 const Teacher: FC = () => {
     const [teacher, setTeacher] =
         useState<FormValues | null>(null);
+    const [disciplineDropdownItems, setDisciplineDropdownItems] =
+        useState<{ name: string; id: string}[]>([]);
     const { getTeacherById, createTeacher, updateTeacher } = useTeachers();
-    const { getAllDisciplines, disciplines } = useDisciplines();
+    const { getAllDisciplines } = useDisciplines();
     const [loading, setLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -54,24 +51,32 @@ const Teacher: FC = () => {
     }, [id]);
 
     useEffect( () => {
-        getAllDisciplines();
+        getAllDisciplines()
+            .then((fetchedDisciplines) => {
+                if (fetchedDisciplines) {
+                    setDisciplineDropdownItems(fetchedDisciplines.map(d => ({ name: d.name, id: d.id })));
+                }
+            });
     }, []);
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
         control,
     } = useForm<TeacherData>()
 
     const onSubmit: SubmitHandler<TeacherData> = async (data) => {
         if (id) {
-            await updateTeacher({ id, ...data });
+            const updatedTeacher = await updateTeacher({ id, ...data });
+            if (updatedTeacher) {
+                setTeacher(updatedTeacher);
+            }
         } else {
             const teacher = await createTeacher(data);
 
             if (teacher) {
-                navigate(`/admin/teacher/${teacher.id}`)
+                navigate(`/admin/teacher/${teacher.id}`);
             }
         }
     };
@@ -164,7 +169,7 @@ const Teacher: FC = () => {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
-                                    sx={{ mb: 2 }}
+                                    sx={{ mb: 4 }}
                                 />
                             </>
                         )}
@@ -179,34 +184,26 @@ const Teacher: FC = () => {
                             render={({ field: { onChange } }) => (
                                 <Autocomplete
                                     multiple
-                                    id="checkboxes-tags-demo"
-                                    options={disciplines?.map((discipline) =>
-                                        ({ label: discipline.name, value: discipline.id })) || []}
                                     disableCloseOnSelect
-                                    getOptionLabel={(option: { label: string }) => option.label}
-                                    onChange={(_, chosen) => {
-                                        onChange(chosen?.map((discipline) => discipline.value))
-                                    }}
-                                    renderOption={(props, option, { selected }) => (
-                                        <li {...props}>
-                                            <Checkbox
-                                                icon={icon}
-                                                checkedIcon={checkedIcon}
-                                                style={{marginRight: 8}}
-                                                checked={selected}
-                                            />
-                                            {option.label}
-                                        </li>
-                                    )}
+                                    options={disciplineDropdownItems}
+                                    getOptionLabel={(option) => option.name}
+                                    defaultValue={teacher?.disciplines
+                                        ? teacher?.disciplines.map((discipline) =>
+                                            ({ name: discipline.name, id: discipline.id })) : []
+                                    }
+                                    onChange={(_, chosen) =>
+                                        onChange(chosen?.map((discipline) => discipline.id))
+                                    }
+                                    filterSelectedOptions
+                                    sx={{mb: 2, mt: 2}}
                                     renderInput={(params) => (
                                         <TextField
                                             error={!!errors.disciplineIds}
                                             {...params}
-                                            label="Choose disciplines"
+                                            label="Choose discipline"
                                             placeholder="Disciplines"
                                         />
                                     )}
-                                    sx={{mb: 2, mt: 2}}
                                 />
                             )}
                         />
@@ -219,7 +216,7 @@ const Teacher: FC = () => {
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
                                         teacher.disciplines.map((d) =>
-                                            <Link component={RouterLink} to={`/admin/discipline/${d.id}`}>
+                                            <Link key={d.id} component={RouterLink} to={`/admin/discipline/${d.id}`}>
                                                 {d.name}
                                             </Link>)
                                     }
@@ -229,6 +226,7 @@ const Teacher: FC = () => {
 
                         <Box display="flex" gap={1}>
                             <Button
+                                disabled={!isDirty}
                                 type={'submit'}
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}

@@ -46,7 +46,7 @@ const Faculty: FC = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
     } = useForm<FacultyData>()
 
     const onSubmit: SubmitHandler<FacultyData> = async (data) => {
@@ -115,7 +115,7 @@ const Faculty: FC = () => {
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
                                         faculty.groups.map((group) =>
-                                            <Link component={RouterLink} to={`/admin/group/${group.id}`}>
+                                            <Link key={group.id} component={RouterLink} to={`/admin/group/${group.id}`}>
                                                 {group.name}
                                             </Link>)
                                     }
@@ -125,6 +125,7 @@ const Faculty: FC = () => {
 
                         <Box display="flex" gap={1}>
                             <Button
+                                disabled={!isDirty}
                                 type={'submit'}
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}

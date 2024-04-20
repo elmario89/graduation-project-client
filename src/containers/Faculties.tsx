@@ -15,20 +15,22 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, Link,
     Stack
 } from "@mui/material";
 import {Faculty} from "../types/faculty";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {useNavigate} from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
+import {Group} from "../types/group";
 
 function createData(
     id: string,
     name: string,
+    groups: Group[],
 ) {
-    return { id, name };
+    return { id, name, groups };
 }
 
 const Faculties: FC = () => {
@@ -43,8 +45,8 @@ const Faculties: FC = () => {
     const navigate = useNavigate();
 
     const getRows = (data: Faculty[]) => data?.map((faculty) => {
-        const { name, id } = faculty;
-        return createData(id, name);
+        const { name, id, groups } = faculty;
+        return createData(id, name, groups || []);
     })
 
     useEffect( () => {
@@ -102,12 +104,13 @@ const Faculties: FC = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Name</TableCell>
+                                    <TableCell>Groups</TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: { id: string, name: string; start: string; finish: string }) => (
+                                {rows.map((row: { id: string, name: string; groups: Group[] }) => (
                                     <TableRow
                                         style={{ cursor: 'pointer' }}
                                         hover={true}
@@ -116,6 +119,18 @@ const Faculties: FC = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">{row.name}</TableCell>
+                                        <TableCell>
+                                            {
+                                                row.groups.map((g) =>
+                                                    <Link
+                                                        onClick={e => e.stopPropagation()}
+                                                        key={g.id} component={RouterLink}
+                                                        to={`/admin/group/${g.id}`}
+                                                    >
+                                                        {g.name}<br/>
+                                                    </Link>)
+                                            }
+                                        </TableCell>
                                         <TableCell align="right">
                                             <Button
                                                 type={'submit'}

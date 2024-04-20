@@ -59,7 +59,7 @@ const Group: FC = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
         control,
     } = useForm<GroupData>()
 
@@ -188,7 +188,7 @@ const Group: FC = () => {
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
                                         group.students.map((student) =>
-                                            <Link component={RouterLink} to={`/admin/student/${student.id}`}>
+                                            <Link key={student.id} component={RouterLink} to={`/admin/student/${student.id}`}>
                                                 {student.name} {student.surname}
                                             </Link>)
                                     }
@@ -198,6 +198,7 @@ const Group: FC = () => {
 
                         <Box display="flex" gap={1}>
                             <Button
+                                disabled={!isDirty}
                                 type={'submit'}
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}

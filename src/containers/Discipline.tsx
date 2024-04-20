@@ -52,7 +52,7 @@ const Discipline: FC = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
     } = useForm<DisciplineData>()
 
     const onSubmit: SubmitHandler<DisciplineData> = async (data) => {
@@ -132,6 +132,7 @@ const Discipline: FC = () => {
 
                         <Box display="flex" gap={1}>
                             <Button
+                                disabled={!isDirty}
                                 type={'submit'}
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}

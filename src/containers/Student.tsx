@@ -55,7 +55,7 @@ const Student: FC = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
         control,
     } = useForm<StudentData>()
 
@@ -198,6 +198,7 @@ const Student: FC = () => {
 
                         <Box display="flex" gap={1}>
                             <Button
+                                disabled={!isDirty}
                                 type={'submit'}
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}

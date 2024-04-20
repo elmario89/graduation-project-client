@@ -122,7 +122,12 @@ const Disciplines: FC = () => {
                                         <TableCell>
                                             {
                                                 row.teachers.map((t) =>
-                                                    <Link component={RouterLink} to={`/admin/teacher/${t.id}`}>
+                                                    <Link
+                                                        onClick={e => e.stopPropagation()}
+                                                        key={t.id}
+                                                        component={RouterLink}
+                                                        to={`/admin/teacher/${t.id}`}
+                                                    >
                                                         {t.name} {t.surname}<br/>
                                                     </Link>)
                                             }

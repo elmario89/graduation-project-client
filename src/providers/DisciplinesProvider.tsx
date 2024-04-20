@@ -6,7 +6,7 @@ import {Alert, Snackbar} from "@mui/material";
 import {AddOrUpdateDiscipline} from "../types/add-or-update-discipline";
 
 type DisciplinesContextType = {
-    getAllDisciplines: () => Promise<void>;
+    getAllDisciplines: () => Promise<Discipline[] | undefined>;
     createDiscipline: (data: Omit<AddOrUpdateDiscipline, 'id'>) => Promise<Discipline | undefined>;
     updateDiscipline: (data: AddOrUpdateDiscipline) => Promise<Discipline | undefined>;
     getDisciplineById: (id: string) => Promise<Discipline | undefined>;
@@ -28,6 +28,7 @@ const DisciplinesProvider: FC<PropsWithChildren> = ({ children }) => {
         try {
             const disciplines = await disciplinesApi.getAllDisciplines();
             setDisciplines(disciplines);
+            return disciplines;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });
