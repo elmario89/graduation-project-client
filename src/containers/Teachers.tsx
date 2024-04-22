@@ -128,6 +128,7 @@ const Teachers: FC = () => {
                                             {
                                                 row.disciplines.map((d) =>
                                                     <Link
+                                                        style={{ alignSelf: 'flex-start'}}
                                                         onClick={e => e.stopPropagation()}
                                                         key={d.id}
                                                         component={RouterLink}

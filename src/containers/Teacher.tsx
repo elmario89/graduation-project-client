@@ -216,7 +216,7 @@ const Teacher: FC = () => {
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
                                         teacher.disciplines.map((d) =>
-                                            <Link key={d.id} component={RouterLink} to={`/admin/discipline/${d.id}`}>
+                                            <Link style={{ alignSelf: 'flex-start'}} key={d.id} component={RouterLink} to={`/admin/discipline/${d.id}`}>
                                                 {d.name}
                                             </Link>)
                                     }

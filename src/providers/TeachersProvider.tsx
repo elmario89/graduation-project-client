@@ -6,7 +6,7 @@ import {Alert, Snackbar} from "@mui/material";
 import {AddOrUpdateTeacher} from "../types/add-or-update-teacher";
 
 type TeachersContextType = {
-    getAllTeachers: () => Promise<void>;
+    getAllTeachers: () => Promise<Teacher[] | undefined>;
     createTeacher: (data: Omit<AddOrUpdateTeacher, 'id'>) => Promise<Teacher | undefined>;
     updateTeacher: (data: AddOrUpdateTeacher) => Promise<Teacher | undefined>;
     getTeacherById: (id: string) => Promise<Teacher | undefined>;
@@ -28,6 +28,8 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
         try {
             const teachers = await teachersApi.getAll();
             setTeachers(teachers);
+
+            return teachers;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });

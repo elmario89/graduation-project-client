@@ -115,7 +115,7 @@ const Faculty: FC = () => {
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
                                         faculty.groups.map((group) =>
-                                            <Link key={group.id} component={RouterLink} to={`/admin/group/${group.id}`}>
+                                            <Link style={{ alignSelf: 'flex-start'}} key={group.id} component={RouterLink} to={`/admin/group/${group.id}`}>
                                                 {group.name}
                                             </Link>)
                                     }

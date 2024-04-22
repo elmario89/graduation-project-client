@@ -23,10 +23,10 @@ class ApiService {
             }
 
             return config;
-        })
+        });
 
         // intercept 403
-        this.axios.interceptors.request.use(
+        this.axios.interceptors.response.use(
             // @ts-ignore
             (response: AxiosResponse) => response,
             (error: AxiosError) => {
@@ -38,7 +38,9 @@ class ApiService {
                         window.location.assign('/sign-in');
                     }
                 }
-        })
+
+                return Promise.reject(error);
+        });
     }
 
     public async request<T>(requestConfig: AxiosRequestConfig): Promise<T> {

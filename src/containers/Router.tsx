@@ -17,6 +17,8 @@ const Teachers = lazy(() => import('./Teachers'));
 const Teacher = lazy(() => import('./Teacher'));
 const Disciplines = lazy(() => import('./Disciplines'));
 const Discipline = lazy(() => import('./Discipline'));
+const Schedule = lazy(() => import('./Schedule'));
+const ScheduleSlot = lazy(() => import('./ScheduleSlot'));
 
 const Router: FC = () => {
     const { authenticated } = useAuth();
@@ -52,6 +54,8 @@ const Router: FC = () => {
                                 <Route path="/admin/faculty/:id?" element={<Faculty />} />
                                 <Route path="/admin/disciplines" element={<Disciplines />} />
                                 <Route path="/admin/discipline/:id?" element={<Discipline />} />
+                                <Route path="/admin/schedule/:groupId/:id?" element={<Schedule />} />
+                                <Route path="/admin/schedule/:groupId/:day/:time/:id?" element={<ScheduleSlot />} />
                             </Route>
                         </Route>
                         <Route path={"/student"} element={<ProtectedRoutes roles={[UserRole.Student]} />}>

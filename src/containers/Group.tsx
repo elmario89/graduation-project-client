@@ -180,6 +180,15 @@ const Group: FC = () => {
                             )}
                         />
 
+                        <Button
+                            variant="contained"
+                            color="info"
+                            sx={{ mt: 3, mb: 2 }}
+                            onClick={() => navigate(`/admin/schedule/${id}`)}
+                        >
+                            Update schedule
+                        </Button>
+
                         {group?.students && group.students.length > 0 && (
                             <>
                                 <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
@@ -188,7 +197,12 @@ const Group: FC = () => {
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
                                         group.students.map((student) =>
-                                            <Link key={student.id} component={RouterLink} to={`/admin/student/${student.id}`}>
+                                            <Link
+                                                style={{ alignSelf: 'flex-start'}}
+                                                key={student.id}
+                                                component={RouterLink}
+                                                to={`/admin/student/${student.id}`}
+                                            >
                                                 {student.name} {student.surname}
                                             </Link>)
                                     }
