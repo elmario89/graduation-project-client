@@ -1,7 +1,14 @@
 import * as React from 'react';
 import {FC, useEffect, useState} from "react";
 import {useSchedules} from "../providers/ScheduleProvider";
-import {Autocomplete, CircularProgress} from "@mui/material";
+import {
+    Autocomplete,
+    CircularProgress, Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
+} from "@mui/material";
 import {Schedule as ScheduleModel} from "../types/schedule";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -17,6 +24,7 @@ import {Day} from "../types/day";
 import {ScheduleType} from "../enums/schedule-type.enum";
 import useRoleMessageHook from "../hook/use-week-day.hook";
 import {TimeMapper} from "./mappers/time.mapper";
+import {ScheduleMapper} from "./mappers/schedule.mapper";
 
 type ScheduleData = ScheduleModel & { groupId: string; disciplineId: string; teacherId: string; };
 
@@ -33,10 +41,15 @@ const ScheduleSlot: FC = () => {
         useState<FormValues | null>(null);
     const [config, setConfig] =
         useState<{ disciplines: Discipline[]; teachers: Teacher[] } | null>(null);
-    const { getScheduleById, createSchedule, updateSchedule } = useSchedules();
+    const { getScheduleById, createSchedule, updateSchedule, deleteSchedule } = useSchedules();
     const { getAllDisciplines } = useDisciplines();
     const { getAllTeachers } = useTeachers();
     const [loading, setLoading] = useState<boolean>(false);
+
+    const [deleteDialogOpened, setDeleteDialogOpened] =
+        React.useState<boolean>(false);
+    const [deleteCandidate, setDeleteCandidate] =
+        React.useState<string | null>(null);
 
     const navigate = useNavigate();
 
@@ -67,6 +80,7 @@ const ScheduleSlot: FC = () => {
         handleSubmit,
         formState: { errors, isDirty },
         control,
+        watch,
     } = useForm<ScheduleData>()
 
     const onSubmit: SubmitHandler<ScheduleData> = async (data) => {
@@ -77,7 +91,7 @@ const ScheduleSlot: FC = () => {
                 await createSchedule({ ...data, groupId: groupId || '', day: day as Day, time: time || ''  });
 
             if (schedule) {
-                navigate(`/admin/schedule/${groupId}}`)
+                navigate(`/admin/schedule/${groupId}`)
             }
         }
     };
@@ -124,8 +138,12 @@ const ScheduleSlot: FC = () => {
                             onChange={(_, chosen) =>
                                 onChange(chosen?.value)
                             }
-                            options={config?.teachers.map((t) =>
-                                    ({ label: `${t.name} ${t.surname}`, value: t.id }))
+                            options={!watch('disciplineId')
+                                ? config?.teachers
+                                    .map((d) => ({ label: `${d.name}`, value: d.id }))
+                                : config?.teachers
+                                    .filter((d) => d.disciplines?.some((d) => d.id === watch('disciplineId')))
+                                    .map((d) => ({ label: `${d.name}`, value: d.id }))
                             }
                             renderInput={(params) =>
                                 <TextField
@@ -160,8 +178,12 @@ const ScheduleSlot: FC = () => {
                             onChange={(_, chosen) =>
                                 onChange(chosen?.value)
                             }
-                            options={config?.disciplines.map((d) =>
-                                ({ label: `${d.name}`, value: d.id }))
+                            options={!watch('teacherId')
+                                ? config?.disciplines
+                                    .map((d) => ({ label: `${d.name}`, value: d.id }))
+                                : config?.disciplines
+                                    .filter((d) => d.teachers?.some((t) => t.id === watch('teacherId')))
+                                    .map((d) => ({ label: `${d.name}`, value: d.id }))
                             }
                             renderInput={(params) =>
                                 <TextField
@@ -188,7 +210,8 @@ const ScheduleSlot: FC = () => {
                             disablePortal
                             defaultValue={schedule?.discipline
                                 ? {
-                                    label: schedule?.scheduleType,
+                                    // @ts-ignore
+                                    label: ScheduleMapper[schedule?.scheduleType as keyof typeof ScheduleMapper],
                                     value: schedule?.scheduleType,
                                 }
                                 : null
@@ -228,7 +251,19 @@ const ScheduleSlot: FC = () => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {id ? 'Update student' : 'Create student'}
+                        {id ? 'Update schedule' : 'Create schedule'}
+                    </Button>
+                    <Button
+                        disabled={!id}
+                        variant="contained"
+                        color="error"
+                        sx={{ mt: 3, mb: 2 }}
+                        onClick={() => {
+                            setDeleteDialogOpened(true);
+                            setDeleteCandidate(id || '');
+                        }}
+                    >
+                        Delete schedule slot
                     </Button>
                     <Button
                         onClick={() => navigate(`/admin/schedule/${groupId}`, { replace: true })}
@@ -239,6 +274,41 @@ const ScheduleSlot: FC = () => {
                         Back
                     </Button>
                 </Box>
+                <Dialog
+                    open={deleteDialogOpened}
+                    onClose={() => setDeleteDialogOpened(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        Delete schedule slot
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete schedule slot?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={async () => {
+                                if (deleteCandidate) {
+                                    setLoading(true);
+                                    setDeleteDialogOpened(false);
+                                    setLoading(true);
+                                    await deleteSchedule(deleteCandidate, groupId || '');
+                                    navigate(`/admin/schedule/${groupId}`);
+                                }
+                            }}
+                        >
+                            Delete
+                        </Button>
+                        <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
+                            Cancel
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         </>
     );

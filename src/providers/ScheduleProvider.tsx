@@ -12,7 +12,7 @@ type SchedulesContextType = {
     getScheduleById: (id: string) => Promise<Schedule | undefined>;
     getSchedulesByGroupId: (groupId: string) => Promise<Schedule[] | undefined>;
     schedules: Schedule[] | null;
-    deleteSchedule: (id: string) => Promise<void>;
+    deleteSchedule: (id: string, groupId: string) => Promise<void>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -85,9 +85,15 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
-    const deleteSchedule = async (id: string) => {
+    const deleteSchedule = async (id: string, groupId: string) => {
         try {
             await schedulesApi.deleteSchedule(id);
+            const schedules = await getSchedulesByGroupId(groupId);
+
+            if (schedules) {
+                setSchedules(schedules);
+            }
+
             setAlert({ message: 'Schedule has been deleted!', type: 'success' });
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
