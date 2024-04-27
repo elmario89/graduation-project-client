@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {FC, useEffect, useState} from "react";
 import {useLocations} from "../providers/LocationsProvider";
-import {CircularProgress, Link} from "@mui/material";
+import {CircularProgress} from "@mui/material";
 import {Location as LocationModel} from "../types/location";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -11,7 +11,7 @@ import TextField from "@mui/material/TextField";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {LocalizationProvider} from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import {useNavigate, useParams, Link as RouterLink} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useFaculties} from "../providers/FacultiesProvider";
 
 type LocationData = Omit<LocationModel, 'id'>;
