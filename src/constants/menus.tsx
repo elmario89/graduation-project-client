@@ -4,6 +4,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
 
 export const ADMIN_MENU: BaseLayoutMenu[] = [
     {
@@ -30,5 +31,10 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
         path: '/admin/disciplines',
         label: 'Disciplines',
         icon: <MenuBookIcon />,
+    },
+    {
+        path: '/admin/locations',
+        label: 'Locations',
+        icon: <AddLocationIcon />,
     },
 ];

@@ -17,6 +17,7 @@ import StudentsProvider from "./providers/StudentsProvider";
 import TeachersProvider from "./providers/TeachersProvider";
 import DisciplinesProvider from "./providers/DisciplinesProvider";
 import SchedulesProvider from "./providers/ScheduleProvider";
+import LocationsProvider from "./providers/LocationsProvider";
 dayjs.locale('ru')
 
 function App() {
@@ -34,7 +35,9 @@ function App() {
                                   <TeachersProvider>
                                       <DisciplinesProvider>
                                           <SchedulesProvider>
-                                              <Router />
+                                              <LocationsProvider>
+                                                  <Router />
+                                              </LocationsProvider>
                                           </SchedulesProvider>
                                       </DisciplinesProvider>
                                   </TeachersProvider>
