@@ -2,6 +2,7 @@ import {Day} from "./day";
 import {ScheduleType} from "../enums/schedule-type.enum";
 import {Teacher} from "./teacher";
 import {Discipline} from "./discipline";
+import {Location} from "./location";
 
 export type Schedule = {
     id: string;
@@ -9,6 +10,6 @@ export type Schedule = {
     time: string;
     discipline: Discipline;
     scheduleType: ScheduleType;
-    locationId?: string;
+    location: Location;
     teacher: Teacher;
 }
