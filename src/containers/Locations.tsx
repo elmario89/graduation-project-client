@@ -30,9 +30,8 @@ function createData(
     auditory: number,
     floor: number,
     address: string,
-    coordinates: string[],
 ) {
-    return { id, buildingNumber, auditory, floor, address, coordinates };
+    return { id, buildingNumber, auditory, floor, address };
 }
 
 const Locations: FC = () => {
@@ -47,8 +46,8 @@ const Locations: FC = () => {
     const navigate = useNavigate();
 
     const getRows = (data: Location[]) => data?.map((location) => {
-        const { id,buildingNumber, auditory, floor, address, coordinates } = location;
-        return createData(id, buildingNumber, auditory, floor, address, coordinates);
+        const { id,buildingNumber, auditory, floor, address } = location;
+        return createData(id, buildingNumber, auditory, floor, address);
     })
 
     useEffect( () => {
@@ -109,13 +108,12 @@ const Locations: FC = () => {
                                     <TableCell>Auditory</TableCell>
                                     <TableCell>Floor</TableCell>
                                     <TableCell>Address</TableCell>
-                                    <TableCell>Coordinates</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: { id: string, buildingNumber: number, auditory: number, floor: number, address: string, coordinates: string[] }) => (
+                                {rows.map((row: { id: string, buildingNumber: number, auditory: number, floor: number, address: string }) => (
                                     <TableRow
                                         style={{ cursor: 'pointer' }}
                                         hover={true}
@@ -127,11 +125,6 @@ const Locations: FC = () => {
                                         <TableCell component="th" scope="row">{row.auditory}</TableCell>
                                         <TableCell component="th" scope="row">{row.floor}</TableCell>
                                         <TableCell component="th" scope="row">{row.address}</TableCell>
-                                        <TableCell>
-                                            {
-                                                row.coordinates.map((c) => <span>{c}</span>)
-                                            }
-                                        </TableCell>
                                         <TableCell align="right">
                                             <Button
                                                 type={'submit'}
