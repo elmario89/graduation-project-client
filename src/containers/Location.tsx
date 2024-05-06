@@ -1,5 +1,4 @@
-import * as React from "react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { useLocations } from "../providers/LocationsProvider";
 import { CircularProgress, Divider, Grid } from "@mui/material";
 import { Location as LocationModel } from "../types/location";
@@ -12,6 +11,7 @@ import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { useNavigate, useParams } from "react-router-dom";
+import { YMaps, Map, Polygon } from "@pbe/react-yandex-maps";
 
 type LocationData = Omit<LocationModel, "id">;
 
@@ -19,6 +19,9 @@ const Location: FC = () => {
   const [location, setLocation] = useState<LocationData | null>(null);
   const { getLocationById, createLocation, updateLocation } = useLocations();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const YMref = useRef<ymaps.Map | undefined>(undefined);
+  const [yamap, setyamap] = useState<any>(undefined);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -61,7 +64,10 @@ const Location: FC = () => {
 
   const onSubmit: SubmitHandler<LocationData> = async (data) => {
     if (id) {
-      await updateLocation({ id, ...data });
+      const location = await updateLocation({ id, ...data });
+      if (location) {
+        setLocation(location);
+      }
     } else {
       const location = await createLocation(data);
 
@@ -70,6 +76,17 @@ const Location: FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    console.log(location?.coordinates);
+    console.log(YMref);
+    console.log(yamap);
+    
+    if (YMref.current) {
+      YMref.current.container.fitToViewport();
+      YMref.current.setZoom(17);
+    }
+  }, [location?.coordinates, yamap]);
 
   if ((id && !location) || loading) {
     return (
@@ -160,12 +177,11 @@ const Location: FC = () => {
             />
 
             {fields.map((field, index) => (
-              <>
+              <div key={field.id}>
                 <Grid
                   container
                   alignItems={"center"}
                   spacing={3}
-                  key={field.id}
                 >
                   <Grid item xs={fields.length > 3 ? 5 : 6}>
                     <TextField
@@ -182,7 +198,7 @@ const Location: FC = () => {
                       }
                       required
                       label="Longitude"
-                      defaultValue={location?.coordinates[index]?.lng || ""}
+                      defaultValue={location?.coordinates[index] ? location?.coordinates[index]?.lng : ""}
                     />
                   </Grid>
 
@@ -201,7 +217,7 @@ const Location: FC = () => {
                       fullWidth
                       margin="normal"
                       label="Latitude"
-                      defaultValue={location?.coordinates[index]?.lat || ""}
+                      defaultValue={location?.coordinates[index] ? location?.coordinates[index]?.lat : ""}
                     />
                   </Grid>
                   {fields.length > 3 && (
@@ -218,16 +234,50 @@ const Location: FC = () => {
                   )}
                 </Grid>
                 <Divider sx={{ my: 2 }} />
-              </>
+              </div>
             ))}
 
             <Button
               variant="contained"
+              size="small"
               color="success"
               onClick={() => append({ lng: "", lat: "" })}
+              sx={{ mb: 2 }}
             >
               Add point
             </Button>
+
+            {location && location?.coordinates?.length > 0 && (
+              <YMaps>
+                <div>
+                  <Map
+                    instanceRef={YMref}
+                    onLoad={ymaps => {
+                      if (ymaps) {
+                        setyamap(ymaps)
+                      }
+                    }}
+                    width={500}
+                    height={500}
+                    apikey={process.env.REACT_APP_YM_API_KEY || ''}
+                    defaultState={{
+                      center: [Number(location.coordinates[0].lng), Number(location.coordinates[0].lat)],
+                      zoom: 17
+                    }}>
+                    <Polygon
+                      geometry={[location.coordinates.map((c) => [c.lng, c.lat])]}
+                      options={{
+                        fillColor: "#1976d2",
+                        strokeColor: "#0000FF",
+                        opacity: 0.4,
+                        strokeWidth: 2,
+                        strokeStyle: "solid",
+                      }}
+                    />
+                  </Map>
+                </div>
+              </YMaps>
+            )}
 
             <Box display="flex" gap={1}>
               <Button
