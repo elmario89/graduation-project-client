@@ -3,6 +3,7 @@ import {useApi} from "./ApiProvider";
 import {AxiosError} from "axios";
 import {Location} from "../types/location";
 import {Alert, Snackbar} from "@mui/material";
+import { Day } from "../types/day";
 
 type LocationsContextType = {
     getAllLocations: () => Promise<Location[] | undefined>;
@@ -11,6 +12,7 @@ type LocationsContextType = {
     getLocationById: (id: string) => Promise<Location | undefined>;
     locations: Location[] | null;
     deleteLocation: (id: string) => Promise<void>;
+    getLocationByDay: (day: Day, time: string) => Promise<Location[] | undefined>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -26,6 +28,18 @@ const LocationsProvider: FC<PropsWithChildren> = ({ children }) => {
     const getAllLocations = async () => {
         try {
             const locations = await locationsApi.getAllLocations();
+            setLocations(locations);
+            return locations;
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                setAlert({ message: e.message, type: 'error' });
+            }
+        }
+    }
+
+    const getLocationByDay = async (day: Day, time: string) => {
+        try {
+            const locations = await locationsApi.getLocationByDay(day, time);
             setLocations(locations);
             return locations;
         } catch (e: unknown) {
@@ -87,7 +101,8 @@ const LocationsProvider: FC<PropsWithChildren> = ({ children }) => {
         getLocationById,
         updateLocation,
         deleteLocation,
-    }), [getAllLocations, locations, createLocation, getLocationById, deleteLocation]);
+        getLocationByDay,
+    }), [getAllLocations, locations, createLocation, getLocationById, deleteLocation, getLocationByDay]);
 
     return <LocationsContext.Provider value={memoValue}>
         <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>

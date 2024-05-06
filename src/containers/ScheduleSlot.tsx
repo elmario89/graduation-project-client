@@ -56,7 +56,7 @@ const ScheduleSlot: FC = () => {
     useSchedules();
   const { getAllDisciplines } = useDisciplines();
   const { getAllTeachers } = useTeachers();
-  const { getAllLocations } = useLocations();
+  const { getLocationByDay } = useLocations();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [deleteDialogOpened, setDeleteDialogOpened] =
@@ -86,7 +86,8 @@ const ScheduleSlot: FC = () => {
     Promise.all([
       getAllDisciplines(),
       getAllTeachers(),
-      getAllLocations(),
+      // @ts-ignore
+      getLocationByDay(day, time),
     ]).then(([disciplines, teachers, locations]) => {
       setConfig({
         disciplines: disciplines || [],
