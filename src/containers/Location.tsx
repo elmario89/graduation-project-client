@@ -21,7 +21,7 @@ const Location: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const YMref = useRef<ymaps.Map | undefined>(undefined);
-  const [yamap, setyamap] = useState<any>(undefined);
+  const PolyRef = useRef<ymaps.Map | undefined>(undefined);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -77,16 +77,27 @@ const Location: FC = () => {
     }
   };
 
+  const setCenter = () => {
+    if (YMref.current && PolyRef.current) {
+      // @ts-ignore
+      const pixelBounds = PolyRef.current.geometry?.getPixelGeometry().getBounds();
+      if (pixelBounds) {
+        const pixelCenter = [pixelBounds[0][0] + (pixelBounds[1][0] - pixelBounds[0][0]) / 2, (pixelBounds[1][1] - pixelBounds[0][1]) / 2 + pixelBounds[0][1]];
+        // @ts-ignore
+        const geoCenter = YMref.current.options.get('projection').fromGlobalPixels(pixelCenter, YMref.current.getZoom());
+        YMref.current.setCenter(geoCenter);
+      }
+    }
+  }
+
   useEffect(() => {
-    console.log(location?.coordinates);
-    console.log(YMref);
-    console.log(yamap);
-    
-    if (YMref.current) {
+    if (YMref.current && PolyRef.current) {
       YMref.current.container.fitToViewport();
       YMref.current.setZoom(17);
+
+      setCenter();
     }
-  }, [location?.coordinates, yamap]);
+  }, [location?.coordinates]);
 
   if ((id && !location) || loading) {
     return (
@@ -249,33 +260,30 @@ const Location: FC = () => {
 
             {location && location?.coordinates?.length > 0 && (
               <YMaps>
-                <div>
-                  <Map
-                    instanceRef={YMref}
-                    onLoad={ymaps => {
-                      if (ymaps) {
-                        setyamap(ymaps)
-                      }
+                <Map
+                  instanceRef={YMref}
+                  width={500}
+                  height={500}
+                  apikey={process.env.REACT_APP_YM_API_KEY || ''}
+                  defaultState={{
+                    center: [Number(location.coordinates[0].lng), Number(location.coordinates[0].lat)],
+                    zoom: 17
+                  }}
+                  onLoad={setCenter}
+                >
+                  <Polygon
+                  onLoad={setCenter}
+                    instanceRef={PolyRef}
+                    geometry={[location.coordinates.map((c) => [c.lng, c.lat])]}
+                    options={{
+                      fillColor: "#1976d2",
+                      strokeColor: "#0000FF",
+                      opacity: 0.4,
+                      strokeWidth: 2,
+                      strokeStyle: "solid",
                     }}
-                    width={500}
-                    height={500}
-                    apikey={process.env.REACT_APP_YM_API_KEY || ''}
-                    defaultState={{
-                      center: [Number(location.coordinates[0].lng), Number(location.coordinates[0].lat)],
-                      zoom: 17
-                    }}>
-                    <Polygon
-                      geometry={[location.coordinates.map((c) => [c.lng, c.lat])]}
-                      options={{
-                        fillColor: "#1976d2",
-                        strokeColor: "#0000FF",
-                        opacity: 0.4,
-                        strokeWidth: 2,
-                        strokeStyle: "solid",
-                      }}
-                    />
-                  </Map>
-                </div>
+                  />
+                </Map>
               </YMaps>
             )}
 
