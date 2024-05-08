@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import {FC, useEffect, useState} from "react";
-import {useGroups} from "../providers/GroupsProvider";
-import {Autocomplete, CircularProgress, Link} from "@mui/material";
-import {Group as GroupModel} from "../types/group";
+import { FC, useEffect, useState } from "react";
+import { useGroups } from "../providers/GroupsProvider";
+import { Autocomplete, CircularProgress, Link } from "@mui/material";
+import { Group as GroupModel } from "../types/group";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import {SubmitHandler, useForm, Controller} from "react-hook-form";
-import {LocalizationProvider} from "@mui/x-date-pickers-pro";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import FormHelperText from '@mui/material/FormHelperText';
-import {useNavigate, useParams, Link as RouterLink} from "react-router-dom";
+import { useNavigate, useParams, Link as RouterLink } from "react-router-dom";
 import dayjs from "dayjs";
-import {useFaculties} from "../providers/FacultiesProvider";
-import {Faculty} from "../types/faculty";
-import {Student} from "../types/student";
+import { useFaculties } from "../providers/FacultiesProvider";
+import { Faculty } from "../types/faculty";
+import { Student } from "../types/student";
 
-type GroupData = Omit<GroupModel & { dates: [Date, Date], facultyId: string } , 'finish' | 'start' | 'id'>;
+type GroupData = Omit<GroupModel & { dates: [Date, Date], facultyId: string }, 'finish' | 'start' | 'id'>;
 
 type FormValues = {
     name: string;
@@ -39,7 +39,7 @@ const Group: FC = () => {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    useEffect( () => {
+    useEffect(() => {
         if (id) {
             setLoading(true);
             getGroupById(id)
@@ -52,7 +52,7 @@ const Group: FC = () => {
         }
     }, [id]);
 
-    useEffect( () => {
+    useEffect(() => {
         getAllFaculties();
     }, []);
 
@@ -78,7 +78,7 @@ const Group: FC = () => {
         }
     };
 
-    if ((id && !group) || loading || !faculties)  {
+    if ((id && !group) || loading || !faculties) {
         return (
             <div
                 style={{
@@ -125,7 +125,7 @@ const Group: FC = () => {
 
                         <Controller
                             control={control}
-                            rules={ { required: true }}
+                            rules={{ required: true }}
                             name="dates"
                             defaultValue={[
                                 group?.start ? group?.start : new Date(),
@@ -148,7 +148,7 @@ const Group: FC = () => {
 
                         <Controller
                             control={control}
-                            rules={ { required: true }}
+                            rules={{ required: true }}
                             name="facultyId"
                             defaultValue={group?.faculty
                                 ? group?.faculty.id
@@ -180,14 +180,16 @@ const Group: FC = () => {
                             )}
                         />
 
-                        <Button
-                            variant="contained"
-                            color="info"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={() => navigate(`/admin/schedule/${id}`)}
-                        >
-                            Update schedule
-                        </Button>
+                        {id && (
+                            <Button
+                                variant="contained"
+                                color="info"
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={() => navigate(`/admin/schedule/${id}`)}
+                            >
+                                Update schedule
+                            </Button>
+                        )}
 
                         {group?.students && group.students.length > 0 && (
                             <>
@@ -198,7 +200,7 @@ const Group: FC = () => {
                                     {
                                         group.students.map((student) =>
                                             <Link
-                                                style={{ alignSelf: 'flex-start'}}
+                                                style={{ alignSelf: 'flex-start' }}
                                                 key={student.id}
                                                 component={RouterLink}
                                                 to={`/admin/student/${student.id}`}
