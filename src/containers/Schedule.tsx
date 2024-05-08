@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, useEffect, useState} from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
     Card,
     CardContent,
@@ -15,12 +15,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import {useSchedules} from "../providers/ScheduleProvider";
-import {Day} from "../types/day";
-import {Schedule as ScheduleModel} from '../types/schedule';
-import {TimeMapper} from "./mappers/time.mapper";
+import { useSchedules } from "../providers/ScheduleProvider";
+import { Day } from "../types/day";
+import { Schedule as ScheduleModel } from '../types/schedule';
+import { TimeMapper } from "./mappers/time.mapper";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
@@ -28,8 +28,8 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import {DayMapper} from "./mappers/day.mapper";
-import {ScheduleMapper} from "./mappers/schedule.mapper";
+import { DayMapper } from "./mappers/day.mapper";
+import { ScheduleMapper } from "./mappers/schedule.mapper";
 
 const INITIAL_TIME = [800, 940, 1120, 1330, 1510, 1650, 1825, 2000];
 
@@ -37,7 +37,7 @@ const Schedule: FC = () => {
     const { getSchedulesByGroupId, deleteSchedule, schedules } = useSchedules();
     const [loading, setLoading] = useState<boolean>(false);
     const [config, setConfig] =
-        useState<Record<number, ScheduleModel | null>[]| null>(null);
+        useState<Record<number, ScheduleModel | null>[] | null>(null);
 
     const [deleteDialogOpened, setDeleteDialogOpened] =
         React.useState<boolean>(false);
@@ -50,7 +50,7 @@ const Schedule: FC = () => {
     const generateArray = (data: ScheduleModel[], day: Day, time: number) =>
         data?.filter((s: ScheduleModel) => s.day === day && s.time === time.toString())[0] || null;
 
-    useEffect( () => {
+    useEffect(() => {
         if (groupId) {
             setLoading(true);
             getSchedulesByGroupId(groupId)
@@ -77,7 +77,7 @@ const Schedule: FC = () => {
         }
     }, [groupId]);
 
-    if ((id && !schedules) || loading || !config)  {
+    if ((id && !schedules) || loading || !config) {
         return (
             <div
                 style={{
@@ -106,7 +106,7 @@ const Schedule: FC = () => {
                         </Typography>
                         <Divider sx={{ my: 2 }} />
                         <Box>
-                            <Box style={{ display: 'flex', flexDirection: 'column',  gap: '8px', flexWrap: 'wrap' }}>
+                            <Box style={{ display: 'flex', flexDirection: 'column', gap: '8px', flexWrap: 'wrap' }}>
                                 {Object.entries(day).map(([time, schedule]) => (
                                     <TableContainer component={Paper} sx={{ my: 2 }}>
                                         <Table style={{ tableLayout: 'fixed' }} sx={{ minWidth: 650 }} aria-label="simple table">

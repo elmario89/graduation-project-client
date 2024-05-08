@@ -1,4 +1,4 @@
-import {BaseLayoutMenu} from "../types/base-layout-menu";
+import { BaseLayoutMenu } from "../types/base-layout-menu";
 import GroupIcon from '@mui/icons-material/Group';
 import SchoolIcon from '@mui/icons-material/School';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -36,5 +36,13 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
         path: '/admin/locations',
         label: 'Locations',
         icon: <AddLocationIcon />,
+    },
+];
+
+export const STUDENT_MENU: BaseLayoutMenu[] = [
+    {
+        path: '/student/schedule',
+        label: 'Schedule',
+        icon: <SchoolIcon />,
     },
 ];

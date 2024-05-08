@@ -1,9 +1,9 @@
-import React, {FC, lazy, Suspense} from "react";
+import React, {FC, lazy, Suspense, useEffect} from "react";
 import {useAuth} from "../providers/AuthProvider";
 import {CircularProgress} from "@mui/material";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import {UserRole} from "../enums/user-role";
-import {ADMIN_MENU} from "../constants/menus";
+import {ADMIN_MENU, STUDENT_MENU} from "../constants/menus";
 const ProtectedRoutes = lazy(() => import('./ProtectedRoutes'));
 const SignIn = lazy(() => import('./SignIn'));
 const BaseLayout = lazy(() => import('./BaseLayout'));
@@ -21,9 +21,28 @@ const Schedule = lazy(() => import('./Schedule'));
 const ScheduleSlot = lazy(() => import('./ScheduleSlot'));
 const Location = lazy(() => import('./Location'));
 const Locations = lazy(() => import('./Locations'));
+const StudentSchedule = lazy(() => import('./StudentSchedule'));
 
 const Router: FC = () => {
-    const { authenticated } = useAuth();
+    const { authenticated, user } = useAuth();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (authenticated && user?.role) {
+            switch (user.role) {
+                case UserRole.Admin: {
+                    return navigate('/admin/groups');
+                }
+                case UserRole.Teacher: {
+                    return navigate('/teacher');
+                }
+                case UserRole.Student: {
+                    return navigate('/student/schedule');
+                }
+            }
+        }
+    }, []);
 
     return (
         <Suspense fallback={
@@ -65,9 +84,10 @@ const Router: FC = () => {
                         <Route path={"/student"} element={<ProtectedRoutes roles={[UserRole.Student]} />}>
                             <Route
                                 path={'/student/'}
-                                element={<BaseLayout menuItems={ADMIN_MENU} />}
+                                element={<BaseLayout menuItems={STUDENT_MENU} />}
                             >
-                                <Route path="/student/groups" element={<Groups />} />
+                                <Route path="/student/schedule" element={<StudentSchedule />} />
+                                <Route path="/student/schedule/:groupId" element={<Schedule />} />
                             </Route>
                         </Route>
                     </>
