@@ -7,6 +7,7 @@ import TeachersApi from "./api/teachers.api";
 import DisciplinesApi from "./api/disciplines.api";
 import SchedulesApi from "./api/schedules.api";
 import LocationsApi from "./api/locations.api";
+import VisitsServiceApi from "./api/visits.service";
 
 export class ApiFactory {
     public static createApi() {
@@ -21,6 +22,7 @@ export class ApiFactory {
             disciplinesApi: new DisciplinesApi(apiService),
             schedulesApi: new SchedulesApi(apiService),
             locationsApi: new LocationsApi(apiService),
+            visitsApi: new VisitsServiceApi(apiService),
         };
     }
 }

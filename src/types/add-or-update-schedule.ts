@@ -4,10 +4,12 @@ import {Day} from "./day";
 export type AddOrUpdateSchedule = {
     id: string;
     day: Day;
-    time: string;
+    timeStart?: string;
+    timeFinish?: string;
     disciplineId: string;
     scheduleType: ScheduleType;
     locationId?: string;
     teacherId: string;
     groupId: string;
+    time: string;
 }

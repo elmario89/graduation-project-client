@@ -38,7 +38,6 @@ type ScheduleData = ScheduleModel & {
 
 type FormValues = {
   day: Day;
-  time: string;
   scheduleType: ScheduleType;
   teacher: Teacher;
   discipline: Discipline;

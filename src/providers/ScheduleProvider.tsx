@@ -4,6 +4,7 @@ import {AxiosError} from "axios";
 import {Schedule} from "../types/schedule";
 import {Alert, Snackbar} from "@mui/material";
 import {AddOrUpdateSchedule} from "../types/add-or-update-schedule";
+import { TimeMapper } from "../containers/mappers/time.mapper";
 
 type SchedulesContextType = {
     getAllSchedules: () => Promise<void>;
@@ -13,6 +14,7 @@ type SchedulesContextType = {
     getSchedulesByGroupId: (groupId: string) => Promise<Schedule[] | undefined>;
     schedules: Schedule[] | null;
     deleteSchedule: (id: string, groupId: string) => Promise<void>;
+    getScheduleByGroupAndDiscipline: (groupId: string, disciplineId: string) => Promise<Schedule[] | undefined>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -38,7 +40,8 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const createSchedule = async (data: Omit<AddOrUpdateSchedule, 'id'>) => {
         try {
-            const schedule = await schedulesApi.createSchedule(data);
+            const unionTime = TimeMapper[data.time as keyof typeof TimeMapper].split(' - ');
+            const schedule = await schedulesApi.createSchedule({ ...data, timeStart: unionTime[0], timeFinish: unionTime[1]});
             setAlert({ message: 'Schedule has been created!', type: 'success' });
             return schedule;
         } catch (e: unknown) {
@@ -102,6 +105,16 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
+    const getScheduleByGroupAndDiscipline = async (groupId: string, disciplineId: string) => {
+        try {
+            return await schedulesApi.getScheduleByGroupAndDiscipline(groupId, disciplineId);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                setAlert({ message: e.message, type: 'error' });
+            }
+        }
+    }
+
     const memoValue = useMemo(() => ({
         getAllSchedules,
         schedules,
@@ -110,7 +123,8 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
         updateSchedule,
         deleteSchedule,
         getSchedulesByGroupId,
-    }), [getAllSchedules, schedules, createSchedule, getScheduleById, deleteSchedule, getSchedulesByGroupId]);
+        getScheduleByGroupAndDiscipline,
+    }), [getAllSchedules, schedules, createSchedule, getScheduleById, deleteSchedule, getSchedulesByGroupId, getScheduleByGroupAndDiscipline]);
 
     return <SchedulesContext.Provider value={memoValue}>
         <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>

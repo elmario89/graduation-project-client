@@ -1,7 +1,6 @@
 import ApiService from "./api.service";
 import {Schedule} from "../../types/schedule";
 import {AddOrUpdateSchedule} from "../../types/add-or-update-schedule";
-
 class SchedulesApi {
     constructor(private apiService: ApiService) { }
 
@@ -47,6 +46,13 @@ class SchedulesApi {
         return await this.apiService.request<void>({
             method: 'DELETE',
             url: `/schedules/${id}`,
+        });
+    }
+
+    public async getScheduleByGroupAndDiscipline(groupId: string, disciplineId: string): Promise<Schedule[]> {
+        return await this.apiService.request<Schedule[]>({
+            method: 'GET',
+            url: `/schedules/discipline/${groupId}/${disciplineId}`,
         });
     }
 }

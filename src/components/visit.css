@@ -1,0 +1,52 @@
+.visit {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 15px;
+    min-height: 125px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.visit.visited {
+    border-left: 5px solid rgb(102, 187, 106);
+}
+
+.visit.absent {
+    border-left: 5px solid rgb(244, 67, 54);
+}
+
+.visit.future {
+    border-left: 5px solid rgba(0, 0, 0, 0.12);
+}
+
+.visit.partial {
+    border-left: 5px solid rgb(255, 167, 38);
+}
+
+.visit.future,
+.visit.absent,
+.visit.visited,
+.visit.partial {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.legend {
+    width: 25px;
+    height: 25px;
+}
+
+.legend.visited {
+    background: rgb(102, 187, 106);
+}
+
+.legend.absent {
+    background: rgb(244, 67, 54);
+}
+
+.legend.future {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.legend.partial {
+    background: rgb(255, 167, 38);
+}

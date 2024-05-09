@@ -29,11 +29,16 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { DayMapper } from "./mappers/day.mapper";
+import { TimeReverseMapper } from './mappers/time-reverse.mapper'
 import { ScheduleMapper } from "./mappers/schedule.mapper";
 
 const INITIAL_TIME = [800, 940, 1120, 1330, 1510, 1650, 1825, 2000];
 
-const Schedule: FC = () => {
+type ScheduleProps = {
+    forStudent?: boolean;
+}
+
+const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
     const { getSchedulesByGroupId, deleteSchedule, schedules } = useSchedules();
     const [loading, setLoading] = useState<boolean>(false);
     const [config, setConfig] =
@@ -47,8 +52,11 @@ const Schedule: FC = () => {
     const navigate = useNavigate();
     const { id, groupId } = useParams();
 
-    const generateArray = (data: ScheduleModel[], day: Day, time: number) =>
-        data?.filter((s: ScheduleModel) => s.day === day && s.time === time.toString())[0] || null;
+    const generateArray = (data: ScheduleModel[], day: Day, time: number) => {
+        return data?.filter((s: ScheduleModel) => {
+            return s.day === day && s.timeStart === TimeReverseMapper[time.toString() as keyof typeof TimeReverseMapper];
+        })[0] || null;
+    }
 
     useEffect(() => {
         if (groupId) {
@@ -108,7 +116,7 @@ const Schedule: FC = () => {
                         <Box>
                             <Box style={{ display: 'flex', flexDirection: 'column', gap: '8px', flexWrap: 'wrap' }}>
                                 {Object.entries(day).map(([time, schedule]) => (
-                                    <TableContainer component={Paper} sx={{ my: 2 }}>
+                                    <TableContainer key={time} component={Paper} sx={{ my: 2 }}>
                                         <Table style={{ tableLayout: 'fixed' }} sx={{ minWidth: 650 }} aria-label="simple table">
                                             <TableHead>
                                                 <TableRow>
@@ -120,7 +128,15 @@ const Schedule: FC = () => {
                                             </TableHead>
                                             <TableBody>
                                                 <TableRow
-                                                    onClick={() => navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`)}
+                                                    onClick={() => {
+                                                        if (!forStudent) {
+                                                            return navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`);
+                                                        }
+
+                                                        if (schedule) {
+                                                            return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}`);
+                                                        }
+                                                    }}
                                                     style={{ cursor: 'pointer' }}
                                                     hover={true}
                                                     key={schedule?.id}
@@ -129,12 +145,20 @@ const Schedule: FC = () => {
                                                     <TableCell style={{ width: 335 }}>
                                                         <Chip
                                                             style={{ width: 130 }}
-                                                            onClick={() => navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`)}
+                                                            onClick={() => {
+                                                                if (!forStudent) {
+                                                                    return navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`);
+                                                                }
+
+                                                                if (schedule) {
+                                                                    return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}`);
+                                                                }
+                                                            }}
                                                             color={schedule ? 'success' : undefined}
                                                             label={TimeMapper[time as keyof typeof TimeMapper]}
                                                             size="medium"
-                                                            icon={!schedule ? <AddCircleIcon /> : undefined}
-                                                            onDelete={schedule ? async (e) => {
+                                                            icon={!schedule && !forStudent ? <AddCircleIcon /> : undefined}
+                                                            onDelete={schedule && !forStudent ? async (e) => {
                                                                 e.stopPropagation();
                                                                 setDeleteDialogOpened(true);
                                                                 setDeleteCandidate(schedule?.id);
