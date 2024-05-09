@@ -15,6 +15,7 @@ import Visit from '../components/Visit';
 import { Visit as VisitModel } from '../types/visit';
 import { useAuth } from '../providers/AuthProvider';
 import { useVisits } from '../providers/VisitsProvider';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 const StudentVisits: FC = () => {
     const { getScheduleByGroupAndDiscipline } = useSchedules();
@@ -61,6 +62,24 @@ const StudentVisits: FC = () => {
         }
     }, [filterBusyDays]);
 
+    const countFact = (schedules: Schedule[]): number => {
+        const sch = schedules?.map(s => Number(s.day) + 1);
+        const filtered = dates.filter((d) => sch.includes(d.getDay()));
+        return sch.reduce((acc, cur) => {
+            const f = filtered.filter((d) => d.getDay() === cur);
+            return acc + f.length;
+        }, 0);
+    }
+
+    const countAbsents = (schedules: Schedule[]): number => {
+        const sch = schedules?.map(s => Number(s.day) + 1);
+        const filtered = dates.filter((d) => sch.includes(d.getDay())).filter(d => d < new Date());
+        return sch.reduce((acc, cur) => {
+            const f = filtered.filter((d) => d.getDay() === cur);
+            return acc + f.length;
+        }, 0) - visits.length;
+    }
+
     if (loading || !schedules?.length || !dates || !visits) {
         return (
             <div
@@ -78,7 +97,58 @@ const StudentVisits: FC = () => {
 
     return (
         <>
-            <Typography sx={{ mb: 2 }} variant='h3'>{schedules[0].discipline.name}</Typography>
+            {countFact(schedules) && (
+                <>
+                    <Typography sx={{ mb: 2 }} variant='h3'>Discipline name: {schedules[0].discipline.name}</Typography>
+                    <Box sx={{ mt: 5 }} display={'flex'} flexDirection={'row'} gap={5}>
+                        <Box>
+                            <Typography variant='h4' sx={{ mb: 4 }}>Visits plan</Typography>
+                            <PieChart
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: visits.length, label: 'Visited', color: 'rgb(102, 187, 106)' },
+                                            { id: 1, value: countAbsents(schedules), label: 'Absent', color: 'rgb(244, 67, 54)' },
+                                            { id: 2, value: countFact(schedules) - countAbsents(schedules) - visits.length, label: 'Future', color: 'rgba(0, 0, 0, 0.12)' },
+                                        ],
+                                        innerRadius: 30,
+                                        cornerRadius: 5,
+                                        outerRadius: 100,
+                                        paddingAngle: 1,
+                                        cx: 200,
+                                        cy: 100,
+                                    },
+                                ]}
+                                width={500}
+                                height={220}
+                            />
+                        </Box>
+
+                        <Box>
+                            <Typography variant='h4' sx={{ mb: 4 }}>Visits fact</Typography>
+                            <PieChart
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: visits.length, label: 'Visited', color: 'rgb(102, 187, 106)' },
+                                            { id: 1, value: countAbsents(schedules), label: 'Absent', color: 'rgb(244, 67, 54)' },
+                                        ],
+                                        innerRadius: 30,
+                                        cornerRadius: 5,
+                                        outerRadius: 100,
+                                        paddingAngle: 1,
+                                        cx: 200,
+                                        cy: 100,
+                                    },
+                                ]}
+                                width={500}
+                                height={220}
+                            />
+                        </Box>
+                    </Box>
+                </>
+            )}
+            <Typography sx={{ mb: 2 }} variant='h3'>Discipline name: {schedules[0].discipline.name}</Typography>
             <Box display={'flex'} flexDirection={'column'} gap={2} sx={{ mb: 4 }}>
                 <Box display={'flex'} alignItems={'center'} flexDirection={'row'} gap={1}>
                     <div className="legend future" />
@@ -112,7 +182,6 @@ const StudentVisits: FC = () => {
                 ))}
             </Grid>
         </>
-
     );
 }
 

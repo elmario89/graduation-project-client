@@ -4,6 +4,7 @@ import './visit.css';
 import { Box, Divider, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { Visit } from '../types/visit';
+import { ScheduleMapper } from '../containers/mappers/schedule.mapper';
 
 type VisitType = 'visited' | 'absent' | 'future' | 'partial';
 
@@ -53,11 +54,10 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits }) => {
                             });
                             const filteredByTime = filteredByDay.filter(f => {
                                 return dayjs(f.date).format('HHmmss') > start && dayjs(f.date).format('HHmmss') < finish
-                            })
+                            });
                             return (
                                 <>
                                     <Box key={schedule.id} display={'flex'} flexDirection={'row'} gap={1} alignItems={'center'}>
-
                                         <Typography variant='h6'>
                                             {schedule.timeStart.slice(0, 5)} - {schedule.timeFinish.slice(0, 5)}
                                         </Typography>
@@ -66,10 +66,20 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits }) => {
                                                 ? filteredByTime.length ? '(Visited)'
                                                     : '(Absent)' : null}
                                         </Typography>
-
                                     </Box>
-                                    <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Teacher</Typography>
-                                    <Typography variant='subtitle2'>{schedule.teacher.name} {schedule.teacher.surname}</Typography>
+                                    <Box display={'flex'} flexDirection={'row'} gap={5} alignItems={'center'} justifyContent={'space-between'}>
+                                        <div>
+                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Teacher</Typography>
+                                            <Typography variant='subtitle2'>{schedule.teacher.name} {schedule.teacher.surname}</Typography>
+                                        </div>
+                                        <div>
+                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Class type</Typography>
+                                            <Typography variant='subtitle2'>
+                                                {/* @ts-ignore */}
+                                                {ScheduleMapper[schedule?.scheduleType as keyof typeof ScheduleMapper]}
+                                            </Typography>
+                                        </div>
+                                    </Box>
                                     <Divider sx={{ mb: 2, mt: 1 }} />
                                 </>
                             );

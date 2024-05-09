@@ -5,7 +5,6 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export const ADMIN_MENU: BaseLayoutMenu[] = [
     {
@@ -45,10 +44,5 @@ export const STUDENT_MENU: BaseLayoutMenu[] = [
         path: '/student/schedule',
         label: 'Schedule',
         icon: <SchoolIcon />,
-    },
-    {
-        path: '/student/visits',
-        label: 'Visits',
-        icon: <AddCircleOutlineIcon />,
-    },
+    }
 ];

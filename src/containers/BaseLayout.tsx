@@ -96,7 +96,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ menuItems }) => {
         storageService.setItem('menuOpened', false);
     };
 
-    const pageTitle =  useRoleMessageHook(user?.role);
+    const pageTitle = useRoleMessageHook(user?.role);
 
     return (
         <Box sx={{ display: 'flex' }}>
