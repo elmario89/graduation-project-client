@@ -136,7 +136,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                                         opacity: (!schedule && forStudent) ? 0.5 : 1,
                                     }}
                                     hover={!(!schedule && forStudent)}
-                                    key={schedule?.id}
+                                    key={time}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell>

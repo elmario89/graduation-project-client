@@ -56,8 +56,8 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits }) => {
                                 return dayjs(f.date).format('HHmmss') > start && dayjs(f.date).format('HHmmss') < finish
                             });
                             return (
-                                <>
-                                    <Box key={schedule.id} display={'flex'} flexDirection={'row'} gap={1} alignItems={'center'}>
+                                <div key={schedule.id}>
+                                    <Box display={'flex'} flexDirection={'row'} gap={1} alignItems={'center'}>
                                         <Typography variant='h6'>
                                             {schedule.timeStart.slice(0, 5)} - {schedule.timeFinish.slice(0, 5)}
                                         </Typography>
@@ -81,7 +81,7 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits }) => {
                                         </div>
                                     </Box>
                                     <Divider sx={{ mb: 2, mt: 1 }} />
-                                </>
+                                </div>
                             );
                         })}
                     </Box>
