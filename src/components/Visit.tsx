@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { Schedule } from '../types/schedule';
-import './visit.css';
+import '../styles/card.css';
 import { Box, Divider, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { Visit } from '../types/visit';
 import { ScheduleMapper } from '../containers/mappers/schedule.mapper';
 
-type VisitType = 'visited' | 'absent' | 'future' | 'partial';
+type VisitType = 'visited' | 'absent' | 'future' | 'partial' | 'unavailable';
 
 type VisitCardProps = {
     date: Date;
@@ -32,11 +32,11 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits }) => {
             return 'future';
         }
 
-        return null;
+        return 'unavailable';
     }
 
     return (
-        <div className={`visit ${getVisitType(date)}`}>
+        <div className={`card ${getVisitType(date)}`}>
             <Typography variant='subtitle2'>{dayjs(date).locale('en').format('ddd, MMM D, YYYY ')}</Typography>
             <Divider sx={{ mb: 2, mt: 1 }} />
             {schedules.length > 0 ? (
@@ -62,7 +62,7 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits }) => {
                                             {schedule.timeStart.slice(0, 5)} - {schedule.timeFinish.slice(0, 5)}
                                         </Typography>
                                         <Typography fontWeight={'bold'} variant='caption' color={filteredByTime.length ? "rgb(102, 187, 106)" : "rgb(244, 67, 54)"}>
-                                            {getVisitType(date) === 'partial' || getVisitType(date) === 'visited'
+                                            {getVisitType(date) === 'partial' || getVisitType(date) === 'visited' || getVisitType(date) === 'absent'
                                                 ? filteredByTime.length ? '(Visited)'
                                                     : '(Absent)' : null}
                                         </Typography>

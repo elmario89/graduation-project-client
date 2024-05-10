@@ -1,16 +1,12 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
 import {
-    Card,
-    CardContent,
-    Chip,
     CircularProgress, Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle
 } from "@mui/material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -21,16 +17,15 @@ import { useSchedules } from "../providers/ScheduleProvider";
 import { Day } from "../types/day";
 import { Schedule as ScheduleModel } from '../types/schedule';
 import { TimeMapper } from "./mappers/time.mapper";
-import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
 import { DayMapper } from "./mappers/day.mapper";
 import { TimeReverseMapper } from './mappers/time-reverse.mapper'
 import { ScheduleMapper } from "./mappers/schedule.mapper";
+import '../styles/card.css';
 
 const INITIAL_TIME = [800, 940, 1120, 1330, 1510, 1650, 1825, 2000];
 
@@ -107,77 +102,84 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
             </Typography>
             <CssBaseline />
             {config.map((day, index) => (
-                <Card key={index} sx={{ minWidth: 275, maxWidth: 1200, my: 4 }}>
-                    <CardContent>
-                        <Typography variant="h5" component="div">
-                            {DayMapper[index as keyof typeof DayMapper]}
-                        </Typography>
-                        <Divider sx={{ my: 2 }} />
-                        <Box>
-                            <Box style={{ display: 'flex', flexDirection: 'column', gap: '8px', flexWrap: 'wrap' }}>
-                                {Object.entries(day).map(([time, schedule]) => (
-                                    <TableContainer key={time} component={Paper} sx={{ my: 2 }}>
-                                        <Table style={{ tableLayout: 'fixed' }} sx={{ minWidth: 650 }} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Time</TableCell>
-                                                    <TableCell>Discipline</TableCell>
-                                                    <TableCell>Teacher</TableCell>
-                                                    <TableCell>Class type</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                <TableRow
-                                                    onClick={() => {
-                                                        if (!forStudent) {
-                                                            return navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`);
-                                                        }
+                <Box className="card" sx={{ mb: 2 }} key={index}>
+                    <Typography variant="h5">
+                        {DayMapper[index as keyof typeof DayMapper]}
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
+                    <Table style={{ tableLayout: 'fixed' }} sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Time</TableCell>
+                                <TableCell>Discipline</TableCell>
+                                <TableCell>Teacher</TableCell>
+                                <TableCell>Class type</TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {Object.entries(day).map(([time, schedule]) => (
+                                <TableRow
+                                    onClick={() => {
+                                        if (!forStudent) {
+                                            return navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`);
+                                        }
 
-                                                        if (schedule) {
-                                                            return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}`);
-                                                        }
-                                                    }}
-                                                    style={{ cursor: 'pointer' }}
-                                                    hover={true}
-                                                    key={schedule?.id}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell style={{ width: 335 }}>
-                                                        <Chip
-                                                            style={{ width: 130 }}
-                                                            onClick={() => {
-                                                                if (!forStudent) {
-                                                                    return navigate(`/admin/schedule/${groupId}/${index}/${time}/${schedule?.id || ''}`);
-                                                                }
-
-                                                                if (schedule) {
-                                                                    return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}`);
-                                                                }
-                                                            }}
-                                                            color={schedule ? 'success' : undefined}
-                                                            label={TimeMapper[time as keyof typeof TimeMapper]}
-                                                            size="medium"
-                                                            icon={!schedule && !forStudent ? <AddCircleIcon /> : undefined}
-                                                            onDelete={schedule && !forStudent ? async (e) => {
-                                                                e.stopPropagation();
-                                                                setDeleteDialogOpened(true);
-                                                                setDeleteCandidate(schedule?.id);
-                                                            } : undefined}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>{schedule?.discipline.name}</TableCell>
-                                                    <TableCell>{schedule?.teacher.name} {schedule?.teacher.surname}</TableCell>
-                                                    {/*@ts-ignore*/}
-                                                    <TableCell>{ScheduleMapper[schedule?.scheduleType as keyof typeof ScheduleMapper]}</TableCell>
-                                                </TableRow>
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                ))}
-                            </Box>
-                        </Box>
-                    </CardContent>
-                </Card>
+                                        if (schedule) {
+                                            return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}`);
+                                        }
+                                    }}
+                                    style={{ 
+                                        cursor: (!schedule && forStudent) ? 'initial' : 'pointer', 
+                                        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                                        opacity: (!schedule && forStudent) ? 0.5 : 1,
+                                    }}
+                                    hover={!(!schedule && forStudent)}
+                                    key={schedule?.id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell>
+                                        <Typography variant='h6'>
+                                            {TimeMapper[time as keyof typeof TimeMapper]}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>{schedule?.discipline.name}</TableCell>
+                                    <TableCell>{schedule?.teacher.name} {schedule?.teacher.surname}</TableCell>
+                                    {/*@ts-ignore*/}
+                                    <TableCell>{ScheduleMapper[schedule?.scheduleType as keyof typeof ScheduleMapper]}</TableCell>
+                                    <TableCell>
+                                        {(schedule || !forStudent) && (
+                                            <Button
+                                                color={'success'}
+                                                size={'small'}
+                                                variant="contained"
+                                            >
+                                                {forStudent ? 'Show statistics' : schedule ? 'Update schedule' : 'Add schedule'}
+                                            </Button>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        {schedule && !forStudent && (
+                                            <Button
+                                                color={'error'}
+                                                size={'small'}
+                                                variant="contained"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDeleteDialogOpened(true);
+                                                    setDeleteCandidate(schedule?.id);
+                                                }}
+                                            >
+                                                Delete schedule
+                                            </Button>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Box>
             ))}
 
             <Dialog
