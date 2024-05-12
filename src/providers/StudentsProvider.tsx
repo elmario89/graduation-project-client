@@ -12,6 +12,7 @@ type StudentsContextType = {
     getStudentById: (id: string) => Promise<Student | undefined>;
     students: Student[] | null;
     deleteStudent: (id: string) => Promise<void>;
+    getStudentsByGroup: (groupId: string) => Promise<Student[] | undefined>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -28,6 +29,16 @@ const StudentsProvider: FC<PropsWithChildren> = ({ children }) => {
         try {
             const students = await studentsApi.getAllStudents();
             setStudents(students);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                setAlert({ message: e.message, type: 'error' });
+            }
+        }
+    }
+
+    const getStudentsByGroup = async (groupId: string) => {
+        try {
+            return await studentsApi.getStudentsByGroup(groupId);
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });
@@ -87,7 +98,8 @@ const StudentsProvider: FC<PropsWithChildren> = ({ children }) => {
         getStudentById,
         updateStudent,
         deleteStudent,
-    }), [getAllStudents, students, createStudent, getStudentById, deleteStudent]);
+        getStudentsByGroup,
+    }), [getAllStudents, students, createStudent, getStudentById, deleteStudent, getStudentsByGroup]);
 
     return <StudentsContext.Provider value={memoValue}>
         <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>

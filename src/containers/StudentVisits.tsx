@@ -21,6 +21,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { StorageService } from '../services/storage.service';
+import GroupVisits from '../components/GroupVisits';
 
 const StudentVisits: FC = () => {
     const storageService = new StorageService();
@@ -92,7 +93,7 @@ const StudentVisits: FC = () => {
         setValue(newValue);
     };
 
-    if (loading || !schedules?.length || !dates || !visits) {
+    if (loading || !schedules?.length || !dates || !visits || !groupId) {
         return (
             <div
                 style={{
@@ -113,7 +114,8 @@ const StudentVisits: FC = () => {
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange}>
                         <Tab label="Schedule" value="1" />
-                        <Tab label="Widgets" value="2" />
+                        <Tab label="Personal statistic" value="2" />
+                        <Tab label="Group statistic" value="3" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -211,6 +213,9 @@ const StudentVisits: FC = () => {
                             </Box>
                         </>
                     )}
+                </TabPanel>
+                <TabPanel value="3">
+                    <GroupVisits groupId={groupId} visits={visits} visitPlan={countFact(schedules)} />
                 </TabPanel>
             </TabContext>
         </Box>

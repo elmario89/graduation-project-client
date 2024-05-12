@@ -19,6 +19,13 @@ class StudentsApi {
         });
     }
 
+    public async getStudentsByGroup(groupId: string): Promise<Student[]> {
+        return await this.apiService.request<Student[]>({
+            method: 'GET',
+            url: `/students/by-group/${groupId}`,
+        });
+    }
+
     public async createStudent(data: Omit<AddOrUpdateStudent, 'id'>): Promise<Student> {
         return await this.apiService.request<Student>({
             method: 'POST',
