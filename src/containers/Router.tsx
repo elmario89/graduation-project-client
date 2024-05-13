@@ -73,6 +73,16 @@ const Router: FC = () => {
                                 <Route path="/student/visits/:disciplineId/:groupId/" element={<StudentVisits />} />
                             </Route>
                         </Route>
+                        <Route path={"/teacher"} element={<ProtectedRoutes roles={[UserRole.Teacher]} />}>
+                            <Route
+                                path={'/teacher/'}
+                                element={<BaseLayout menuItems={TEACHER_MENU} />}
+                            >
+                                <Route path="/student/schedule/" element={<Navigate to={`/student/schedule/${user?.groupId}`} replace />} />
+                                <Route path="/student/schedule/:groupId" element={<Schedule forStudent />} />
+                                <Route path="/student/visits/:disciplineId/:groupId/" element={<StudentVisits />} />
+                            </Route>
+                        </Route>
                     </>
                 ) : (
                     <>

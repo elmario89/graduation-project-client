@@ -46,3 +46,21 @@ export const STUDENT_MENU: BaseLayoutMenu[] = [
         icon: <SchoolIcon />,
     }
 ];
+
+export const TEACHER_MENU: BaseLayoutMenu[] = [
+    {
+        path: '/teacher/schedule',
+        label: 'Disciplines',
+        icon: <SchoolIcon />,
+    },
+    {
+        path: '/teacher/groups',
+        label: 'Groups',
+        icon: <GroupIcon />,
+    },
+    {
+        path: '/teacher/disciplines',
+        label: 'Disciplines',
+        icon: <GroupIcon />,
+    },
+];

@@ -215,7 +215,7 @@ const StudentVisits: FC = () => {
                     )}
                 </TabPanel>
                 <TabPanel value="3">
-                    <GroupVisits groupId={groupId} visits={visits} visitPlan={countFact(schedules)} />
+                    <GroupVisits groupId={groupId} visits={visits} visitPlan={countFact(schedules)} disciplineName={schedules[0].discipline.name} />
                 </TabPanel>
             </TabContext>
         </Box>
