@@ -13,6 +13,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { AddOrUpdateTeacher } from "../types/add-or-update-teacher";
 import { Discipline } from "../types/discipline";
 import { Group } from "../types/group";
+import { Visit } from "../types/visit";
 
 type TeachersContextType = {
   getAllTeachers: () => Promise<Teacher[] | undefined>;
@@ -28,6 +29,8 @@ type TeachersContextType = {
     teacherId: string,
     disciplineId: string
   ) => Promise<Group[] | undefined>;
+  setVisit: (dto: { studentId: string; scheduleId: string; date: Date }) => Promise<Visit[] | undefined>;
+  deleteVisit: (id: string, scheduleId: string, studentId: string) => Promise<Visit[] | undefined>;
 };
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -72,6 +75,28 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const getTeacherGroups = async (teacherId: string, disciplineId: string) => {
     try {
       return await teachersApi.getTeacherGroups(teacherId, disciplineId);
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        setAlert({ message: e.message, type: "error" });
+      }
+    }
+  };
+
+  const setVisit = async (dto: { studentId: string; scheduleId: string; date: Date }) => {
+    try {
+      setAlert({ message: "Student visit has been added", type: "success" });
+      return await teachersApi.setVisit(dto);
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        setAlert({ message: e.message, type: "error" });
+      }
+    }
+  };
+
+  const deleteVisit = async (id: string, scheduleId: string, studentId: string) => {
+    try {
+      setAlert({ message: "Student visit has been deleted", type: "warning" });
+      return await teachersApi.deleteVisit(id, scheduleId, studentId);
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });
@@ -132,6 +157,8 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
       deleteTeacher,
       getTeacherDisciplines,
       getTeacherGroups,
+      setVisit,
+      deleteVisit,
     }),
     [
       getAllTeachers,
@@ -141,6 +168,8 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
       deleteTeacher,
       getTeacherDisciplines,
       getTeacherGroups,
+      setVisit,
+      deleteVisit,
     ]
   );
 

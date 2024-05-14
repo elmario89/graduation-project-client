@@ -47,7 +47,7 @@ const TeacherGroups: FC = () => {
             onClick={(e) => e.stopPropagation()}
             key={t.id}
             component={RouterLink}
-            to={`/teacher/group/${t.id}`}
+            to={`/teacher/group/${disciplineId}/${t.id}`}
           >
             {t.name}
           </Link>

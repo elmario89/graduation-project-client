@@ -26,6 +26,7 @@ import { DayMapper } from "./mappers/day.mapper";
 import { TimeReverseMapper } from './mappers/time-reverse.mapper'
 import { ScheduleMapper } from "./mappers/schedule.mapper";
 import '../styles/card.css';
+import { useAuth } from '../providers/AuthProvider';
 
 const INITIAL_TIME = [800, 940, 1120, 1330, 1510, 1650, 1825, 2000];
 
@@ -38,6 +39,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [config, setConfig] =
         useState<Record<number, ScheduleModel | null>[] | null>(null);
+    const { user } = useAuth();
 
     const [deleteDialogOpened, setDeleteDialogOpened] =
         React.useState<boolean>(false);
@@ -127,7 +129,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                                         }
 
                                         if (schedule) {
-                                            return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}`);
+                                            return navigate(`/student/visits/${schedule?.discipline.id}/${groupId}/${user?.id}`);
                                         }
                                     }}
                                     style={{ 

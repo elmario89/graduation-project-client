@@ -7,7 +7,14 @@ class VisitsServiceApi {
     public async getVisitByScheduleAndStudent(studentId: string, scheduleId: string): Promise<Visit[]> {
         return await this.apiService.request<Visit[]>({
             method: 'GET',
-            url: `/visits/visit/${studentId}/${scheduleId}`,
+            url: `/visits/student/${studentId}/${scheduleId}`,
+        });
+    }
+
+    public async getVisitBySchedule(scheduleId: string): Promise<Visit[]> {
+        return await this.apiService.request<Visit[]>({
+            method: 'GET',
+            url: `/visits/schedule/${scheduleId}`,
         });
     }
 }

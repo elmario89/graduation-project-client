@@ -6,6 +6,7 @@ import { Visit } from "../types/visit";
 
 type VisitsContextType = {
     getVisitByScheduleAndStudent: (studentId: string, scheduleId: string) => Promise<Visit[] | undefined>;
+    getVisitsBySchedule: (scheduleId: string) => Promise<Visit[] | undefined>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -29,9 +30,22 @@ const VisitsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
+    const getVisitsBySchedule = async (scheduleId: string) => {
+        try {
+            const visits = await visitsApi.getVisitBySchedule(scheduleId);
+
+            return visits;
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                setAlert({ message: e.message, type: 'error' });
+            }
+        }
+    }
+
     const memoValue = useMemo(() => ({
-        getVisitByScheduleAndStudent
-    }), [getVisitByScheduleAndStudent]);
+        getVisitByScheduleAndStudent,
+        getVisitsBySchedule,
+    }), [getVisitByScheduleAndStudent, getVisitsBySchedule]);
 
     return <VisitsContext.Provider value={memoValue}>
         <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>

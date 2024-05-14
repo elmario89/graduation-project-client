@@ -1,27 +1,27 @@
 import { FC, useEffect, useState } from "react";
 import { Box, CircularProgress, Link, Typography } from "@mui/material";
 import { useAuth } from "../providers/AuthProvider";
-import { useTeachers } from "../providers/TeachersProvider";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { Group } from "../types/group";
+import { useStudents } from "../providers/StudentsProvider";
+import { Student } from "../types/student";
 
 const TeacherGroup: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [groups, setGroups] = useState<Group[] | null>(null);
+  const [students, setStudents] = useState<Student[] | null>(null);
   const { user } = useAuth();
-  const { getTeacherGroups } = useTeachers();
-  const { disciplineId } = useParams();
+  const { getStudentsByGroup } = useStudents();
+  const { disciplineId, groupId } = useParams();
 
   useEffect(() => {
-    if (user?.id && disciplineId) {
-      getTeacherGroups(user.id, disciplineId).then((groups) => {
-        setGroups(groups || []);
+    if (groupId) {
+      getStudentsByGroup(groupId).then((students) => {
+        setStudents(students || []);
         setLoading(false);
       });
     }
-  }, [user, disciplineId]);
+  }, [user, groupId]);
 
-  if (loading || !groups) {
+  if (loading || !students) {
     return (
       <div
         style={{
@@ -42,14 +42,14 @@ const TeacherGroup: FC = () => {
         Groups:
       </Typography>
       <Box display={"flex"} flexDirection={'column'} gap={2}>
-        {groups.map((t) => (
+        {students.map((t) => (
           <Link
             onClick={(e) => e.stopPropagation()}
             key={t.id}
             component={RouterLink}
-            to={`/teacher/groups/${t.id}`}
+            to={`/teacher/visits/${disciplineId}/${groupId}/${t.id}`}
           >
-            {t.name}
+            {t.name} {t.surname}
           </Link>
         ))}
       </Box>

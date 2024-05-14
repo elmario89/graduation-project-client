@@ -13,7 +13,6 @@ import { Schedule } from '../types/schedule';
 import { eachDayOfInterval } from 'date-fns';
 import Visit from '../components/Visit';
 import { Visit as VisitModel } from '../types/visit';
-import { useAuth } from '../providers/AuthProvider';
 import { useVisits } from '../providers/VisitsProvider';
 import { PieChart } from '@mui/x-charts/PieChart';
 import Tab from '@mui/material/Tab';
@@ -22,19 +21,29 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { StorageService } from '../services/storage.service';
 import GroupVisits from '../components/GroupVisits';
+import { useStudents } from '../providers/StudentsProvider';
+import { Student } from '../types/student';
+import { useTeachers } from '../providers/TeachersProvider';
 
-const StudentVisits: FC = () => {
+type StudentVisitsProps = {
+    forTeacher?: boolean;
+}
+
+const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
     const storageService = new StorageService();
     const { getScheduleByGroupAndDiscipline } = useSchedules();
-    const { user } = useAuth();
-    const { getVisitByScheduleAndStudent } = useVisits();
+    const { getVisitByScheduleAndStudent, getVisitsBySchedule } = useVisits();
+    const { getStudentById } = useStudents();
+    const { setVisit, deleteVisit } = useTeachers();
     const [loading, setLoading] = useState<boolean>(false);
     const [dates, setDates] = useState<Date[]>([]);
+    const [student, setStudent] = useState<Student | null>(null);
     const [filteredDates, setFilteredDates] = useState<Date[] | null>(null);
     const [visits, setVisits] = useState<VisitModel[]>([]);
+    const [groupVisits, setGroupVisits] = useState<VisitModel[]>([]);
     const [filterBusyDays, setFilterBusyDats] = useState<boolean>(storageService.getItem('busyDays'));
     const [schedules, setSchedules] = useState<Schedule[] | undefined>([]);
-    const { groupId, disciplineId } = useParams();
+    const { groupId, disciplineId, studentId } = useParams();
 
     useEffect(() => {
         if (groupId && disciplineId) {
@@ -50,15 +59,34 @@ const StudentVisits: FC = () => {
                 })
                 .then((schedules) => {
                     if (schedules?.length) {
-                        return getVisitByScheduleAndStudent(user?.id || '', schedules[0].id);
+                        return Promise.all([
+                            getVisitByScheduleAndStudent(studentId || '', schedules[0].id),
+                            getVisitsBySchedule(schedules[0].id),
+                        ]);
                     }
                 })
-                .then((visits) => {
-                    setVisits(visits || []);
-                    setLoading(false);
-                })
+                .then((result) => {
+                    if (result) {
+                        setVisits(result[0] || []);
+                        setGroupVisits(result[1] || []);
+                    }
+                });
         }
     }, [groupId]);
+
+    useEffect(() => {
+        if (studentId) {
+            setLoading(true);
+            getStudentById(studentId)
+                .then((student) => {
+                    if (student) {
+                        setStudent(student);
+                    }
+
+                    setLoading(false);
+                });
+        }
+    }, [studentId]);
 
     useEffect(() => {
         if (filterBusyDays) {
@@ -119,7 +147,7 @@ const StudentVisits: FC = () => {
                     </TabList>
                 </Box>
                 <TabPanel value="1">
-                    <Typography sx={{ mb: 4 }} variant='h3'>Discipline: {schedules[0].discipline.name}</Typography>
+                    <Typography sx={{ mb: 4 }} variant='h3'>Discipline: {schedules[0].discipline.name} {student && `, Student: ${student.name} ${student.surname}`}</Typography>
                     <Box display={'flex'} flexDirection={'column'} gap={2} sx={{ mb: 4 }}>
                         <Box display={'flex'} alignItems={'center'} flexDirection={'row'} gap={1}>
                             <div className="legend future" />
@@ -146,7 +174,7 @@ const StudentVisits: FC = () => {
                                 return !prev;
                             });
 
-                        }} />} label="Show only busy days" sx={{ mb: 6 }}
+                        }} />} label="Hide empty days" sx={{ mb: 6 }}
                     />
 
                     <Grid container spacing={4} alignItems="stretch">
@@ -156,6 +184,23 @@ const StudentVisits: FC = () => {
                                     date={date}
                                     visits={visits}
                                     schedules={schedules.filter(schedule => Number(schedule.day) === date.getDay() - 1)}
+                                    forTeacher={forTeacher}
+                                    setVisit={forTeacher ? async (time) => {
+                                        if (studentId && schedules[0].id) {
+                                            const [hours, minutes, seconds] = time.split(':');
+                                            const dateTime = date.setHours(Number(hours), Number(minutes), Number(seconds));
+                                            const visits = await setVisit({ studentId, scheduleId: schedules[0].id, date: new Date(dateTime) });;
+                                            if (visits?.length) {
+                                                setVisits(visits);
+                                            }
+                                        }
+                                    } : undefined}
+                                    deleteVisit={forTeacher ? async (visitId) => {
+                                        const visits = await deleteVisit(visitId, schedules[0].id, studentId || '');
+                                        if (visits?.length) {
+                                            setVisits(visits);
+                                        }
+                                    } : undefined}
                                 />
                             </Grid>
                         ))}
@@ -164,7 +209,7 @@ const StudentVisits: FC = () => {
                 <TabPanel value="2">
                     {countFact(schedules) && (
                         <>
-                            <Typography sx={{ mb: 2 }} variant='h3'>Discipline: {schedules[0].discipline.name}</Typography>
+                            <Typography sx={{ mb: 2 }} variant='h3'>Discipline: {schedules[0].discipline.name} {student && `, Student: ${student.name} ${student.surname}`}</Typography>
                             <Box sx={{ mt: 5 }} display={'flex'} flexDirection={'row'} gap={5}>
                                 <Box>
                                     <Typography variant='h4' sx={{ mb: 4 }}>Visits plan</Typography>
@@ -215,7 +260,7 @@ const StudentVisits: FC = () => {
                     )}
                 </TabPanel>
                 <TabPanel value="3">
-                    <GroupVisits groupId={groupId} visits={visits} visitPlan={countFact(schedules)} disciplineName={schedules[0].discipline.name} />
+                    <GroupVisits groupId={groupId} visits={groupVisits} visitPlan={countFact(schedules)} disciplineName={schedules[0].discipline.name} />
                 </TabPanel>
             </TabContext>
         </Box>
