@@ -1,6 +1,8 @@
 import ApiService from "./api.service";
 import {AddOrUpdateTeacher} from "../../types/add-or-update-teacher";
 import {Teacher} from "../../types/teacher";
+import { Discipline } from "../../types/discipline";
+import { Group } from "../../types/group";
 
 class TeachersApi {
     constructor(private apiService: ApiService) { }
@@ -39,6 +41,20 @@ class TeachersApi {
         return await this.apiService.request<void>({
             method: 'DELETE',
             url: `/teachers/${id}`,
+        });
+    }
+
+    public async getTeacherDisciplines(id: string): Promise<Discipline[]> {
+        return await this.apiService.request<Discipline[]>({
+            method: 'GET',
+            url: `/teachers/teacher/${id}`,
+        });
+    }
+
+    public async getTeacherGroups(teacherId: string, disciplineId: string): Promise<Group[]> {
+        return await this.apiService.request<Group[]>({
+            method: 'GET',
+            url: `/teachers/groups/${teacherId}/${disciplineId}`,
         });
     }
 }

@@ -5,6 +5,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
 export const ADMIN_MENU: BaseLayoutMenu[] = [
     {
@@ -50,17 +51,12 @@ export const STUDENT_MENU: BaseLayoutMenu[] = [
 export const TEACHER_MENU: BaseLayoutMenu[] = [
     {
         path: '/teacher/schedule',
-        label: 'Disciplines',
-        icon: <SchoolIcon />,
-    },
-    {
-        path: '/teacher/groups',
-        label: 'Groups',
-        icon: <GroupIcon />,
+        label: 'Schedule',
+        icon: <AccessAlarmIcon />,
     },
     {
         path: '/teacher/disciplines',
         label: 'Disciplines',
-        icon: <GroupIcon />,
+        icon: <SchoolIcon />,
     },
 ];

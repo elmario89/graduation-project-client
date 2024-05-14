@@ -3,7 +3,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { CircularProgress } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserRole } from "../enums/user-role";
-import { ADMIN_MENU, STUDENT_MENU } from "../constants/menus";
+import { ADMIN_MENU, STUDENT_MENU, TEACHER_MENU } from "../constants/menus";
 const ProtectedRoutes = lazy(() => import('./ProtectedRoutes'));
 const SignIn = lazy(() => import('./SignIn'));
 const BaseLayout = lazy(() => import('./BaseLayout'));
@@ -22,6 +22,9 @@ const ScheduleSlot = lazy(() => import('./ScheduleSlot'));
 const Location = lazy(() => import('./Location'));
 const Locations = lazy(() => import('./Locations'));
 const StudentVisits = lazy(() => import('./StudentVisits'));
+const TeacherDisciplines = lazy(() => import('./TeacherDisciplines'));
+const TeacherGroups = lazy(() => import('./TeacherGroups'));
+const TeacherGroup = lazy(() => import('./TeacherGroup'));
 
 const Router: FC = () => {
     const { authenticated, user } = useAuth();
@@ -78,9 +81,10 @@ const Router: FC = () => {
                                 path={'/teacher/'}
                                 element={<BaseLayout menuItems={TEACHER_MENU} />}
                             >
-                                <Route path="/student/schedule/" element={<Navigate to={`/student/schedule/${user?.groupId}`} replace />} />
-                                <Route path="/student/schedule/:groupId" element={<Schedule forStudent />} />
-                                <Route path="/student/visits/:disciplineId/:groupId/" element={<StudentVisits />} />
+                                <Route path="/teacher/schedule/" element={<Navigate to={`/teacher/schedule/${user?.groupId}`} replace />} />
+                                <Route path="/teacher/disciplines" element={<TeacherDisciplines />} />
+                                <Route path="/teacher/groups/:disciplineId" element={<TeacherGroups />} />
+                                <Route path="/teacher/group/:disciplineId" element={<TeacherGroup />} />
                             </Route>
                         </Route>
                     </>
