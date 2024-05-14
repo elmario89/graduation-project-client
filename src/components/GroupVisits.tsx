@@ -32,8 +32,6 @@ const GroupVisits: FC<GroupVisitsProps> = ({ groupId, visits, visitPlan, discipl
         return 'hsl(' + c + ', 100%, 50%)';
     }
 
-    console.log(dataSet);
-
     return (
         <BarChart
             margin={{ left: 100 }}
