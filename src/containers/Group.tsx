@@ -134,7 +134,6 @@ const Group: FC = () => {
                             render={({ field: { onChange } }) => (
                                 <DateRangePicker
                                     format={'DD/MM/YYYY'}
-                                    disablePast
                                     onChange={onChange}
                                     defaultValue={[
                                         group?.start ? dayjs(group?.start) : null,

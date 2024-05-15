@@ -81,7 +81,8 @@ const Router: FC = () => {
                                 path={'/teacher/'}
                                 element={<BaseLayout menuItems={TEACHER_MENU} />}
                             >
-                                <Route path="/teacher/schedule/" element={<Navigate to={`/teacher/schedule/${user?.groupId}`} replace />} />
+                                <Route path="/teacher/schedule" element={<Navigate to={`/teacher/schedule/${user?.id}`} replace />} />
+                                <Route path="/teacher/schedule/:teacherId" element={<Schedule forStudent />} />
                                 <Route path="/teacher/disciplines" element={<TeacherDisciplines />} />
                                 <Route path="/teacher/groups/:disciplineId" element={<TeacherGroups />} />
                                 <Route path="/teacher/group/:disciplineId/:groupId" element={<TeacherGroup />} />

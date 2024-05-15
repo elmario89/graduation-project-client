@@ -175,7 +175,7 @@ const ScheduleSlot: FC = () => {
               options={
                 !watch("disciplineId")
                   ? config?.teachers.map((d) => ({
-                      label: `${d.name}`,
+                      label: `${d.name} ${d.surname}`,
                       value: d.id,
                     }))
                   : config?.teachers

@@ -18,13 +18,19 @@ class SchedulesApi {
         });
     }
 
+    public async getSchedulesByTeacherId(teacherId: string): Promise<Schedule[] | undefined> {
+        return await this.apiService.request<Schedule[] | undefined>({
+            method: 'GET',
+            url: `/schedules/teacher/${teacherId}`,
+        });
+    }
+
     public async getSchedulesByGroupId(groupId: string): Promise<Schedule[] | undefined> {
         return await this.apiService.request<Schedule[] | undefined>({
             method: 'GET',
             url: `/schedules/group/${groupId}`,
         });
     }
-
 
     public async createSchedule(data: Omit<AddOrUpdateSchedule, 'id'>): Promise<Schedule> {
         return await this.apiService.request<Schedule>({

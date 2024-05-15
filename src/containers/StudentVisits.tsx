@@ -192,6 +192,12 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                                             const visits = await setVisit({ studentId, scheduleId: schedules[0].id, date: new Date(dateTime) });;
                                             if (visits?.length) {
                                                 setVisits(visits);
+                                                getVisitsBySchedule(schedules[0].id)
+                                                    .then((groupVisits) => {
+                                                        if (groupVisits) {
+                                                            setGroupVisits(groupVisits);
+                                                        }
+                                                    });
                                             }
                                         }
                                     } : undefined}
@@ -199,6 +205,12 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                                         const visits = await deleteVisit(visitId, schedules[0].id, studentId || '');
                                         if (visits?.length) {
                                             setVisits(visits);
+                                            getVisitsBySchedule(schedules[0].id)
+                                                .then((groupVisits) => {
+                                                    if (groupVisits) {
+                                                        setGroupVisits(groupVisits);
+                                                    }
+                                                });
                                         }
                                     } : undefined}
                                 />
