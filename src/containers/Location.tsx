@@ -44,6 +44,7 @@ const Location: FC = () => {
     control,
     handleSubmit,
     formState: { errors, isDirty },
+    reset,
   } = useForm<LocationData>({
     defaultValues: {
       coordinates: [
@@ -67,6 +68,7 @@ const Location: FC = () => {
       const location = await updateLocation({ id, ...data });
       if (location) {
         setLocation(location);
+        reset({ ...location });
       }
     } else {
       const location = await createLocation(data);
