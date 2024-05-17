@@ -18,7 +18,7 @@ import TextField from "@mui/material/TextField";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Teacher } from "../types/teacher";
-import { Location } from "../types/location";
+import { Auditory } from "../types/auditory";
 import { useDisciplines } from "../providers/DisciplinesProvider";
 import { useTeachers } from "../providers/TeachersProvider";
 import { Discipline } from "../types/discipline";
@@ -27,13 +27,13 @@ import { ScheduleType } from "../enums/schedule-type.enum";
 import useRoleMessageHook from "../hook/use-week-day.hook";
 import { TimeMapper } from "./mappers/time.mapper";
 import { ScheduleMapper } from "./mappers/schedule.mapper";
-import { useLocations } from "../providers/LocationsProvider";
+import { useAuditories } from "../providers/AuditoriesProvider";
 
 type ScheduleData = ScheduleModel & {
   groupId: string;
   disciplineId: string;
   teacherId: string;
-  locationId: string;
+  auditoryId: string;
 };
 
 type FormValues = {
@@ -41,7 +41,7 @@ type FormValues = {
   scheduleType: ScheduleType;
   teacher: Teacher;
   discipline: Discipline;
-  location: Location;
+  auditory: Auditory;
 };
 
 const ScheduleSlot: FC = () => {
@@ -49,13 +49,13 @@ const ScheduleSlot: FC = () => {
   const [config, setConfig] = useState<{
     disciplines: Discipline[];
     teachers: Teacher[];
-    locations: Location[];
+    auditories: Auditory[];
   } | null>(null);
   const { getScheduleById, createSchedule, updateSchedule, deleteSchedule } =
     useSchedules();
   const { getAllDisciplines } = useDisciplines();
   const { getAllTeachers } = useTeachers();
-  const { getLocationByDay } = useLocations();
+  const { getAuditoryByDay } = useAuditories();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [deleteDialogOpened, setDeleteDialogOpened] =
@@ -86,12 +86,12 @@ const ScheduleSlot: FC = () => {
       getAllDisciplines(),
       getAllTeachers(),
       // @ts-ignore
-      getLocationByDay(day, time),
-    ]).then(([disciplines, teachers, locations]) => {
+      getAuditoryByDay(day, time),
+    ]).then(([disciplines, teachers, auditories]) => {
       setConfig({
         disciplines: disciplines || [],
         teachers: teachers || [],
-        locations: locations || [],
+        auditories: auditories || [],
       });
     });
   }, []);
@@ -244,28 +244,28 @@ const ScheduleSlot: FC = () => {
         <Controller
           control={control}
           rules={{ required: true }}
-          name="locationId"
-          defaultValue={schedule?.location ? schedule?.location.id : undefined}
+          name="auditoryId"
+          defaultValue={schedule?.auditory ? schedule?.auditory.id : undefined}
           render={({ field: { onChange } }) => (
             <Autocomplete
               disablePortal
               defaultValue={
-                schedule?.location
+                schedule?.auditory
                   ? {
-                      label: `${schedule?.location.address}, Building: ${schedule?.location.buildingNumber}, Auditory: ${schedule?.location.auditory}`,
-                      value: schedule?.location.id,
+                      label: `${schedule?.auditory.building.address}, Building: ${schedule?.auditory.building.number}, Auditory: ${schedule?.auditory.number}`,
+                      value: schedule?.auditory.id,
                     }
                   : null
               }
               onChange={(_, chosen) => onChange(chosen?.value)}
-              options={config?.locations.map((d) => ({
-                label: `${d?.address}, Building: ${d?.buildingNumber}, Auditory: ${d?.auditory}`,
+              options={config?.auditories.map((d) => ({
+                label: `${d?.building.address}, Building: ${d?.building.number}, Auditory: ${d?.number}`,
                 value: d.id,
               }))}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Location"
+                  label="Auditory"
                   error={!!errors.disciplineId}
                 />
               )}

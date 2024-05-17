@@ -19,8 +19,10 @@ const Disciplines = lazy(() => import('./Disciplines'));
 const Discipline = lazy(() => import('./Discipline'));
 const Schedule = lazy(() => import('./Schedule'));
 const ScheduleSlot = lazy(() => import('./ScheduleSlot'));
-const Location = lazy(() => import('./Location'));
-const Locations = lazy(() => import('./Locations'));
+const Auditory = lazy(() => import('./Auditory'));
+const Auditories = lazy(() => import('./Auditories'));
+const Building = lazy(() => import('./Building'));
+const Buildings = lazy(() => import('./Buildings'));
 const StudentVisits = lazy(() => import('./StudentVisits'));
 const TeacherDisciplines = lazy(() => import('./TeacherDisciplines'));
 const TeacherGroups = lazy(() => import('./TeacherGroups'));
@@ -62,8 +64,10 @@ const Router: FC = () => {
                                 <Route path="/admin/discipline/:id?" element={<Discipline />} />
                                 <Route path="/admin/schedule/:groupId/:id?" element={<Schedule />} />
                                 <Route path="/admin/schedule/:groupId/:day/:time/:id?" element={<ScheduleSlot />} />
-                                <Route path="/admin/locations" element={<Locations />} />
-                                <Route path="/admin/location/:id?" element={<Location />} />
+                                <Route path="/admin/auditories" element={<Auditories />} />
+                                <Route path="/admin/auditory/:id?" element={<Auditory />} />
+                                <Route path="/admin/buildings" element={<Buildings />} />
+                                <Route path="/admin/building/:id?" element={<Building />} />
                             </Route>
                         </Route>
                         <Route path={"/student"} element={<ProtectedRoutes roles={[UserRole.Student]} />}>

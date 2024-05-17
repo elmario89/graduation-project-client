@@ -6,6 +6,7 @@ import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 export const ADMIN_MENU: BaseLayoutMenu[] = [
     {
@@ -34,9 +35,14 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
         icon: <MenuBookIcon />,
     },
     {
-        path: '/admin/locations',
-        label: 'Locations',
+        path: '/admin/auditories',
+        label: 'Auditories',
         icon: <AddLocationIcon />,
+    },
+    {
+        path: '/admin/buildings',
+        label: 'Buildings',
+        icon: <ApartmentIcon />,
     },
 ];
 

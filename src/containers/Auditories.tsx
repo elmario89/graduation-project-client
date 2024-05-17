@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {FC, useEffect, useState} from "react";
-import {useLocations} from "../providers/LocationsProvider";
+import {useAuditories} from "../providers/AuditoriesProvider";
 import {
     Alert,
     CircularProgress,
@@ -18,25 +18,25 @@ import {
     DialogTitle,
     Stack
 } from "@mui/material";
-import {Location} from "../types/location";
+import {Auditory} from "../types/auditory";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
+import { Building } from '../types/building';
 
 function createData(
     id: string,
-    buildingNumber: number,
-    auditory: number,
+    number: number,
     floor: number,
-    address: string,
+    building: Building,
 ) {
-    return { id, buildingNumber, auditory, floor, address };
+    return { id, number, floor, building };
 }
 
-const Locations: FC = () => {
+const Auditories: FC = () => {
     const [rows, setRow] = useState<any | null>(null);
-    const { locations , getAllLocations, deleteLocation } = useLocations();
+    const { auditories , getAllAuditories, deleteAuditory } = useAuditories();
     const [loading, setLoading] = useState<boolean>(true);
     const [deleteDialogOpened, setDeleteDialogOpened] =
         React.useState<boolean>(false);
@@ -45,23 +45,23 @@ const Locations: FC = () => {
 
     const navigate = useNavigate();
 
-    const getRows = (data: Location[]) => data?.map((location) => {
-        const { id,buildingNumber, auditory, floor, address } = location;
-        return createData(id, buildingNumber, auditory, floor, address);
+    const getRows = (data: Auditory[]) => data?.map((auditory) => {
+        const { id, number, floor, building } = auditory;
+        return createData(id, number, floor, building);
     })
 
     useEffect( () => {
-        getAllLocations()
+        getAllAuditories()
             .then(() => setLoading(false));
     }, []);
 
     useEffect( () => {
-        if (locations) {
-            setRow(getRows(locations));
+        if (auditories) {
+            setRow(getRows(auditories));
         }
-    }, [locations]);
+    }, [auditories]);
 
-    if (loading || !locations || !rows) {
+    if (loading || !auditories || !rows) {
         return (
             <div
                 style={{
@@ -79,15 +79,15 @@ const Locations: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Locations
+                Auditories
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
                     variant={'contained'}
                     color={'success'}
-                    onClick={() => navigate('/admin/location')}
+                    onClick={() => navigate('/admin/auditory')}
                 >
-                    Add location
+                    Add auditory
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -96,7 +96,7 @@ const Locations: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No locations, try to create one</Alert>
+                                    <Alert severity="warning">No auditories, try to create one</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -104,35 +104,33 @@ const Locations: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Building number </TableCell>
-                                    <TableCell>Auditory</TableCell>
+                                    <TableCell>Auditory number</TableCell>
                                     <TableCell>Floor</TableCell>
-                                    <TableCell>Address</TableCell>
+                                    <TableCell>Building</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: { id: string, buildingNumber: number, auditory: number, floor: number, address: string }) => (
+                                {rows.map((row: { id: string, number: number, floor: number, building: Building }) => (
                                     <TableRow
                                         style={{ cursor: 'pointer' }}
                                         hover={true}
-                                        onClick={() => navigate(`/admin/location/${row.id}`)}
-                                        key={row.id || row.address}
+                                        onClick={() => navigate(`/admin/auditory/${row.id}`)}
+                                        key={row.id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row">{row.buildingNumber}</TableCell>
-                                        <TableCell component="th" scope="row">{row.auditory}</TableCell>
+                                        <TableCell component="th" scope="row">{row.number}</TableCell>
                                         <TableCell component="th" scope="row">{row.floor}</TableCell>
-                                        <TableCell component="th" scope="row">{row.address}</TableCell>
+                                        <TableCell component="th" scope="row">{row.building.address}</TableCell>
                                         <TableCell align="right">
                                             <Button
                                                 type={'submit'}
                                                 variant="contained"
                                                 color="warning"
-                                                onClick={() => navigate(`/admin/location/${row.id}`)}
+                                                onClick={() => navigate(`/admin/auditory/${row.id}`)}
                                             >
-                                                Update location
+                                                Update auditory
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -146,7 +144,7 @@ const Locations: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete location
+                                                Delete auditory
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -163,11 +161,11 @@ const Locations: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete location
+                    Delete auditory
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete location?
+                        Are you sure you want to delete auditory?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -178,8 +176,8 @@ const Locations: FC = () => {
                             if (deleteCandidate) {
                                 setLoading(true);
                                 setDeleteDialogOpened(false);
-                                await deleteLocation(deleteCandidate);
-                                await getAllLocations();
+                                await deleteAuditory(deleteCandidate);
+                                await getAllAuditories();
                                 setLoading(false);
                             }
                         }}
@@ -195,4 +193,4 @@ const Locations: FC = () => {
     );
 }
 
-export default Locations;
+export default Auditories;

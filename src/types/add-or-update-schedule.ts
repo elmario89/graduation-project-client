@@ -8,7 +8,7 @@ export type AddOrUpdateSchedule = {
     timeFinish?: string;
     disciplineId: string;
     scheduleType: ScheduleType;
-    locationId?: string;
+    auditoryId?: string;
     teacherId: string;
     groupId: string;
     time: string;

@@ -2,7 +2,7 @@ import {Day} from "./day";
 import {ScheduleType} from "../enums/schedule-type.enum";
 import {Teacher} from "./teacher";
 import {Discipline} from "./discipline";
-import {Location} from "./location";
+import {Auditory} from "./auditory";
 import { Group } from "./group";
 
 export type Schedule = {
@@ -12,7 +12,7 @@ export type Schedule = {
     timeFinish: string;
     discipline: Discipline;
     scheduleType: ScheduleType;
-    location: Location;
+    auditory: Auditory;
     teacher: Teacher;
     group: Group;
 }

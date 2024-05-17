@@ -157,7 +157,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                 <TableCell>Discipline</TableCell>
                 <TableCell>Teacher</TableCell>
                 <TableCell>Class type</TableCell>
-                <TableCell>Location</TableCell>
+                <TableCell>Auditory</TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
               </TableRow>
@@ -210,11 +210,11 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                     }
                   </TableCell>
                   <TableCell>
-                    {schedule?.location && (
+                    {schedule?.auditory && (
                       <>
-                        address: {schedule?.location.address}, floor:{" "}
-                        {schedule?.location.floor}, auditory:{" "}
-                        {schedule?.location.auditory}
+                        address: {schedule?.auditory.building.address}, floor:{" "}
+                        {schedule?.auditory.floor}, auditory:{" "}
+                        {schedule?.auditory.number}
                       </>
                     )}
                   </TableCell>

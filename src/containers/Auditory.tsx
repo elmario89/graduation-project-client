@@ -1,23 +1,31 @@
 import { FC, useEffect, useState, useRef } from "react";
-import { useLocations } from "../providers/LocationsProvider";
-import { CircularProgress, Divider, Grid } from "@mui/material";
-import { Location as LocationModel } from "../types/location";
+import { useAuditories } from "../providers/AuditoriesProvider";
+import { Autocomplete, CircularProgress, Divider, Grid } from "@mui/material";
+import { Auditory as AuditoryModel } from "../types/auditory";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
+import {
+  SubmitHandler,
+  useForm,
+  useFieldArray,
+  Controller,
+} from "react-hook-form";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { YMaps, Map, Polygon } from "@pbe/react-yandex-maps";
+import { useBuildings } from "../providers/BuildingProvider";
+import { Building } from "../types/building";
 
-type LocationData = Omit<LocationModel, "id">;
+type AuditoryData = Omit<AuditoryModel, "id">;
 
-const Location: FC = () => {
-  const [location, setLocation] = useState<LocationData | null>(null);
-  const { getLocationById, createLocation, updateLocation } = useLocations();
+const Auditory: FC = () => {
+  const [auditory, setAuditory] = useState<AuditoryData | null>(null);
+  const { getAuditoryById, createAuditory, updateAuditory } = useAuditories();
+  const { getAllBuildings, buildings } = useBuildings();
   const [loading, setLoading] = useState<boolean>(false);
 
   const YMref = useRef<ymaps.Map | undefined>(undefined);
@@ -29,15 +37,21 @@ const Location: FC = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      getLocationById(id).then((location) => {
-        if (location) {
-          setLocation(location);
-          location.coordinates.forEach((c, index) => update(index, c));
+      getAuditoryById(id).then(
+        (auditory) => {
+          if (auditory) {
+            setAuditory(auditory);
+            auditory.coordinates.forEach((c, index) => update(index, c));
+          }
+          setLoading(false);
         }
-        setLoading(false);
-      });
+      );
     }
   }, [id]);
+
+  useEffect(() => {
+    getAllBuildings();
+}, []);
 
   const {
     register,
@@ -45,7 +59,7 @@ const Location: FC = () => {
     handleSubmit,
     formState: { errors, isDirty },
     reset,
-  } = useForm<LocationData>({
+  } = useForm<AuditoryData>({
     defaultValues: {
       coordinates: [
         { lng: "", lat: "" },
@@ -56,25 +70,25 @@ const Location: FC = () => {
   });
 
   const { fields, append, remove, update } = useFieldArray<
-    LocationData,
+    AuditoryData,
     "coordinates"
   >({
     control,
     name: "coordinates",
   });
 
-  const onSubmit: SubmitHandler<LocationData> = async (data) => {
+  const onSubmit: SubmitHandler<AuditoryData> = async (data) => {
     if (id) {
-      const location = await updateLocation({ id, ...data });
-      if (location) {
-        setLocation(location);
-        reset({ ...location });
+      const auditory = await updateAuditory({ id, ...data });
+      if (auditory) {
+        setAuditory(auditory);
+        reset({ ...auditory });
       }
     } else {
-      const location = await createLocation(data);
+      const auditory = await createAuditory(data);
 
-      if (location) {
-        navigate(`/admin/location/${location.id}`);
+      if (auditory) {
+        navigate(`/admin/auditory/${auditory.id}`);
       }
     }
   };
@@ -82,15 +96,20 @@ const Location: FC = () => {
   const setCenter = () => {
     if (YMref.current && PolyRef.current) {
       // @ts-ignore
-      const pixelBounds = PolyRef.current.geometry?.getPixelGeometry().getBounds();
+      const pixelBounds = PolyRef.current.geometry
+        ?.getPixelGeometry()
+        .getBounds();
       if (pixelBounds) {
-        const pixelCenter = [pixelBounds[0][0] + (pixelBounds[1][0] - pixelBounds[0][0]) / 2, (pixelBounds[1][1] - pixelBounds[0][1]) / 2 + pixelBounds[0][1]];
+        const pixelCenter = [
+          pixelBounds[0][0] + (pixelBounds[1][0] - pixelBounds[0][0]) / 2,
+          (pixelBounds[1][1] - pixelBounds[0][1]) / 2 + pixelBounds[0][1],
+        ];
         // @ts-ignore
-        const geoCenter = YMref.current.options.get('projection').fromGlobalPixels(pixelCenter, YMref.current.getZoom());
+        const geoCenter = YMref.current.options.get("projection").fromGlobalPixels(pixelCenter, YMref.current.getZoom());
         YMref.current.setCenter(geoCenter);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (YMref.current && PolyRef.current) {
@@ -99,9 +118,9 @@ const Location: FC = () => {
 
       setCenter();
     }
-  }, [location?.coordinates]);
+  }, [auditory?.coordinates]);
 
-  if ((id && !location) || loading) {
+  if ((id && !auditory) || loading || !buildings) {
     return (
       <div
         style={{
@@ -119,7 +138,7 @@ const Location: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Location
+        Auditory
       </Typography>
       <CssBaseline />
       <Box
@@ -139,28 +158,15 @@ const Location: FC = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              {...register("buildingNumber", { required: true })}
+              {...register("number", { required: true })}
               margin="normal"
-              error={!!errors.buildingNumber}
+              error={!!errors.number}
               type={"number"}
               required
               fullWidth
-              label="Building number"
-              name="buildingNumber"
-              defaultValue={location?.buildingNumber || ""}
-              sx={{ mb: 2 }}
-            />
-
-            <TextField
-              {...register("auditory", { required: true })}
-              margin="normal"
-              error={!!errors.auditory}
-              type={"number"}
-              required
-              fullWidth
-              label="Auditory"
-              name="auditory"
-              defaultValue={location?.auditory || ""}
+              label="Auditory number"
+              name="number"
+              defaultValue={auditory?.number || ""}
               sx={{ mb: 2 }}
             />
 
@@ -173,29 +179,43 @@ const Location: FC = () => {
               fullWidth
               label="Floor"
               name="floor"
-              defaultValue={location?.floor || ""}
+              defaultValue={auditory?.floor || ""}
               sx={{ mb: 2 }}
             />
 
-            <TextField
-              {...register("address", { required: true })}
-              margin="normal"
-              error={!!errors.address}
-              required
-              fullWidth
-              label="Address"
-              name="address"
-              defaultValue={location?.address || ""}
-              sx={{ mb: 2 }}
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              name="buildingId"
+              defaultValue={auditory?.building ? auditory?.building.id : undefined}
+              render={({ field: { onChange } }) => (
+                <Autocomplete
+                  disablePortal
+                  defaultValue={
+                    auditory?.building
+                      ? { label: auditory?.building.address, value: auditory?.building.id }
+                      : null
+                  }
+                  onChange={(_, chosen) => onChange(chosen?.value)}
+                  options={buildings.map((building: Building) => ({
+                    label: building.address,
+                    value: building.id,
+                  }))}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Building"
+                      error={!!errors.buildingId}
+                    />
+                  )}
+                  sx={{ mt: 2 }}
+                />
+              )}
             />
 
             {fields.map((field, index) => (
               <div key={field.id}>
-                <Grid
-                  container
-                  alignItems={"center"}
-                  spacing={3}
-                >
+                <Grid container alignItems={"center"} spacing={3}>
                   <Grid item xs={fields.length > 3 ? 5 : 6}>
                     <TextField
                       {...register(`coordinates.${index}.lng` as const, {
@@ -211,7 +231,11 @@ const Location: FC = () => {
                       }
                       required
                       label="Longitude"
-                      defaultValue={location?.coordinates[index] ? location?.coordinates[index]?.lng : ""}
+                      defaultValue={
+                        auditory?.coordinates[index]
+                          ? auditory?.coordinates[index]?.lng
+                          : ""
+                      }
                     />
                   </Grid>
 
@@ -230,7 +254,11 @@ const Location: FC = () => {
                       fullWidth
                       margin="normal"
                       label="Latitude"
-                      defaultValue={location?.coordinates[index] ? location?.coordinates[index]?.lat : ""}
+                      defaultValue={
+                        auditory?.coordinates[index]
+                          ? auditory?.coordinates[index]?.lat
+                          : ""
+                      }
                     />
                   </Grid>
                   {fields.length > 3 && (
@@ -260,23 +288,26 @@ const Location: FC = () => {
               Add point
             </Button>
 
-            {location && location?.coordinates?.length > 0 && (
+            {auditory && auditory?.coordinates?.length > 0 && (
               <YMaps>
                 <Map
                   instanceRef={YMref}
                   width={500}
                   height={500}
-                  apikey={process.env.REACT_APP_YM_API_KEY || ''}
+                  apikey={process.env.REACT_APP_YM_API_KEY || ""}
                   defaultState={{
-                    center: [Number(location.coordinates[0].lng), Number(location.coordinates[0].lat)],
-                    zoom: 17
+                    center: [
+                      Number(auditory.coordinates[0].lng),
+                      Number(auditory.coordinates[0].lat),
+                    ],
+                    zoom: 17,
                   }}
                   onLoad={setCenter}
                 >
                   <Polygon
-                  onLoad={setCenter}
+                    onLoad={setCenter}
                     instanceRef={PolyRef}
-                    geometry={[location.coordinates.map((c) => [c.lng, c.lat])]}
+                    geometry={[auditory.coordinates.map((c) => [c.lng, c.lat])]}
                     options={{
                       fillColor: "#1976d2",
                       strokeColor: "#0000FF",
@@ -296,10 +327,10 @@ const Location: FC = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {id ? "Update location" : "Create location"}
+                {id ? "Update auditory" : "Create auditory"}
               </Button>
               <Button
-                onClick={() => navigate(`/admin/locations`)}
+                onClick={() => navigate(`/admin/auditories`)}
                 variant="contained"
                 color="warning"
                 sx={{ mt: 3, mb: 2 }}
@@ -314,4 +345,4 @@ const Location: FC = () => {
   );
 };
 
-export default Location;
+export default Auditory;
