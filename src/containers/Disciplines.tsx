@@ -24,13 +24,15 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {Teacher} from "../types/teacher";
+import { Faculty } from '../types/faculty';
 
 function createData(
     id: string,
     name: string,
+    faculty: Faculty,
     teachers: Teacher[],
 ) {
-    return { id, name, teachers };
+    return { id, name, faculty, teachers };
 }
 
 const Disciplines: FC = () => {
@@ -45,8 +47,8 @@ const Disciplines: FC = () => {
     const navigate = useNavigate();
 
     const getRows = (data: Discipline[]) => data?.map((discipline) => {
-        const { id,name, teachers } = discipline;
-        return createData(id, name, teachers || []);
+        const { id, name, faculty, teachers } = discipline;
+        return createData(id, name, faculty, teachers || []);
     })
 
     useEffect( () => {
@@ -104,13 +106,14 @@ const Disciplines: FC = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Discipline name</TableCell>
+                                    <TableCell>Faculty</TableCell>
                                     <TableCell>Teachers</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: { id: string; name: string, teachers: Teacher[] }) => (
+                                {rows.map((row: { id: string; name: string, faculty: Faculty, teachers: Teacher[] }) => (
                                     <TableRow
                                         style={{ cursor: 'pointer' }}
                                         hover={true}
@@ -119,6 +122,7 @@ const Disciplines: FC = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">{row.name}</TableCell>
+                                        <TableCell component="th" scope="row">{row.faculty.name}</TableCell>
                                         <TableCell>
                                             {
                                                 row.teachers.map((t) =>

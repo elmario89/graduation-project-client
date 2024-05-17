@@ -1,4 +1,5 @@
 import {Discipline} from "./discipline";
+import { Faculty } from "./faculty";
 
 export type Teacher = {
     id: string;
@@ -7,4 +8,5 @@ export type Teacher = {
     login: string;
     password: string;
     disciplines?: Discipline[];
+    faculties?: Faculty[];
 }

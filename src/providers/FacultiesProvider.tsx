@@ -5,7 +5,7 @@ import {Faculty} from "../types/faculty";
 import {Alert, Snackbar} from "@mui/material";
 
 type FacultiesContextType = {
-    getAllFaculties: () => Promise<void>;
+    getAllFaculties: () => Promise<Faculty[] | undefined>;
     createFaculty: (data: Omit<Faculty, 'id'>) => Promise<Faculty | undefined>;
     updateFaculty: (data: Faculty) => Promise<Faculty | undefined>;
     getFacultyById: (id: string) => Promise<Faculty | undefined>;
@@ -27,6 +27,7 @@ const FacultiesProvider: FC<PropsWithChildren> = ({ children }) => {
         try {
             const faculties = await facultiesApi.getAllFaculties();
             setFaculties(faculties);
+            return faculties;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });
