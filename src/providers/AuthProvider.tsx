@@ -24,7 +24,6 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const [alert, setAlert] =
         useState<{ message: string, type: ErrorType } | null>(null);
     const storageService = new StorageService();
-    const [error, setError] = useState<AxiosError | null>(null);
     const [user, setUser] =
         useState<User | null>(
             storageService.getItem<string>('token')
