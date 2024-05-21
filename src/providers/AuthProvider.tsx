@@ -16,9 +16,13 @@ type AuthContextType = {
     authenticated: boolean;
 }
 
+type ErrorType = "error" | "success" | "info" | "warning" | undefined;
+
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
+    const [alert, setAlert] =
+        useState<{ message: string, type: ErrorType } | null>(null);
     const storageService = new StorageService();
     const [error, setError] = useState<AxiosError | null>(null);
     const [user, setUser] =
@@ -33,6 +37,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const { authApi } = useApi();
 
     const signIn = async (data: Auth) => {
+        
         try {
             const token = await authApi.signIn(data);
             if (token) {
@@ -56,7 +61,10 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
                 }
             }
         } catch (e) {
-            setError(e as AxiosError);
+            if (e instanceof AxiosError) {
+                 // @ts-ignore
+                 setAlert({ message: e.response.data.message, type: 'error' });
+            }
         }
     }
 
@@ -73,14 +81,14 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }), [signIn, signOut, authenticated, user]);
 
     return <AuthContext.Provider value={memoValue}>
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
+        <Snackbar open={!!alert} autoHideDuration={6000} onClose={() => setAlert(null)}>
             <Alert
-                onClose={() => setError(null)}
+                onClose={() => setAlert(null)}
                 severity="error"
                 variant="filled"
                 sx={{ width: '100%' }}
             >
-                {error?.message}
+                {alert?.message}
             </Alert>
         </Snackbar>
         {children}
