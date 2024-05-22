@@ -11,10 +11,10 @@ class SchedulesApi {
         });
     }
 
-    public async getScheduleById(id: string): Promise<Schedule> {
+    public async getScheduleById(id: string, groupId: string): Promise<Schedule> {
         return await this.apiService.request<Schedule>({
             method: 'GET',
-            url: `/schedules/schedule/${id}`,
+            url: `/schedules/schedule/${id}/${groupId}`,
         });
     }
 

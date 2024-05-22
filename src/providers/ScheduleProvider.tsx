@@ -19,7 +19,7 @@ type SchedulesContextType = {
     data: Omit<AddOrUpdateSchedule, "id">
   ) => Promise<Schedule | undefined>;
   updateSchedule: (data: AddOrUpdateSchedule) => Promise<Schedule | undefined>;
-  getScheduleById: (id: string) => Promise<Schedule | undefined>;
+  getScheduleById: (id: string, groupId: string) => Promise<Schedule | undefined>;
   getSchedulesByGroupId: (groupId: string) => Promise<Schedule[] | undefined>;
   getSchedulesByTeacherId: (
     teacherId: string
@@ -87,9 +87,9 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const getScheduleById = async (id: string) => {
+  const getScheduleById = async (id: string, groupId: string) => {
     try {
-      return await schedulesApi.getScheduleById(id);
+      return await schedulesApi.getScheduleById(id, groupId);
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });

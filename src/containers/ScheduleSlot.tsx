@@ -70,16 +70,16 @@ const ScheduleSlot: FC = () => {
 
   const weekDayName = useRoleMessageHook(day as Day);
   useEffect(() => {
-    if (id) {
+    if (id && groupId) {
       setLoading(true);
-      getScheduleById(id).then((schedule) => {
+      getScheduleById(id, groupId).then((schedule) => {
         if (schedule) {
           setSchedule(schedule);
         }
         setLoading(false);
       });
     }
-  }, [id]);
+  }, [id, groupId]);
 
   useEffect(() => {
     Promise.all([
@@ -140,6 +140,8 @@ const ScheduleSlot: FC = () => {
       </div>
     );
   }
+
+  console.log(schedule);
 
   return (
     <>
