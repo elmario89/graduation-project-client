@@ -141,8 +141,6 @@ const ScheduleSlot: FC = () => {
     );
   }
 
-  console.log(schedule);
-
   return (
     <>
       <Typography variant="h4" gutterBottom>

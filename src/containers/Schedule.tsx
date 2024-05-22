@@ -69,9 +69,8 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
     );
   };
 
-  useEffect(() => {
+  const generateData = () => {
     if (teacherId) {
-      console.log(teacherId);
       setLoading(true);
       getSchedulesByTeacherId(teacherId).then((response) => {
         if (response) {
@@ -117,6 +116,10 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
         }
       });
     }
+  }
+
+  useEffect(() => {
+    generateData();
   }, [groupId, teacherId]);
 
   if ((id && !schedules) || loading || !config) {
@@ -280,6 +283,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                 setDeleteDialogOpened(false);
                 setLoading(true);
                 await deleteSchedule(deleteCandidate, groupId || "");
+                generateData();
                 setLoading(false);
               }
             }}
