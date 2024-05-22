@@ -13,8 +13,8 @@ type VisitCardProps = {
     schedules: Schedule[];
     visits: Visit[];
     forTeacher?: boolean;
-    setVisit?: (time: string) => void;
-    deleteVisit?: (visitId: string) => void;
+    setVisit?: (schedule: Schedule) => void;
+    deleteVisit?: (visitId: string, schedule: Schedule) => void;
 }
 
 const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, setVisit, deleteVisit }) => {
@@ -74,13 +74,13 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, se
                                                 {filteredByTime.length ? (
                                                     <Button onClick={() => {
                                                         if (deleteVisit) {
-                                                            return deleteVisit(filteredByTime[0].id);
+                                                            return deleteVisit(filteredByTime[0].id, schedule);
                                                         }
                                                     }} size='small' color='error' variant='contained'>Mark out</Button>
                                                 ) : (
                                                     <Button onClick={() => {
                                                         if (setVisit) {
-                                                            return setVisit(schedule.timeStart)
+                                                            return setVisit(schedule);
                                                         }
                                                     }} size='small' color='success' variant='contained'>Mark in</Button>
                                                 )}

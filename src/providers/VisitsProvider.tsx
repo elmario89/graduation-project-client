@@ -5,8 +5,8 @@ import {Alert, Snackbar} from "@mui/material";
 import { Visit } from "../types/visit";
 
 type VisitsContextType = {
-    getVisitByScheduleAndStudent: (studentId: string, scheduleId: string) => Promise<Visit[] | undefined>;
-    getVisitsBySchedule: (scheduleId: string) => Promise<Visit[] | undefined>;
+    getVisitByScheduleAndStudent: (studentId: string, scheduleIds: string[]) => Promise<Visit[] | undefined>;
+    getVisitsBySchedule: (scheduleId: string[]) => Promise<Visit[] | undefined>;
 }
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -18,9 +18,9 @@ const VisitsProvider: FC<PropsWithChildren> = ({ children }) => {
         useState<{ message: string, type: ErrorType } | null>(null);
     const { visitsApi } = useApi();
 
-    const getVisitByScheduleAndStudent = async (studentId: string, scheduleId: string) => {
+    const getVisitByScheduleAndStudent = async (studentId: string, scheduleIds: string[]) => {
         try {
-            const visits = await visitsApi.getVisitByScheduleAndStudent(studentId, scheduleId);
+            const visits = await visitsApi.getVisitByScheduleAndStudent(studentId, scheduleIds);
 
             return visits;
         } catch (e: unknown) {
@@ -30,9 +30,9 @@ const VisitsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }
 
-    const getVisitsBySchedule = async (scheduleId: string) => {
+    const getVisitsBySchedule = async (scheduleIds: string[]) => {
         try {
-            const visits = await visitsApi.getVisitBySchedule(scheduleId);
+            const visits = await visitsApi.getVisitBySchedule(scheduleIds);
 
             return visits;
         } catch (e: unknown) {

@@ -45,9 +45,8 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
     const [schedules, setSchedules] = useState<Schedule[] | undefined>([]);
     const { groupId, disciplineId, studentId } = useParams();
 
-    useEffect(() => {
+    const generateData = () => {
         if (groupId && disciplineId) {
-            setLoading(true);
             getScheduleByGroupAndDiscipline(groupId, disciplineId)
                 .then((schedules) => {
                     if (schedules?.length) {
@@ -60,8 +59,8 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                 .then((schedules) => {
                     if (schedules?.length) {
                         return Promise.all([
-                            getVisitByScheduleAndStudent(studentId || '', schedules[0].id),
-                            getVisitsBySchedule(schedules[0].id),
+                            getVisitByScheduleAndStudent(studentId || '', schedules.map(s => s.id)),
+                            getVisitsBySchedule(schedules.map(s => s.id)),
                         ]);
                     }
                 })
@@ -70,8 +69,14 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                         setVisits(result[0] || []);
                         setGroupVisits(result[1] || []);
                     }
-                });
+                })
+                .finally(() => setLoading(false));
         }
+    };
+
+    useEffect(() => {
+        setLoading(true);
+        generateData();
     }, [groupId]);
 
     useEffect(() => {
@@ -185,33 +190,18 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                                     visits={visits}
                                     schedules={schedules.filter(schedule => Number(schedule.day) === date.getDay() - 1)}
                                     forTeacher={forTeacher}
-                                    setVisit={forTeacher ? async (time) => {
-                                        if (studentId && schedules[0].id) {
-                                            const [hours, minutes, seconds] = time.split(':');
+                                    setVisit={forTeacher ? async (schedule: Schedule) => {
+                                        if (studentId && schedule) {
+                                            const { timeStart, id } = schedule;
+                                            const [hours, minutes, seconds] = timeStart.split(':');
                                             const dateTime = date.setHours(Number(hours), Number(minutes), Number(seconds));
-                                            const visits = await setVisit({ studentId, scheduleId: schedules[0].id, date: new Date(dateTime) });;
-                                            if (visits?.length) {
-                                                setVisits(visits);
-                                                getVisitsBySchedule(schedules[0].id)
-                                                    .then((groupVisits) => {
-                                                        if (groupVisits) {
-                                                            setGroupVisits(groupVisits);
-                                                        }
-                                                    });
-                                            }
+                                            await setVisit({ studentId, scheduleId: id, date: new Date(dateTime) });
+                                            generateData();
                                         }
                                     } : undefined}
-                                    deleteVisit={forTeacher ? async (visitId) => {
-                                        const visits = await deleteVisit(visitId, schedules[0].id, studentId || '');
-                                        if (visits?.length) {
-                                            setVisits(visits);
-                                            getVisitsBySchedule(schedules[0].id)
-                                                .then((groupVisits) => {
-                                                    if (groupVisits) {
-                                                        setGroupVisits(groupVisits);
-                                                    }
-                                                });
-                                        }
+                                    deleteVisit={forTeacher ? async (visitId, schedule) => {
+                                        await deleteVisit(visitId);
+                                        generateData();
                                     } : undefined}
                                 />
                             </Grid>

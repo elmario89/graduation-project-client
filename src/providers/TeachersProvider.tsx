@@ -30,7 +30,7 @@ type TeachersContextType = {
     disciplineId: string
   ) => Promise<Group[] | undefined>;
   setVisit: (dto: { studentId: string; scheduleId: string; date: Date }) => Promise<Visit[] | undefined>;
-  deleteVisit: (id: string, scheduleId: string, studentId: string) => Promise<Visit[] | undefined>;
+  deleteVisit: (id: string) => Promise<Visit[] | undefined>;
 };
 
 type ErrorType = "error" | "success" | "info" | "warning" | undefined;
@@ -93,10 +93,10 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const deleteVisit = async (id: string, scheduleId: string, studentId: string) => {
+  const deleteVisit = async (id: string) => {
     try {
       setAlert({ message: "Student visit has been deleted", type: "warning" });
-      return await teachersApi.deleteVisit(id, scheduleId, studentId);
+      return await teachersApi.deleteVisit(id);
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });

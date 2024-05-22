@@ -67,10 +67,10 @@ class TeachersApi {
         });
     }
 
-    public async deleteVisit(id: string, scheduleId: string, studentId: string): Promise<Visit[]> {
+    public async deleteVisit(id: string): Promise<Visit[]> {
         return await this.apiService.request<Visit[]>({
             method: 'DELETE',
-            url: `/visits/teacher/${id}/${scheduleId}/${studentId}`,
+            url: `/visits/teacher/${id}`,
         });
     }
 }
