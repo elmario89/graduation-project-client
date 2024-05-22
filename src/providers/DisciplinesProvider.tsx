@@ -39,7 +39,7 @@ const DisciplinesProvider: FC<PropsWithChildren> = ({ children }) => {
     const createDiscipline = async (data: Omit<AddOrUpdateDiscipline, 'id'>) => {
         try {
             const discipline = await disciplinesApi.createDiscipline(data);
-            setAlert({ message: 'Discipline has been created!', type: 'success' });
+            setAlert({ message: 'Дисциплина создана', type: 'success' });
             return discipline;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -51,7 +51,7 @@ const DisciplinesProvider: FC<PropsWithChildren> = ({ children }) => {
     const updateDiscipline = async (data: AddOrUpdateDiscipline) => {
         try {
             const discipline = await disciplinesApi.updateDiscipline(data);
-            setAlert({ message: 'Discipline has been updated!', type: 'success' });
+            setAlert({ message: 'Дисциплина обновлена', type: 'success' });
             return discipline;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -73,7 +73,7 @@ const DisciplinesProvider: FC<PropsWithChildren> = ({ children }) => {
     const deleteDiscipline = async (id: string) => {
         try {
             await disciplinesApi.deleteDiscipline(id);
-            setAlert({ message: 'Discipline has been deleted!', type: 'success' });
+            setAlert({ message: 'Дисциплина удалена', type: 'success' });
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });

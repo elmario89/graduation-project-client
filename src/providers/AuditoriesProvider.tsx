@@ -52,7 +52,7 @@ const AuditoriesProvider: FC<PropsWithChildren> = ({ children }) => {
     const createAuditory = async (data: Omit<Auditory, 'id'>) => {
         try {
             const auditory = await auditoriesApi.createAuditory(data);
-            setAlert({ message: 'Auditory has been created!', type: 'success' });
+            setAlert({ message: 'Аудитория добавлена', type: 'success' });
             return auditory;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -64,7 +64,7 @@ const AuditoriesProvider: FC<PropsWithChildren> = ({ children }) => {
     const updateAuditory = async (data: Auditory) => {
         try {
             const auditory = await auditoriesApi.updateAuditory(data);
-            setAlert({ message: 'Auditory has been updated!', type: 'success' });
+            setAlert({ message: 'Аудитория обновлена', type: 'success' });
             return auditory;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -86,7 +86,7 @@ const AuditoriesProvider: FC<PropsWithChildren> = ({ children }) => {
     const deleteAuditory = async (id: string) => {
         try {
             await auditoriesApi.deleteAuditory(id);
-            setAlert({ message: 'Auditory has been deleted!', type: 'success' });
+            setAlert({ message: 'Аудитория удалена', type: 'success' });
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });

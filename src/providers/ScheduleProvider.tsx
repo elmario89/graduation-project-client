@@ -66,7 +66,7 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
         timeStart: unionTime[0],
         timeFinish: unionTime[1],
       });
-      setAlert({ message: "Schedule has been created!", type: "success" });
+      setAlert({ message: "Расписание создано", type: "success" });
       return schedule;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -78,7 +78,7 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
   const updateSchedule = async (data: AddOrUpdateSchedule) => {
     try {
       const schedule = await schedulesApi.updateSchedule(data);
-      setAlert({ message: "Schedule has been updated!", type: "success" });
+      setAlert({ message: "Расписание обновлено", type: "success" });
       return schedule;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -136,7 +136,7 @@ const SchedulesProvider: FC<PropsWithChildren> = ({ children }) => {
         setSchedules(schedules);
       }
 
-      setAlert({ message: "Schedule has been deleted!", type: "success" });
+      setAlert({ message: "Расписание удалено", type: "success" });
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });

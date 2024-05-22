@@ -82,7 +82,7 @@ const Faculties: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Faculties
+        Факультеты
       </Typography>
       <Box sx={{ py: 2 }}>
         <Button
@@ -90,7 +90,7 @@ const Faculties: FC = () => {
           color={"success"}
           onClick={() => navigate("/admin/faculty")}
         >
-          Add faculty
+          Добавить факультет
         </Button>
       </Box>
       <TableContainer component={Paper}>
@@ -100,7 +100,7 @@ const Faculties: FC = () => {
               <TableCell colSpan={5}>
                 <Stack sx={{ width: "100%" }} spacing={2}>
                   <Alert severity="warning">
-                    No faculties, try to create one
+                    Факультетов нет, добавьте один
                   </Alert>
                 </Stack>
               </TableCell>
@@ -109,9 +109,9 @@ const Faculties: FC = () => {
             <>
               <TableHead>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Groups</TableCell>
-                  <TableCell>Disciplines</TableCell>
+                  <TableCell>Название</TableCell>
+                  <TableCell>Группы</TableCell>
+                  <TableCell>Дисциплины</TableCell>
                   <TableCell align="right"></TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
@@ -167,7 +167,7 @@ const Faculties: FC = () => {
                           color="warning"
                           onClick={() => navigate(`/admin/faculty/${row.id}`)}
                         >
-                          Update faculty
+                          Обновить факультет
                         </Button>
                       </TableCell>
                       <TableCell align="right">
@@ -181,7 +181,7 @@ const Faculties: FC = () => {
                             setDeleteCandidate(row.id);
                           }}
                         >
-                          Delete faculty
+                          Удалить факультет
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -198,10 +198,10 @@ const Faculties: FC = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Delete faculty</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Удалить факультет</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete faculty?
+            Вы уверены что хотите удалить факультет?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -218,7 +218,7 @@ const Faculties: FC = () => {
               }
             }}
           >
-            Delete
+            Удалить
           </Button>
           <Button
             variant="contained"
@@ -226,7 +226,7 @@ const Faculties: FC = () => {
             onClick={() => setDeleteDialogOpened(false)}
             autoFocus
           >
-            Cancel
+            Отмена
           </Button>
         </DialogActions>
       </Dialog>

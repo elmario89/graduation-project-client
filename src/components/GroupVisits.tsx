@@ -37,11 +37,11 @@ const GroupVisits: FC<GroupVisitsProps> = ({ groupId, visits, visitPlan, discipl
             margin={{ left: 100 }}
             dataset={dataSet}
             yAxis={[{ scaleType: 'band', dataKey: 'student', colorMap: { type: 'ordinal', colors: dataSet.map((set) => getColor((set.visit / (visitPlan / 100)), 0, 120)) } }]}
-            series={[{ dataKey: 'visit', label: `${disciplineName} visits` }]}
+            series={[{ dataKey: 'visit', label: `Статистика посещений группы по ${disciplineName}` }]}
             layout="horizontal"
             xAxis={[
                 {
-                    label: `${disciplineName} visit plan`,
+                    label: `Количество занятий по ${disciplineName}`,
                     max: visitPlan,
                     tickInterval: Array.from(Array(visitPlan + 1).keys()),
                     valueFormatter: (v) => Math.floor(v).toString(),

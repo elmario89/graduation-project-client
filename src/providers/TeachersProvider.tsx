@@ -63,7 +63,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const createTeacher = async (data: Omit<AddOrUpdateTeacher, "id">) => {
     try {
       const teacher = await teachersApi.create(data);
-      setAlert({ message: "Teacher has been created!", type: "success" });
+      setAlert({ message: "Учитель создан", type: "success" });
       return teacher;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -84,7 +84,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const setVisit = async (dto: { studentId: string; scheduleId: string; date: Date }) => {
     try {
-      setAlert({ message: "Student visit has been added", type: "success" });
+      setAlert({ message: "Посещение студента было добавлено", type: "success" });
       return await teachersApi.setVisit(dto);
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -95,7 +95,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const deleteVisit = async (id: string) => {
     try {
-      setAlert({ message: "Student visit has been deleted", type: "warning" });
+      setAlert({ message: "Посещения студента было удалено", type: "warning" });
       return await teachersApi.deleteVisit(id);
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -117,7 +117,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const updateTeacher = async (data: AddOrUpdateTeacher) => {
     try {
       const teacher = await teachersApi.update(data);
-      setAlert({ message: "Teacher has been updated!", type: "success" });
+      setAlert({ message: "Учитель обновлен", type: "success" });
       return teacher;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -139,7 +139,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const deleteTeacher = async (id: string) => {
     try {
       await teachersApi.delete(id);
-      setAlert({ message: "Teacher has been deleted!", type: "success" });
+      setAlert({ message: "Учитель удален", type: "success" });
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });

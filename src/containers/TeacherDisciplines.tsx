@@ -38,7 +38,7 @@ const TeacherDisciplines: FC = () => {
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
       <Typography sx={{ mb: 2 }} variant="h3">
-        Disciplines:
+        Дисциплины:
       </Typography>
       <Box display={"flex"} flexDirection={'column'} gap={2}>
         {disciplines.map((t) => (

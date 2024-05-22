@@ -69,6 +69,7 @@ const ScheduleSlot: FC = () => {
   const { id, groupId, day, time } = useParams();
 
   const weekDayName = useRoleMessageHook(day as Day);
+
   useEffect(() => {
     if (id && groupId) {
       setLoading(true);
@@ -144,8 +145,8 @@ const ScheduleSlot: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Schedule {weekDayName}{" "}
-        {time ? TimeMapper[time as keyof typeof TimeMapper] : "Unknown..."}
+        Слот расписания {weekDayName}{" "}
+        {time ? TimeMapper[time as keyof typeof TimeMapper] : "Неопределено..."}
       </Typography>
       <Box
         justifyContent="flex-start"
@@ -189,7 +190,7 @@ const ScheduleSlot: FC = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Teacher"
+                  label="Учитель"
                   error={!!errors.teacherId}
                 />
               )}
@@ -232,7 +233,7 @@ const ScheduleSlot: FC = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Discipline"
+                  label="Дисциплина"
                   error={!!errors.disciplineId}
                 />
               )}
@@ -252,20 +253,20 @@ const ScheduleSlot: FC = () => {
               defaultValue={
                 schedule?.auditory
                   ? {
-                      label: `${schedule?.auditory.building.address}, Building: ${schedule?.auditory.building.number}, Auditory: ${schedule?.auditory.number}`,
+                      label: `${schedule?.auditory.building.address}, Здание: ${schedule?.auditory.building.number}, Аудитория: ${schedule?.auditory.number}`,
                       value: schedule?.auditory.id,
                     }
                   : null
               }
               onChange={(_, chosen) => onChange(chosen?.value)}
               options={config?.auditories.map((d) => ({
-                label: `${d?.building.address}, Building: ${d?.building.number}, Auditory: ${d?.number}`,
+                label: `${d?.building.address}, Здание: ${d?.building.number}, Аудитория: ${d?.number}`,
                 value: d.id,
               }))}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Auditory"
+                  label="Аудитория"
                   error={!!errors.disciplineId}
                 />
               )}
@@ -299,22 +300,22 @@ const ScheduleSlot: FC = () => {
               onChange={(_, chosen) => onChange(chosen?.value)}
               options={[
                 {
-                  label: "Lecture",
+                  label: "Лекция",
                   value: ScheduleType.Lecture,
                 },
                 {
-                  label: "Laboratory",
+                  label: "Лабораторная",
                   value: ScheduleType.Laboratory,
                 },
                 {
-                  label: "Practice",
+                  label: "Практика",
                   value: ScheduleType.Practice,
                 },
               ]}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Class type"
+                  label="Вид занятия"
                   error={!!errors.scheduleType}
                 />
               )}
@@ -329,7 +330,7 @@ const ScheduleSlot: FC = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            {id ? "Update schedule" : "Create schedule"}
+            {id ? "Обновить слот расписания" : "Добавить слот расписания"}
           </Button>
           <Button
             disabled={!id}
@@ -341,7 +342,7 @@ const ScheduleSlot: FC = () => {
               setDeleteCandidate(id || "");
             }}
           >
-            Delete schedule slot
+            Удалить слот расписания
           </Button>
           <Button
             onClick={() =>
@@ -351,7 +352,7 @@ const ScheduleSlot: FC = () => {
             color="warning"
             sx={{ mt: 3, mb: 2 }}
           >
-            Back
+            Назад
           </Button>
         </Box>
         <Dialog
@@ -361,11 +362,11 @@ const ScheduleSlot: FC = () => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            Delete schedule slot
+            Удалить слот раписания
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete schedule slot?
+              Вы уверены что хотите удалить слот расписания?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -382,7 +383,7 @@ const ScheduleSlot: FC = () => {
                 }
               }}
             >
-              Delete
+              Удалить
             </Button>
             <Button
               variant="contained"
@@ -390,7 +391,7 @@ const ScheduleSlot: FC = () => {
               onClick={() => setDeleteDialogOpened(false)}
               autoFocus
             >
-              Cancel
+              Отмена
             </Button>
           </DialogActions>
         </Dialog>

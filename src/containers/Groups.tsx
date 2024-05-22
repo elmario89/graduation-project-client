@@ -80,7 +80,7 @@ const Groups: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Groups
+                Группы
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -88,7 +88,7 @@ const Groups: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/group')}
                 >
-                    Add group
+                    Добавить группу
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -97,7 +97,7 @@ const Groups: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No groups, try to create one</Alert>
+                                    <Alert severity="warning">Групп нет, попробуйте добавить одну</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -105,10 +105,10 @@ const Groups: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Faculty name</TableCell>
-                                    <TableCell align="right">Education start</TableCell>
-                                    <TableCell align="right">Education finish</TableCell>
+                                    <TableCell>Название</TableCell>
+                                    <TableCell>Факультет</TableCell>
+                                    <TableCell align="right">Начало обучения</TableCell>
+                                    <TableCell align="right">Конец обучения</TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
@@ -133,7 +133,7 @@ const Groups: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/group/${row.id}`)}
                                             >
-                                                Update group
+                                                Обновить группу
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -147,7 +147,7 @@ const Groups: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete group
+                                                Удалить группу
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -164,11 +164,11 @@ const Groups: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete group
+                    Удалить группу
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete group?
+                        Вы уверены что хотите удалить группу?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -185,10 +185,10 @@ const Groups: FC = () => {
                             }
                         }}
                     >
-                        Delete
+                        Удалить
                     </Button>
                     <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
-                        Cancel
+                        Отмена
                     </Button>
                 </DialogActions>
             </Dialog>

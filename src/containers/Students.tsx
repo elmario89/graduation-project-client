@@ -79,7 +79,7 @@ const Students: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Students
+                Студенты
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -87,7 +87,7 @@ const Students: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/student')}
                 >
-                    Add student
+                    Добавить студента
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -96,7 +96,7 @@ const Students: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No students, try to create one</Alert>
+                                    <Alert severity="warning">Студентов нет, добавьте одного</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -104,10 +104,10 @@ const Students: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell align="right">Surname</TableCell>
-                                    <TableCell>Group name</TableCell>
-                                    <TableCell align="right">Login</TableCell>
+                                    <TableCell>Имя</TableCell>
+                                    <TableCell align="right">Фамилия</TableCell>
+                                    <TableCell>Названи группы</TableCell>
+                                    <TableCell align="right">Логин</TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
@@ -132,7 +132,7 @@ const Students: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/student/${row.id}`)}
                                             >
-                                                Update student
+                                                Обновить студента
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -146,7 +146,7 @@ const Students: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete student
+                                                Удалить студента
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -163,11 +163,11 @@ const Students: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete student
+                    Удалить студента
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete student?
+                        Вы уверены что хотите удалить студента?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -184,10 +184,10 @@ const Students: FC = () => {
                             }
                         }}
                     >
-                        Delete
+                        Удалить
                     </Button>
                     <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
-                        Cancel
+                        Отмена
                     </Button>
                 </DialogActions>
             </Dialog>

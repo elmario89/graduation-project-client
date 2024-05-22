@@ -80,7 +80,7 @@ const Teachers: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Teachers
+                Учителя
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -88,7 +88,7 @@ const Teachers: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/teacher')}
                 >
-                    Add teacher
+                    Добавить учителя
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -97,7 +97,7 @@ const Teachers: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No teachers, try to create one</Alert>
+                                    <Alert severity="warning">Учителей нет, добавьте одного</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -105,10 +105,10 @@ const Teachers: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Surname</TableCell>
-                                    <TableCell>Disciplines</TableCell>
-                                    <TableCell>Login</TableCell>
+                                    <TableCell>Имя</TableCell>
+                                    <TableCell>Фамилия</TableCell>
+                                    <TableCell>Дисциплина</TableCell>
+                                    <TableCell>Логин</TableCell>
                                     <TableCell align="right"></TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
@@ -146,7 +146,7 @@ const Teachers: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/teacher/${row.id}`)}
                                             >
-                                                Update teacher
+                                                Обновить учителя
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -160,7 +160,7 @@ const Teachers: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete teacher
+                                                Удалить учителя
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -177,11 +177,11 @@ const Teachers: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete teacher
+                    Удалить учителя
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete teacher?
+                        Вы уверены что хотите удалить учителя?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -198,10 +198,10 @@ const Teachers: FC = () => {
                             }
                         }}
                     >
-                        Delete
+                        Удалить
                     </Button>
                     <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
-                        Cancel
+                        Отмена
                     </Button>
                 </DialogActions>
             </Dialog>

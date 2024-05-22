@@ -80,7 +80,7 @@ const Discipline: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Discipline
+        Дисциплина
       </Typography>
       <CssBaseline />
       <Box
@@ -106,7 +106,7 @@ const Discipline: FC = () => {
               required
               fullWidth
               id="name"
-              label="Discipline name"
+              label="Название"
               name="name"
               autoComplete="name"
               autoFocus
@@ -140,7 +140,7 @@ const Discipline: FC = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Faculty"
+                      label="Факультет"
                       error={!!errors.facultyId}
                     />
                   )}
@@ -152,7 +152,7 @@ const Discipline: FC = () => {
             {discipline?.teachers && discipline.teachers.length > 0 && (
               <>
                 <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-                  Teachers:
+                  Учителя:
                 </Typography>
                 <Box
                   display="flex"
@@ -180,7 +180,7 @@ const Discipline: FC = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {id ? "Update discipline" : "Create discipline"}
+                {id ? "Обновить дисциплину" : "Добавить дисциплину"}
               </Button>
               <Button
                 onClick={() => navigate(`/admin/disciplines`)}
@@ -188,7 +188,7 @@ const Discipline: FC = () => {
                 color="warning"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Back
+                Назад
               </Button>
             </Box>
           </Box>

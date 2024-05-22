@@ -77,7 +77,7 @@ const Buildings: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Buildings
+                Здания
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -85,7 +85,7 @@ const Buildings: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/building')}
                 >
-                    Add building
+                    Добавить здание
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -94,7 +94,7 @@ const Buildings: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No buildings, try to create one</Alert>
+                                    <Alert severity="warning">Нет зданий, добавьте одно</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -102,8 +102,8 @@ const Buildings: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Building number</TableCell>
-                                    <TableCell>Address</TableCell>
+                                    <TableCell>Номер здания</TableCell>
+                                    <TableCell>Адрес</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>
@@ -126,7 +126,7 @@ const Buildings: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/building/${row.id}`)}
                                             >
-                                                Update building
+                                                Обновить здание
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -140,7 +140,7 @@ const Buildings: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete building
+                                                Удалить здание
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -157,11 +157,11 @@ const Buildings: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete building
+                    Удалить здание
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete building?
+                        Вы уверены что хотите удалить здание?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -178,10 +178,10 @@ const Buildings: FC = () => {
                             }
                         }}
                     >
-                        Delete
+                        Удалить
                     </Button>
                     <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
-                        Cancel
+                        Отмена
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -1,5 +1,5 @@
 export const ScheduleMapper = {
-    0: 'Lecture',
-    1: 'Laboratory',
-    2: 'Practice',
+    0: 'Лекция',
+    1: 'Лабораторная',
+    2: 'Практика',
 };

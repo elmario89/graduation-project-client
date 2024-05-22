@@ -40,13 +40,13 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, se
 
     return (
         <div className={`card ${getVisitType(date)}`}>
-            <Typography variant='subtitle2'>{dayjs(date).locale('en').format('ddd, MMM D, YYYY ')}</Typography>
+            <Typography variant='subtitle2'>{dayjs(date).format('ddd, D MMMM , YYYY ')}</Typography>
             <Divider sx={{ mb: 2, mt: 1 }} />
             {schedules.length > 0 ? (
                 <>
                     <Box display={'flex'} flexDirection={'row'} gap={5}>
-                        <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Start</Typography>
-                        <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Finish</Typography>
+                        <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Начало</Typography>
+                        <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Конец</Typography>
                     </Box>
                     <Box display={'flex'} flexDirection={'column'}>
                         {schedules.map((schedule) => {
@@ -76,24 +76,24 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, se
                                                         if (deleteVisit) {
                                                             return deleteVisit(filteredByTime[0].id, schedule);
                                                         }
-                                                    }} size='small' color='error' variant='contained'>Mark out</Button>
+                                                    }} size='small' color='error' variant='contained'>Убрать</Button>
                                                 ) : (
                                                     <Button onClick={() => {
                                                         if (setVisit) {
                                                             return setVisit(schedule);
                                                         }
-                                                    }} size='small' color='success' variant='contained'>Mark in</Button>
+                                                    }} size='small' color='success' variant='contained'>Отметить</Button>
                                                 )}
                                             </>
                                         )}
                                     </Box>
                                     <Box display={'flex'} flexDirection={'row'} gap={5} alignItems={'center'} justifyContent={'space-between'}>
                                         <div>
-                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Teacher</Typography>
+                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Учитель</Typography>
                                             <Typography variant='subtitle2'>{schedule.teacher.name} {schedule.teacher.surname}</Typography>
                                         </div>
                                         <div>
-                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Class type</Typography>
+                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Вид занятия</Typography>
                                             <Typography variant='subtitle2'>
                                                 {/* @ts-ignore */}
                                                 {ScheduleMapper[schedule?.scheduleType as keyof typeof ScheduleMapper]}
@@ -107,7 +107,7 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, se
                     </Box>
                 </>
             ) : (
-                <Typography variant='subtitle2'>There is no class for this discipline</Typography>
+                <Typography variant='subtitle2'>Для этой дисциплины нет занятия</Typography>
             )}
         </div>
     );

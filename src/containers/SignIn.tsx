@@ -38,9 +38,9 @@ export default function SignIn() {
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={role} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Sign in as Student" {...a11yProps(0)} />
-                    <Tab label="Sign in as Teacher" {...a11yProps(1)} />
-                    <Tab label="Sign in as Admin" {...a11yProps(2)} />
+                    <Tab label="Авторизоваться как студент" {...a11yProps(0)} />
+                    <Tab label="Авторизоваться как учитель" {...a11yProps(1)} />
+                    <Tab label="Авторизоваться как админ" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={role} index={0}>
@@ -109,7 +109,7 @@ const SignInContent: FC<SignInContentProps> = ({ role }) => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Авторизоваться
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -119,7 +119,7 @@ const SignInContent: FC<SignInContentProps> = ({ role }) => {
                             required
                             fullWidth
                             id="login"
-                            label="Login"
+                            label="Логин"
                             name="login"
                             autoComplete="login"
                             autoFocus
@@ -131,7 +131,7 @@ const SignInContent: FC<SignInContentProps> = ({ role }) => {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Пароль"
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -142,7 +142,7 @@ const SignInContent: FC<SignInContentProps> = ({ role }) => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Авторизоваться
                         </Button>
                     </Box>
                 </Box>

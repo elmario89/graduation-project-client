@@ -3,16 +3,16 @@ import {UserRole} from "../enums/user-role";
 const useRoleMessageHook = (role: UserRole | undefined): string => {
     switch (role) {
         case UserRole.Student: {
-            return 'Student';
+            return 'Студент';
         }
         case UserRole.Admin: {
-            return 'Admin';
+            return 'Админ';
         }
         case UserRole.Teacher: {
-            return 'Teacher';
+            return 'Учитель';
         }
         default: {
-            return 'Unknown...';
+            return 'Неопределено...';
         }
     }
 }

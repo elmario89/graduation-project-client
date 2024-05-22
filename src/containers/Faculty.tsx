@@ -81,7 +81,7 @@ const Faculty: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Faculty
+                Факультет
             </Typography>
             <CssBaseline />
             <Box
@@ -100,7 +100,7 @@ const Faculty: FC = () => {
                             required
                             fullWidth
                             id="name"
-                            label="Faculty name"
+                            label="Название"
                             name="name"
                             autoComplete="name"
                             autoFocus
@@ -110,7 +110,7 @@ const Faculty: FC = () => {
                         {faculty?.groups && faculty.groups.length > 0 && (
                             <>
                                 <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-                                    Groups:
+                                    Группы:
                                 </Typography>
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
@@ -130,7 +130,7 @@ const Faculty: FC = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                {id ? 'Update faculty' : 'Create faculty'}
+                                {id ? 'Обновить факультет' : 'Добавить факультет'}
                             </Button>
                             <Button
                                 onClick={() => navigate(`/admin/faculties`)}
@@ -138,7 +138,7 @@ const Faculty: FC = () => {
                                 color="warning"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Back
+                                Назад
                             </Button>
                         </Box>
                     </Box>

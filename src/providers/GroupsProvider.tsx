@@ -38,7 +38,7 @@ const GroupsProvider: FC<PropsWithChildren> = ({ children }) => {
     const createGroup = async (data: Omit<AddOrUpdateGroup, 'id'>) => {
         try {
             const group = await groupsApi.createGroup(data);
-            setAlert({ message: 'Group has been created!', type: 'success' });
+            setAlert({ message: 'Группа создана', type: 'success' });
             return group;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -50,7 +50,7 @@ const GroupsProvider: FC<PropsWithChildren> = ({ children }) => {
     const updateGroup = async (data: AddOrUpdateGroup) => {
         try {
             const group = await groupsApi.updateGroup(data);
-            setAlert({ message: 'Group has been updated!', type: 'success' });
+            setAlert({ message: 'Группа обновлена', type: 'success' });
             return group;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -72,7 +72,7 @@ const GroupsProvider: FC<PropsWithChildren> = ({ children }) => {
     const deleteGroup = async (id: string) => {
         try {
             await groupsApi.deleteGroup(id);
-            setAlert({ message: 'Group has been deleted!', type: 'success' });
+            setAlert({ message: 'Группа удалена', type: 'success' });
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });

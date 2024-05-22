@@ -79,7 +79,7 @@ const Auditories: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Auditories
+                Аудитории
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -87,7 +87,7 @@ const Auditories: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/auditory')}
                 >
-                    Add auditory
+                    Добавить аудиторию
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -96,7 +96,7 @@ const Auditories: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No auditories, try to create one</Alert>
+                                    <Alert severity="warning">Нет аудиторий, добавьте одну</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -104,9 +104,9 @@ const Auditories: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Auditory number</TableCell>
-                                    <TableCell>Floor</TableCell>
-                                    <TableCell>Building</TableCell>
+                                    <TableCell>Номер аудитории</TableCell>
+                                    <TableCell>Этаж</TableCell>
+                                    <TableCell>Здание</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>
@@ -130,7 +130,7 @@ const Auditories: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/auditory/${row.id}`)}
                                             >
-                                                Update auditory
+                                                Обновить аудиторию
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -144,7 +144,7 @@ const Auditories: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete auditory
+                                                Удалить аудиторию
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -161,11 +161,11 @@ const Auditories: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete auditory
+                    Удалить аудиторию
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete auditory?
+                        Вы уверены что хотите удалить аудиторию?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -182,10 +182,10 @@ const Auditories: FC = () => {
                             }
                         }}
                     >
-                        Delete
+                        Удалить
                     </Button>
                     <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
-                        Cancel
+                        Отмена
                     </Button>
                 </DialogActions>
             </Dialog>

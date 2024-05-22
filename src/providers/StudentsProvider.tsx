@@ -49,7 +49,7 @@ const StudentsProvider: FC<PropsWithChildren> = ({ children }) => {
     const createStudent = async (data: Omit<AddOrUpdateStudent, 'id'>) => {
         try {
             const student = await studentsApi.createStudent(data);
-            setAlert({ message: 'Student has been created!', type: 'success' });
+            setAlert({ message: 'Студент создан', type: 'success' });
             return student;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -61,7 +61,7 @@ const StudentsProvider: FC<PropsWithChildren> = ({ children }) => {
     const updateStudent = async (data: AddOrUpdateStudent) => {
         try {
             const student = await studentsApi.updateStudent(data);
-            setAlert({ message: 'Student has been updated!', type: 'success' });
+            setAlert({ message: 'Студент обновлен', type: 'success' });
             return student;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -83,7 +83,7 @@ const StudentsProvider: FC<PropsWithChildren> = ({ children }) => {
     const deleteStudent = async (id: string) => {
         try {
             await studentsApi.deleteStudent(id);
-            setAlert({ message: 'Student has been deleted!', type: 'success' });
+            setAlert({ message: 'Студент удален', type: 'success' });
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });

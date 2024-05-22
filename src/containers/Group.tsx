@@ -96,7 +96,7 @@ const Group: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Group
+                Группа
             </Typography>
             <CssBaseline />
             <Box
@@ -115,7 +115,7 @@ const Group: FC = () => {
                             required
                             fullWidth
                             id="name"
-                            label="Group name"
+                            label="Название группы"
                             name="name"
                             autoComplete="name"
                             autoFocus
@@ -139,11 +139,11 @@ const Group: FC = () => {
                                         group?.start ? dayjs(group?.start) : null,
                                         group?.finish ? dayjs(group?.finish) : null,
                                     ]}
-                                    localeText={{ start: 'Start education', end: 'Finish education' }}
+                                    localeText={{ start: 'Начало обучения', end: 'Конец обучения' }}
                                 />
                             )}
                         />
-                        {errors.dates && <FormHelperText error={!!errors.dates}>Please choose range</FormHelperText>}
+                        {errors.dates && <FormHelperText error={!!errors.dates}>Пожалуйста выберете даты</FormHelperText>}
 
                         <Controller
                             control={control}
@@ -170,7 +170,7 @@ const Group: FC = () => {
                                     renderInput={(params) =>
                                         <TextField
                                             {...params}
-                                            label="Faculty"
+                                            label="Факультет"
                                             error={!!errors.facultyId}
                                         />
                                     }
@@ -186,14 +186,14 @@ const Group: FC = () => {
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={() => navigate(`/admin/schedule/${id}`)}
                             >
-                                Update schedule
+                                Обновить расписание
                             </Button>
                         )}
 
                         {group?.students && group.students.length > 0 && (
                             <>
                                 <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-                                    Students:
+                                    Студенты:
                                 </Typography>
                                 <Box display="flex" flexDirection={'column'} gap={1} sx={{ my: 2 }}>
                                     {
@@ -218,7 +218,7 @@ const Group: FC = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                {id ? 'Update group' : 'Create group'}
+                                {id ? 'Обновить группу' : 'Создать группу'}
                             </Button>
                             <Button
                                 onClick={() => navigate(`/admin/groups`)}
@@ -226,7 +226,7 @@ const Group: FC = () => {
                                 color="warning"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Back
+                                Назад
                             </Button>
                         </Box>
                     </Box>

@@ -48,7 +48,7 @@ const BuildingsProvider: FC<PropsWithChildren> = ({ children }) => {
   const createBuilding = async (data: Omit<Building, "id">) => {
     try {
       const building = await buildingsApi.createBuilding(data);
-      setAlert({ message: "Building has been created!", type: "success" });
+      setAlert({ message: "Здание создано", type: "success" });
       return building;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -60,7 +60,7 @@ const BuildingsProvider: FC<PropsWithChildren> = ({ children }) => {
   const updateBuilding = async (data: Building) => {
     try {
       const building = await buildingsApi.updateBuilding(data);
-      setAlert({ message: "Building has been updated!", type: "success" });
+      setAlert({ message: "Здание обновлено", type: "success" });
       return building;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -82,7 +82,7 @@ const BuildingsProvider: FC<PropsWithChildren> = ({ children }) => {
   const deleteBuilding = async (id: string) => {
     try {
       await buildingsApi.deleteBuilding(id);
-      setAlert({ message: "Building has been deleted!", type: "success" });
+      setAlert({ message: "Зданепи удалено", type: "success" });
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });

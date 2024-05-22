@@ -132,7 +132,7 @@ const Teacher: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Teacher
+        Учитель
       </Typography>
       <CssBaseline />
       <Box
@@ -158,7 +158,7 @@ const Teacher: FC = () => {
               required
               fullWidth
               id="name"
-              label="Name"
+              label="Имя"
               name="name"
               autoComplete="name"
               autoFocus
@@ -173,7 +173,7 @@ const Teacher: FC = () => {
               required
               fullWidth
               id="surname"
-              label="Surname"
+              label="Фамилия"
               name="surname"
               autoComplete="surname"
               autoFocus
@@ -190,7 +190,7 @@ const Teacher: FC = () => {
                   required
                   fullWidth
                   id="login"
-                  label="Login"
+                  label="Логин"
                   name="login"
                   autoComplete="login"
                   autoFocus
@@ -205,7 +205,7 @@ const Teacher: FC = () => {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Пароль"
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -257,8 +257,8 @@ const Teacher: FC = () => {
                     <TextField
                       error={!!errors.facultiesIds}
                       {...params}
-                      label="Choose faculty"
-                      placeholder="Faculties"
+                      label="Выберите факультет"
+                      placeholder="Факультеты"
                     />
                   )}
                 />
@@ -299,8 +299,8 @@ const Teacher: FC = () => {
                     <TextField
                       error={!!errors.disciplineIds}
                       {...params}
-                      label="Choose discipline"
-                      placeholder="Disciplines"
+                      label="Выберите дисциплины"
+                      placeholder="Дисциплины"
                     />
                   )}
                 />
@@ -310,7 +310,7 @@ const Teacher: FC = () => {
             {teacher?.disciplines && teacher.disciplines.length > 0 && (
               <>
                 <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-                  Disciplines:
+                  Дисциплины:
                 </Typography>
                 <Box
                   display="flex"
@@ -339,7 +339,7 @@ const Teacher: FC = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {id ? "Update teacher" : "Create teacher"}
+                {id ? "Обновить учителя" : "Добавить учителя"}
               </Button>
               <Button
                 onClick={() => navigate(`/admin/teachers`)}
@@ -347,7 +347,7 @@ const Teacher: FC = () => {
                 color="warning"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Back
+                Назад
               </Button>
             </Box>
           </Box>

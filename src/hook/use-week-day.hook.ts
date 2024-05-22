@@ -3,28 +3,28 @@ import {Day} from "../types/day";
 const useRoleMessageHook = (role: Day | undefined): string => {
     switch (role) {
         case Day.Monday: {
-            return 'Monday';
+            return 'Понедельник';
         }
         case Day.Tuesday: {
-            return 'Tuesday';
+            return 'Вторник';
         }
         case Day.Wednesday: {
-            return 'Wednesday';
+            return 'Среда';
         }
         case Day.Thursday: {
-            return 'Thursday';
+            return 'Четверг';
         }
         case Day.Friday: {
-            return 'Friday';
+            return 'Пятница';
         }
         case Day.Saturday: {
-            return 'Saturday';
+            return 'Суббота';
         }
         case Day.Sunday: {
-            return 'Sunday';
+            return 'Воскресенье';
         }
         default: {
-            return 'Unknown...';
+            return 'Неопределено...';
         }
     }
 }

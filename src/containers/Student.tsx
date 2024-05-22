@@ -89,7 +89,7 @@ const Student: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Student
+                Студент
             </Typography>
             <CssBaseline />
             <Box
@@ -108,7 +108,7 @@ const Student: FC = () => {
                             required
                             fullWidth
                             id="name"
-                            label="Name"
+                            label="Имя"
                             name="name"
                             autoComplete="name"
                             autoFocus
@@ -123,7 +123,7 @@ const Student: FC = () => {
                             required
                             fullWidth
                             id="surname"
-                            label="Surname"
+                            label="Фамилия"
                             name="surname"
                             autoComplete="surname"
                             autoFocus
@@ -140,7 +140,7 @@ const Student: FC = () => {
                                     required
                                     fullWidth
                                     id="login"
-                                    label="Login"
+                                    label="Логин"
                                     name="login"
                                     autoComplete="login"
                                     autoFocus
@@ -154,7 +154,7 @@ const Student: FC = () => {
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    label="Пароль"
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
@@ -187,7 +187,7 @@ const Student: FC = () => {
                                     renderInput={(params) =>
                                         <TextField
                                             {...params}
-                                            label="Group"
+                                            label="Группа"
                                             error={!!errors.groupId}
                                         />
                                     }
@@ -203,7 +203,7 @@ const Student: FC = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                {id ? 'Update student' : 'Create student'}
+                                {id ? 'Обновить студента' : 'Добавить студента'}
                             </Button>
                             <Button
                                 onClick={() => navigate(`/admin/students`)}
@@ -211,7 +211,7 @@ const Student: FC = () => {
                                 color="warning"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Back
+                                Назад
                             </Button>
                         </Box>
                     </Box>

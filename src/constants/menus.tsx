@@ -11,37 +11,37 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 export const ADMIN_MENU: BaseLayoutMenu[] = [
     {
         path: '/admin/groups',
-        label: 'Groups',
+        label: 'Группы',
         icon: <GroupIcon />,
     },
     {
         path: '/admin/faculties',
-        label: 'Faculties',
+        label: 'Факультеты',
         icon: <AccountBalanceIcon />,
     },
     {
         path: '/admin/students',
-        label: 'Students',
+        label: 'Студенты',
         icon: <SchoolIcon />,
     },
     {
         path: '/admin/teachers',
-        label: 'Teachers',
+        label: 'Учителя',
         icon: <TextIncreaseIcon />,
     },
     {
         path: '/admin/disciplines',
-        label: 'Disciplines',
+        label: 'Дисциплины',
         icon: <MenuBookIcon />,
     },
     {
         path: '/admin/auditories',
-        label: 'Auditories',
+        label: 'Аудитории',
         icon: <AddLocationIcon />,
     },
     {
         path: '/admin/buildings',
-        label: 'Buildings',
+        label: 'Здания',
         icon: <ApartmentIcon />,
     },
 ];
@@ -49,7 +49,7 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
 export const STUDENT_MENU: BaseLayoutMenu[] = [
     {
         path: '/student/schedule',
-        label: 'Schedule',
+        label: 'Расписание',
         icon: <SchoolIcon />,
     }
 ];
@@ -57,12 +57,12 @@ export const STUDENT_MENU: BaseLayoutMenu[] = [
 export const TEACHER_MENU: BaseLayoutMenu[] = [
     {
         path: '/teacher/schedule',
-        label: 'Schedule',
+        label: 'Расписание',
         icon: <AccessAlarmIcon />,
     },
     {
         path: '/teacher/disciplines',
-        label: 'Disciplines',
+        label: 'Дисциплины',
         icon: <SchoolIcon />,
     },
 ];

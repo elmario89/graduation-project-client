@@ -80,7 +80,7 @@ const Disciplines: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Disciplines
+                Дисциплины
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -88,7 +88,7 @@ const Disciplines: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/discipline')}
                 >
-                    Add discipline
+                    Добавить дисциплину
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -97,7 +97,7 @@ const Disciplines: FC = () => {
                         <TableRow>
                             <TableCell colSpan={5}>
                                 <Stack sx={{ width: '100%' }} spacing={2}>
-                                    <Alert severity="warning">No disciplines, try to create one</Alert>
+                                    <Alert severity="warning">Дисциплин нет, добавьте одну</Alert>
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -105,9 +105,9 @@ const Disciplines: FC = () => {
                         <>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Discipline name</TableCell>
-                                    <TableCell>Faculty</TableCell>
-                                    <TableCell>Teachers</TableCell>
+                                    <TableCell>Название дисциплины</TableCell>
+                                    <TableCell>Факультет</TableCell>
+                                    <TableCell>Учителя</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>
@@ -144,7 +144,7 @@ const Disciplines: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/discipline/${row.id}`)}
                                             >
-                                                Update discipline
+                                                Обновить дисциплину
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -158,7 +158,7 @@ const Disciplines: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Delete discipline
+                                                Удалить дисциплину
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -175,11 +175,11 @@ const Disciplines: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Delete discipline
+                    Удалить дисциплину
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete discipline?
+                        Вы уверены что хотите удалить дисциплину?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -196,10 +196,10 @@ const Disciplines: FC = () => {
                             }
                         }}
                     >
-                        Delete
+                        Удалить
                     </Button>
                     <Button variant="contained" color="success" onClick={() => setDeleteDialogOpened(false)} autoFocus>
-                        Cancel
+                        Отмена
                     </Button>
                 </DialogActions>
             </Dialog>

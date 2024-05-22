@@ -146,29 +146,29 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange}>
-                        <Tab label="Schedule" value="1" />
-                        <Tab label="Personal statistic" value="2" />
-                        <Tab label="Group statistic" value="3" />
+                        <Tab label="Расписание" value="1" />
+                        <Tab label="Персональная статистика" value="2" />
+                        <Tab label="Статистика группы" value="3" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
-                    <Typography sx={{ mb: 4 }} variant='h3'>Discipline: {schedules[0].discipline.name} {student && `, Student: ${student.name} ${student.surname}`}</Typography>
+                    <Typography sx={{ mb: 4 }} variant='h3'>Дисциплина: {schedules[0].discipline.name} {student && `, Студент: ${student.name} ${student.surname}`}</Typography>
                     <Box display={'flex'} flexDirection={'column'} gap={2} sx={{ mb: 4 }}>
                         <Box display={'flex'} alignItems={'center'} flexDirection={'row'} gap={1}>
                             <div className="legend future" />
-                            <span>Class will be in the future</span>
+                            <span>Занятие в будущем</span>
                         </Box>
                         <Box display={'flex'} alignItems={'center'} flexDirection={'row'} gap={1}>
                             <div className="legend visited" />
-                            <span>You visited all classes by {schedules[0].discipline.name} that day</span>
+                            <span>Вы посетили все занятия по предмету {schedules[0].discipline.name}</span>
                         </Box>
                         <Box display={'flex'} alignItems={'center'} flexDirection={'row'} gap={1}>
                             <div className="legend partial" />
-                            <span>You visited at least one clase by {schedules[0].discipline.name} that day</span>
+                            <span>Вы посетили как минимум одно занятие по предмету {schedules[0].discipline.name}</span>
                         </Box>
                         <Box display={'flex'} alignItems={'center'} flexDirection={'row'} gap={1}>
                             <div className="legend absent" />
-                            <span>You were absent</span>
+                            <span>Вы пропустили все занятия</span>
                         </Box>
                     </Box>
 
@@ -179,7 +179,7 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                                 return !prev;
                             });
 
-                        }} />} label="Hide empty days" sx={{ mb: 6 }}
+                        }} />} label="Спрятать свободные от дисциплины дни" sx={{ mb: 6 }}
                     />
 
                     <Grid container spacing={4} alignItems="stretch">
@@ -211,17 +211,17 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                 <TabPanel value="2">
                     {countFact(schedules) && (
                         <>
-                            <Typography sx={{ mb: 2 }} variant='h3'>Discipline: {schedules[0].discipline.name} {student && `, Student: ${student.name} ${student.surname}`}</Typography>
+                            <Typography sx={{ mb: 2 }} variant='h3'>Дисциплина: {schedules[0].discipline.name} {student && `, Студент: ${student.name} ${student.surname}`}</Typography>
                             <Box sx={{ mt: 5 }} display={'flex'} flexDirection={'row'} gap={5}>
                                 <Box>
-                                    <Typography variant='h4' sx={{ mb: 4 }}>Visits plan</Typography>
+                                    <Typography variant='h4' sx={{ mb: 4 }}>Визиты план:</Typography>
                                     <PieChart
                                         series={[
                                             {
                                                 data: [
-                                                    { id: 0, value: visits.length, label: 'Visited', color: 'rgb(102, 187, 106)' },
-                                                    { id: 1, value: countAbsents(schedules), label: 'Absent', color: 'rgb(244, 67, 54)' },
-                                                    { id: 2, value: countFact(schedules) - countAbsents(schedules) - visits.length, label: 'Future', color: 'rgba(0, 0, 0, 0.12)' },
+                                                    { id: 0, value: visits.length, label: 'Посещения', color: 'rgb(102, 187, 106)' },
+                                                    { id: 1, value: countAbsents(schedules), label: 'Отсутствия', color: 'rgb(244, 67, 54)' },
+                                                    { id: 2, value: countFact(schedules) - countAbsents(schedules) - visits.length, label: 'В будущем', color: 'rgba(0, 0, 0, 0.12)' },
                                                 ],
                                                 innerRadius: 30,
                                                 cornerRadius: 5,
@@ -237,13 +237,13 @@ const StudentVisits: FC<StudentVisitsProps> = ({ forTeacher }) => {
                                 </Box>
 
                                 <Box>
-                                    <Typography variant='h4' sx={{ mb: 4 }}>Visits fact</Typography>
+                                    <Typography variant='h4' sx={{ mb: 4 }}>Визиты факт:</Typography>
                                     <PieChart
                                         series={[
                                             {
                                                 data: [
-                                                    { id: 0, value: visits.length, label: 'Visited', color: 'rgb(102, 187, 106)' },
-                                                    { id: 1, value: countAbsents(schedules), label: 'Absent', color: 'rgb(244, 67, 54)' },
+                                                    { id: 0, value: visits.length, label: 'Посещения', color: 'rgb(102, 187, 106)' },
+                                                    { id: 1, value: countAbsents(schedules), label: 'Отсутствия', color: 'rgb(244, 67, 54)' },
                                                 ],
                                                 innerRadius: 30,
                                                 cornerRadius: 5,

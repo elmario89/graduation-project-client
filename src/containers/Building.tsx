@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from "react";
+import { FC, useEffect, useState } from "react";
 import { useBuildings } from "../providers/BuildingProvider";
 import { CircularProgress } from "@mui/material";
 import { Building as BuildingModel } from "../types/building";
@@ -75,7 +75,7 @@ const Building: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Building
+        Здание
       </Typography>
       <CssBaseline />
       <Box
@@ -101,7 +101,7 @@ const Building: FC = () => {
               type={"number"}
               required
               fullWidth
-              label="Building number"
+              label="Номер здания"
               name="number"
               defaultValue={building?.number || ""}
               sx={{ mb: 2 }}
@@ -113,7 +113,7 @@ const Building: FC = () => {
               error={!!errors.address}
               required
               fullWidth
-              label="Address"
+              label="Адресс"
               name="address"
               defaultValue={building?.address || ""}
               sx={{ mb: 2 }}
@@ -126,7 +126,7 @@ const Building: FC = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {id ? "Update building" : "Create building"}
+                {id ? "Обновить здание" : "Добавить здание"}
               </Button>
               <Button
                 onClick={() => navigate(`/admin/buildings`)}
@@ -134,7 +134,7 @@ const Building: FC = () => {
                 color="warning"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Back
+                Назад
               </Button>
             </Box>
           </Box>

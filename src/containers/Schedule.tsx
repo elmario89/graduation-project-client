@@ -140,7 +140,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Schedule
+        Расписание
       </Typography>
       <CssBaseline />
       {config.map((day, index) => (
@@ -156,11 +156,11 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
           >
             <TableHead>
               <TableRow>
-                <TableCell>Time</TableCell>
-                <TableCell>Discipline</TableCell>
-                <TableCell>Teacher</TableCell>
-                <TableCell>Class type</TableCell>
-                <TableCell>Auditory</TableCell>
+                <TableCell>Время</TableCell>
+                <TableCell>Дисциплина</TableCell>
+                <TableCell>Преподаватель</TableCell>
+                <TableCell>Вид занятия</TableCell>
+                <TableCell>Аудитория</TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
               </TableRow>
@@ -215,8 +215,8 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                   <TableCell>
                     {schedule?.auditory && (
                       <>
-                        address: {schedule?.auditory.building.address}, floor:{" "}
-                        {schedule?.auditory.floor}, auditory:{" "}
+                        адрес: {schedule?.auditory.building.address}, этаж:{" "}
+                        {schedule?.auditory.floor}, аудитория:{" "}
                         {schedule?.auditory.number}
                       </>
                     )}
@@ -230,11 +230,11 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                       >
                         {forStudent
                           ? teacherId
-                            ? "Show group"
-                            : "Show statistics"
+                            ? "Показать группу"
+                            : "показать статистику"
                           : schedule
-                            ? "Update schedule"
-                            : "Add schedule"}
+                            ? "Обновить расписание"
+                            : "Добавить раписание"}
                       </Button>
                     )}
                   </TableCell>
@@ -250,7 +250,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
                           setDeleteCandidate(schedule?.id);
                         }}
                       >
-                        Delete schedule
+                        Удалить расписание
                       </Button>
                     )}
                   </TableCell>
@@ -267,10 +267,10 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Delete schedule slot</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Удалить слот расписания</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete schedule slot?
+            Вы уверены что хотите удалить слот расписания?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -288,7 +288,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
               }
             }}
           >
-            Delete
+            Удалить
           </Button>
           <Button
             variant="contained"
@@ -296,7 +296,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
             onClick={() => setDeleteDialogOpened(false)}
             autoFocus
           >
-            Cancel
+            Отмена
           </Button>
         </DialogActions>
       </Dialog>
@@ -308,7 +308,7 @@ const Schedule: FC<ScheduleProps> = ({ forStudent }) => {
           color="warning"
           sx={{ mt: 3, mb: 2 }}
         >
-          Back
+          Назад
         </Button>
       </Box>
     </>

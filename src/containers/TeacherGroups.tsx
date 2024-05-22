@@ -39,7 +39,7 @@ const TeacherGroups: FC = () => {
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
       <Typography sx={{ mb: 2 }} variant="h3">
-        Groups:
+        Группы:
       </Typography>
       <Box display={"flex"} flexDirection={'column'} gap={2}>
         {groups.map((t) => (

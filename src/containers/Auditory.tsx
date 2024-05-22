@@ -138,7 +138,7 @@ const Auditory: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Auditory
+        Аудитория
       </Typography>
       <CssBaseline />
       <Box
@@ -164,7 +164,7 @@ const Auditory: FC = () => {
               type={"number"}
               required
               fullWidth
-              label="Auditory number"
+              label="Номер аудитории"
               name="number"
               defaultValue={auditory?.number || ""}
               sx={{ mb: 2 }}
@@ -177,7 +177,7 @@ const Auditory: FC = () => {
               type={"number"}
               required
               fullWidth
-              label="Floor"
+              label="Этаж"
               name="floor"
               defaultValue={auditory?.floor || ""}
               sx={{ mb: 2 }}
@@ -204,7 +204,7 @@ const Auditory: FC = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Building"
+                      label="Здание"
                       error={!!errors.buildingId}
                     />
                   )}
@@ -230,7 +230,7 @@ const Auditory: FC = () => {
                           : false
                       }
                       required
-                      label="Longitude"
+                      label="Долгота (Longitude)"
                       defaultValue={
                         auditory?.coordinates[index]
                           ? auditory?.coordinates[index]?.lng
@@ -253,7 +253,7 @@ const Auditory: FC = () => {
                       required
                       fullWidth
                       margin="normal"
-                      label="Latitude"
+                      label="Широта (Latitude)"
                       defaultValue={
                         auditory?.coordinates[index]
                           ? auditory?.coordinates[index]?.lat
@@ -269,7 +269,7 @@ const Auditory: FC = () => {
                         size="small"
                         onClick={() => remove(index)}
                       >
-                        Delete point
+                        Удалить
                       </Button>
                     </Grid>
                   )}
@@ -285,7 +285,7 @@ const Auditory: FC = () => {
               onClick={() => append({ lng: "", lat: "" })}
               sx={{ mb: 2 }}
             >
-              Add point
+              Добавить точку
             </Button>
 
             {auditory && auditory?.coordinates?.length > 0 && (
@@ -327,7 +327,7 @@ const Auditory: FC = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {id ? "Update auditory" : "Create auditory"}
+                {id ? "Обновить аудиторию" : "Создать аудиторию"}
               </Button>
               <Button
                 onClick={() => navigate(`/admin/auditories`)}
@@ -335,7 +335,7 @@ const Auditory: FC = () => {
                 color="warning"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Back
+                Назад
               </Button>
             </Box>
           </Box>
