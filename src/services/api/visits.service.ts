@@ -5,13 +5,11 @@ class VisitsServiceApi {
     constructor(private apiService: ApiService) { }
 
     public async getVisitByScheduleAndStudent(studentId: string, scheduleIds: string[]): Promise<Visit[]> {
+        debugger;
         return await this.apiService.request<Visit[]>({
             method: 'GET',
             url: `/visits/student/${studentId}/`,
             params: { scheduleIds },
-            paramsSerializer: {
-                indexes: null,
-            }
         });
     }
 
@@ -20,9 +18,6 @@ class VisitsServiceApi {
             method: 'GET',
             url: `/visits/schedule`,
             params: { scheduleIds },
-            paramsSerializer: {
-                indexes: null,
-            }
         });
     }
 }
