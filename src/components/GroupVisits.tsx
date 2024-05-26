@@ -34,7 +34,7 @@ const GroupVisits: FC<GroupVisitsProps> = ({ groupId, visits, visitPlan, discipl
 
     return (
         <BarChart
-            margin={{ left: 100 }}
+            margin={{ left: 150 }}
             dataset={dataSet}
             yAxis={[{ scaleType: 'band', dataKey: 'student', colorMap: { type: 'ordinal', colors: dataSet.map((set) => getColor((set.visit / (visitPlan / 100)), 0, 120)) } }]}
             series={[{ dataKey: 'visit', label: `Статистика посещений группы по ${disciplineName}` }]}

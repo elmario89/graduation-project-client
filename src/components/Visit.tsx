@@ -66,7 +66,7 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, se
                                         </Typography>
                                         {!forTeacher && (getVisitType(date) === 'partial' || getVisitType(date) === 'visited' || getVisitType(date) === 'absent') && (
                                             <Typography fontWeight={'bold'} variant='caption' color={filteredByTime.length ? "rgb(102, 187, 106)" : "rgb(244, 67, 54)"}>
-                                                {filteredByTime.length ? '(Visited)' : '(Absent)'}
+                                                {filteredByTime.length ? '(Посещено)' : '(Отсутствовал)'}
                                             </Typography>
                                         )}
                                         {forTeacher && (getVisitType(date) === 'partial' || getVisitType(date) === 'visited' || getVisitType(date) === 'absent') && (
