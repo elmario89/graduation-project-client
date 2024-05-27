@@ -38,7 +38,7 @@ const FacultiesProvider: FC<PropsWithChildren> = ({ children }) => {
     const createFaculty = async (data: Omit<Faculty, 'id'>) => {
         try {
             const group = await facultiesApi.createFaculty(data);
-            setAlert({ message: 'Факультет добавлен', type: 'success' });
+            setAlert({ message: 'Институт добавлен', type: 'success' });
             return group;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -50,7 +50,7 @@ const FacultiesProvider: FC<PropsWithChildren> = ({ children }) => {
     const updateFaculty = async (data: Faculty) => {
         try {
             const group = await facultiesApi.updateFaculty(data);
-            setAlert({ message: 'Факультет обновлен', type: 'success' });
+            setAlert({ message: 'Институт обновлен', type: 'success' });
             return group;
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
@@ -72,7 +72,7 @@ const FacultiesProvider: FC<PropsWithChildren> = ({ children }) => {
     const deleteFaculty = async (id: string) => {
         try {
             await facultiesApi.deleteFaculty(id);
-            setAlert({ message: 'Факультет удален', type: 'success' });
+            setAlert({ message: 'Институт удален', type: 'success' });
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
                 setAlert({ message: e.message, type: 'error' });

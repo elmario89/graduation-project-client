@@ -81,7 +81,7 @@ const Faculty: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Факультет
+                Институт
             </Typography>
             <CssBaseline />
             <Box
@@ -130,7 +130,7 @@ const Faculty: FC = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                {id ? 'Обновить факультет' : 'Добавить факультет'}
+                                {id ? 'Обновить институт' : 'Добавить институт'}
                             </Button>
                             <Button
                                 onClick={() => navigate(`/admin/faculties`)}

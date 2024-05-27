@@ -89,7 +89,7 @@ const VisitCard: FC<VisitCardProps> = ({ date, schedules, visits, forTeacher, se
                                     </Box>
                                     <Box display={'flex'} flexDirection={'row'} gap={5} alignItems={'center'} justifyContent={'space-between'}>
                                         <div>
-                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Учитель</Typography>
+                                            <Typography variant='caption' color={'rgba(0, 0, 0, 0.6)'}>Преподаватель</Typography>
                                             <Typography variant='subtitle2'>{schedule.teacher.name} {schedule.teacher.surname}</Typography>
                                         </div>
                                         <div>

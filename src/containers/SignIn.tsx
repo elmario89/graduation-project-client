@@ -39,7 +39,7 @@ export default function SignIn() {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={role} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Авторизоваться как студент" {...a11yProps(0)} />
-                    <Tab label="Авторизоваться как учитель" {...a11yProps(1)} />
+                    <Tab label="Авторизоваться как преподаватель" {...a11yProps(1)} />
                     <Tab label="Авторизоваться как админ" {...a11yProps(2)} />
                 </Tabs>
             </Box>

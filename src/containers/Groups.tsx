@@ -106,7 +106,7 @@ const Groups: FC = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Название</TableCell>
-                                    <TableCell>Факультет</TableCell>
+                                    <TableCell>Институт</TableCell>
                                     <TableCell align="right">Начало обучения</TableCell>
                                     <TableCell align="right">Конец обучения</TableCell>
                                     <TableCell align="right"></TableCell>

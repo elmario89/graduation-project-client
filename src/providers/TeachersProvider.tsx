@@ -63,7 +63,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const createTeacher = async (data: Omit<AddOrUpdateTeacher, "id">) => {
     try {
       const teacher = await teachersApi.create(data);
-      setAlert({ message: "Учитель создан", type: "success" });
+      setAlert({ message: "Преподаватель создан", type: "success" });
       return teacher;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -117,7 +117,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const updateTeacher = async (data: AddOrUpdateTeacher) => {
     try {
       const teacher = await teachersApi.update(data);
-      setAlert({ message: "Учитель обновлен", type: "success" });
+      setAlert({ message: "Преподаватель обновлен", type: "success" });
       return teacher;
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
@@ -139,7 +139,7 @@ const TeachersProvider: FC<PropsWithChildren> = ({ children }) => {
   const deleteTeacher = async (id: string) => {
     try {
       await teachersApi.delete(id);
-      setAlert({ message: "Учитель удален", type: "success" });
+      setAlert({ message: "Преподаватель удален", type: "success" });
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         setAlert({ message: e.message, type: "error" });

@@ -140,7 +140,7 @@ const Discipline: FC = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Факультет"
+                      label="Институт"
                       error={!!errors.facultyId}
                     />
                   )}

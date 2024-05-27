@@ -9,7 +9,7 @@ const useRoleMessageHook = (role: UserRole | undefined): string => {
             return 'Админ';
         }
         case UserRole.Teacher: {
-            return 'Учитель';
+            return 'Преподаватель';
         }
         default: {
             return 'Неопределено...';

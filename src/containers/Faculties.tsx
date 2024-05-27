@@ -82,7 +82,7 @@ const Faculties: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Факультеты
+        Институты
       </Typography>
       <Box sx={{ py: 2 }}>
         <Button
@@ -90,7 +90,7 @@ const Faculties: FC = () => {
           color={"success"}
           onClick={() => navigate("/admin/faculty")}
         >
-          Добавить факультет
+          Добавить институт
         </Button>
       </Box>
       <TableContainer component={Paper}>
@@ -100,7 +100,7 @@ const Faculties: FC = () => {
               <TableCell colSpan={5}>
                 <Stack sx={{ width: "100%" }} spacing={2}>
                   <Alert severity="warning">
-                    Факультетов нет, добавьте один
+                    Институтов нет, добавьте один
                   </Alert>
                 </Stack>
               </TableCell>
@@ -167,7 +167,7 @@ const Faculties: FC = () => {
                           color="warning"
                           onClick={() => navigate(`/admin/faculty/${row.id}`)}
                         >
-                          Обновить факультет
+                          Обновить институт
                         </Button>
                       </TableCell>
                       <TableCell align="right">
@@ -181,7 +181,7 @@ const Faculties: FC = () => {
                             setDeleteCandidate(row.id);
                           }}
                         >
-                          Удалить факультет
+                          Удалить институт
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -198,10 +198,10 @@ const Faculties: FC = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Удалить факультет</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Удалить институт</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Вы уверены что хотите удалить факультет?
+            Вы уверены что хотите удалить институт?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -132,7 +132,7 @@ const Teacher: FC = () => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Учитель
+      Преподаватель
       </Typography>
       <CssBaseline />
       <Box
@@ -257,8 +257,8 @@ const Teacher: FC = () => {
                     <TextField
                       error={!!errors.facultiesIds}
                       {...params}
-                      label="Выберите факультет"
-                      placeholder="Факультеты"
+                      label="Выберите институт"
+                      placeholder="Институты"
                     />
                   )}
                 />
