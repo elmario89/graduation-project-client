@@ -88,7 +88,7 @@ const Faculties: FC = () => {
         <Button
           variant={"contained"}
           color={"success"}
-          onClick={() => navigate("/admin/faculty")}
+          onClick={() => navigate("/admin/institute")}
         >
           Добавить институт
         </Button>
@@ -127,7 +127,7 @@ const Faculties: FC = () => {
                     <TableRow
                       style={{ cursor: "pointer" }}
                       hover={true}
-                      onClick={() => navigate(`/admin/faculty/${row.id}`)}
+                      onClick={() => navigate(`/admin/institute/${row.id}`)}
                       key={row.name}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
@@ -165,7 +165,7 @@ const Faculties: FC = () => {
                           type={"submit"}
                           variant="contained"
                           color="warning"
-                          onClick={() => navigate(`/admin/faculty/${row.id}`)}
+                          onClick={() => navigate(`/admin/institute/${row.id}`)}
                         >
                           Обновить институт
                         </Button>

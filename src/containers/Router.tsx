@@ -58,8 +58,8 @@ const Router: FC = () => {
                                 <Route path="/admin/teacher/:id?" element={<Teacher />} />
                                 <Route path="/admin/groups" element={<Groups />} />
                                 <Route path="/admin/group/:id?" element={<Group />} />
-                                <Route path="/admin/faculties" element={<Faculties />} />
-                                <Route path="/admin/faculty/:id?" element={<Faculty />} />
+                                <Route path="/admin/institutes" element={<Faculties />} />
+                                <Route path="/admin/institute/:id?" element={<Faculty />} />
                                 <Route path="/admin/disciplines" element={<Disciplines />} />
                                 <Route path="/admin/discipline/:id?" element={<Discipline />} />
                                 <Route path="/admin/schedule/:groupId/:id?" element={<Schedule />} />

@@ -58,7 +58,7 @@ const Faculty: FC = () => {
             const faculty = await createFaculty({ name });
 
             if (faculty) {
-                navigate(`/admin/faculty/${faculty.id}`)
+                navigate(`/admin/institute/${faculty.id}`)
             }
         }
     };
@@ -133,7 +133,7 @@ const Faculty: FC = () => {
                                 {id ? 'Обновить институт' : 'Добавить институт'}
                             </Button>
                             <Button
-                                onClick={() => navigate(`/admin/faculties`)}
+                                onClick={() => navigate(`/admin/institutes`)}
                                 variant="contained"
                                 color="warning"
                                 sx={{ mt: 3, mb: 2 }}
