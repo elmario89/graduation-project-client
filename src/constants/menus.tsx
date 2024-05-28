@@ -15,8 +15,8 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
         icon: <GroupIcon />,
     },
     {
-        path: '/admin/faculties',
-        label: 'Факультеты',
+        path: '/admin/institutes',
+        label: 'Институты',
         icon: <AccountBalanceIcon />,
     },
     {
@@ -26,7 +26,7 @@ export const ADMIN_MENU: BaseLayoutMenu[] = [
     },
     {
         path: '/admin/teachers',
-        label: 'Учителя',
+        label: 'Преподаватели',
         icon: <TextIncreaseIcon />,
     },
     {

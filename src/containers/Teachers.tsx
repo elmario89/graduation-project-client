@@ -80,7 +80,7 @@ const Teachers: FC = () => {
     return (
         <>
             <Typography variant="h4" gutterBottom>
-                Учителя
+                Преподаватели
             </Typography>
             <Box sx={{py: 2}}>
                 <Button
@@ -88,7 +88,7 @@ const Teachers: FC = () => {
                     color={'success'}
                     onClick={() => navigate('/admin/teacher')}
                 >
-                    Добавить учителя
+                    Добавить Преподавателя
                 </Button>
             </Box>
             <TableContainer component={Paper}>
@@ -146,7 +146,7 @@ const Teachers: FC = () => {
                                                 color="warning"
                                                 onClick={() => navigate(`/admin/teacher/${row.id}`)}
                                             >
-                                                Обновить учителя
+                                                Обновить преподавателя
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
@@ -160,7 +160,7 @@ const Teachers: FC = () => {
                                                     setDeleteCandidate(row.id);
                                                 }}
                                             >
-                                                Удалить учителя
+                                                Удалить Преподавателя
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -177,11 +177,11 @@ const Teachers: FC = () => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Удалить учителя
+                    Удалить преподавателя
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Вы уверены что хотите удалить учителя?
+                        Вы уверены что хотите удалить преподавателя?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

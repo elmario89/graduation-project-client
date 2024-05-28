@@ -339,7 +339,7 @@ const Teacher: FC = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {id ? "Обновить учителя" : "Добавить учителя"}
+                {id ? "Обновить Преподавателя" : "Добавить Преподавателя"}
               </Button>
               <Button
                 onClick={() => navigate(`/admin/teachers`)}

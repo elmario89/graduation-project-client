@@ -107,7 +107,7 @@ const Disciplines: FC = () => {
                                 <TableRow>
                                     <TableCell>Название дисциплины</TableCell>
                                     <TableCell>Институт</TableCell>
-                                    <TableCell>Учителя</TableCell>
+                                    <TableCell>Преподаватели</TableCell>
                                     <TableCell />
                                     <TableCell />
                                 </TableRow>

@@ -152,7 +152,7 @@ const Discipline: FC = () => {
             {discipline?.teachers && discipline.teachers.length > 0 && (
               <>
                 <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-                  Учителя:
+                  Преподаватели:
                 </Typography>
                 <Box
                   display="flex"
